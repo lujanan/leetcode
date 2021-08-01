@@ -1,7 +1,7 @@
 package algorithm
 
-//对角线遍历
-//https://leetcode-cn.com/problems/diagonal-traverse/
+// 对角线遍历
+// https://leetcode-cn.com/problems/diagonal-traverse/
 func findDiagonalOrder(matrix [][]int) []int {
 	if len(matrix) <= 0 {
 		return nil
@@ -14,9 +14,9 @@ func findDiagonalOrder(matrix [][]int) []int {
 	)
 
 	for i := 0; i < n+m-1; i++ {
-		if i < n { //遍历上半区对角线
+		if i < n { // 遍历上半区对角线
 			r, c = 0, i
-		} else { //遍历下半区对角线
+		} else { // 遍历下半区对角线
 			r, c = i-n+1, n-1
 		}
 

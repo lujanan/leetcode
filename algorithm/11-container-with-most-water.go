@@ -1,7 +1,7 @@
 package algorithm
 
-//盛最多水的容器
-//https://leetcode-cn.com/problems/container-with-most-water/
+// 盛最多水的容器
+// https://leetcode-cn.com/problems/container-with-most-water/
 func maxArea(height []int) int {
 	if len(height) < 2 {
 		return 0

@@ -1,7 +1,7 @@
 package algorithm
 
-//跳跃游戏
-//https://leetcode-cn.com/problems/jump-game/
+// 跳跃游戏
+// https://leetcode-cn.com/problems/jump-game/
 func canJump(nums []int) bool {
 	var match int
 	for i, v := range nums {

@@ -1,7 +1,7 @@
 package algorithm
 
-//至少是其他数字两倍的最大数
-//https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/
+// 至少是其他数字两倍的最大数
+// https://leetcode-cn.com/problems/largest-number-at-least-twice-of-others/
 func dominantIndex(nums []int) int {
 	var max, second = -1, -1
 	for i, v := range nums {

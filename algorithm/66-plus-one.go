@@ -1,7 +1,7 @@
 package algorithm
 
-//加一
-//https://leetcode-cn.com/problems/plus-one/
+// 加一
+// https://leetcode-cn.com/problems/plus-one/
 func plusOne(digits []int) []int {
 	var lenght = len(digits)
 	for i := 0; i < lenght/2; i++ {
