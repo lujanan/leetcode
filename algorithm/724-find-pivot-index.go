@@ -1,7 +1,7 @@
 package algorithm
 
-//寻找数组的中心索引
-//https://leetcode-cn.com/problems/find-pivot-index/
+// 寻找数组的中心索引
+// https://leetcode-cn.com/problems/find-pivot-index/
 func pivotIndex(nums []int) int {
 	var left, right int
 	for _, v := range nums {

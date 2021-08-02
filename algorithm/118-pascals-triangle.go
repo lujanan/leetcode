@@ -1,7 +1,7 @@
 package algorithm
 
-//杨辉三角
-//https://leetcode-cn.com/problems/pascals-triangle/
+// 杨辉三角
+// https://leetcode-cn.com/problems/pascals-triangle/
 func generate(numRows int) [][]int {
 	var (
 		result      = make([][]int, numRows)

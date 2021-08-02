@@ -1,11 +1,11 @@
 package algorithm
 
-//加一
-//https://leetcode-cn.com/problems/plus-one/
+// 加一
+// https://leetcode-cn.com/problems/plus-one/
 func plusOne(digits []int) []int {
-	var lenght = len(digits)
-	for i := 0; i < lenght/2; i++ {
-		digits[i], digits[lenght-i-1] = digits[lenght-i-1], digits[i]
+	var length = len(digits)
+	for i := 0; i < length/2; i++ {
+		digits[i], digits[length-i-1] = digits[length-i-1], digits[i]
 	}
 	var add = 1
 	for i, v := range digits {
@@ -19,9 +19,9 @@ func plusOne(digits []int) []int {
 	if add > 0 {
 		digits = append(digits, 1)
 	}
-	lenght = len(digits)
-	for i := 0; i < lenght/2; i++ {
-		digits[i], digits[lenght-i-1] = digits[lenght-i-1], digits[i]
+	length = len(digits)
+	for i := 0; i < length/2; i++ {
+		digits[i], digits[length-i-1] = digits[length-i-1], digits[i]
 	}
 
 	return digits
