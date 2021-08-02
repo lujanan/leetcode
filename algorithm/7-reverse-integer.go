@@ -1,6 +1,8 @@
 package algorithm
 
-import "math"
+import (
+	"math"
+)
 
 func reverse(x int) int {
 	var res = 0
@@ -8,6 +10,7 @@ func reverse(x int) int {
 		res = res*10 + x%10
 		x = x / 10
 	}
+
 	if res < math.MinInt32 || res > math.MaxInt32 {
 		return 0
 	}
