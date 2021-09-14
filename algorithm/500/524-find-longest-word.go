@@ -34,31 +34,25 @@
 package algorithm_500
 
 import (
-	"sort"
 	"strings"
 )
 
 func findLongestWord(s string, dictionary []string) (res string) {
-	sort.Slice(dictionary, func(i, j int) bool {
-		if len(dictionary[i]) < len(dictionary[j]) {
-			return true
-		} else if len(dictionary[i]) == len(dictionary[j]) {
-			return strings.Compare(dictionary[i], dictionary[j]) < 0
-		}
-		return false
-	})
-	for i := len(dictionary) - 1; i >= 0; i-- {
+	for i := 0; i < len(dictionary); i++ {
 		if len(res) > len(dictionary[i]) {
-			return
+			continue
 		}
-		n, m := len(s)-1, len(dictionary[i])-1
-		for n >= 0 && m >= 0 {
+		m := len(dictionary[i]) - 1
+		for n := len(s) - 1; n >= 0 && m >= 0; {
 			if s[n] == dictionary[i][m] {
 				m--
 			}
 			n--
 		}
-		if m == -1 {
+		if m == -1 &&
+			(res == "" ||
+				len(dictionary[i]) > len(res) ||
+				(len(dictionary[i]) == len(res) && strings.Compare(res, dictionary[i]) > 0)) {
 			res = dictionary[i]
 		}
 	}

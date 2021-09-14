@@ -47,9 +47,9 @@ func Test_findLongestWord(t *testing.T) {
 		args    args
 		wantRes string
 	}{
-		{"t1", args{"abpcplea", []string{"ale", "apple", "monkey", "plea"}}, "apple"},
-		{"t2", args{"abpcplea", []string{"a", "b", "c"}}, "a"},
-		{"t3", args{"abpcplea", []string{"aleq", "appleq", "moneyq", "pleaq"}}, ""},
+		// {"t1", args{"abpcplea", []string{"ale", "apple", "monkey", "plea"}}, "apple"},
+		// {"t2", args{"abpcplea", []string{"a", "b", "c"}}, "a"},
+		// {"t3", args{"abpcplea", []string{"aleq", "appleq", "moneyq", "pleaq"}}, ""},
 		{"t4", args{"abce", []string{"abe", "abc"}}, "abc"},
 	}
 	for _, tt := range tests {
