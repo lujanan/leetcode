@@ -56,10 +56,10 @@ func findPeakElement(nums []int) (res int) {
 			}
 			l = m + 1
 		} else if m+1 >= len(nums) && m-1 >= 0 {
-			if nums[m] > nums[m+1] {
+			if nums[m] > nums[m-1] {
 				return m
 			}
-			r = m + 1
+			r = m - 1
 		} else {
 			return m
 		}
