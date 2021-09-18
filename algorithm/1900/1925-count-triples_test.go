@@ -31,16 +31,10 @@
 package algorithm_1900
 
 import (
-	"fmt"
 	"testing"
 )
 
 func Test_countTriples(t *testing.T) {
-	var num = 765
-	nv := float64(num) /100
-	fmt.Println(nv)
-	return
-
 	type args struct {
 		n int
 	}
