@@ -55,7 +55,9 @@
 
 package algorithm_100
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_convertToTitle(t *testing.T) {
 	type args struct {
@@ -66,10 +68,11 @@ func Test_convertToTitle(t *testing.T) {
 		args args
 		want string
 	}{
-		// {"t1", args{1}, "A"},
-		// {"t2", args{28}, "AB"},
+		{"t1", args{1}, "A"},
+		{"t2", args{28}, "AB"},
 		{"t3", args{701}, "ZY"},
-		// {"t4", args{2147483647}, "FXSHRXW"},
+		{"t4", args{2147483647}, "FXSHRXW"},
+		{"t5", args{52}, "AZ"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
