@@ -36,7 +36,7 @@ func arrangeCoins(n int) int {
 	for r >= l {
 		var m = l + (r-l)>>1
 		var mt = (1 + m) * (m >> 1)
-		if m%2 == 1 {
+		if m&1 == 1 {
 			mt += m>>1 + 1
 		}
 		if mt == n || (mt < n && mt+m+1 > n) {
