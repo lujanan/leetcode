@@ -67,62 +67,52 @@ func getOrder(tasks [][]int) (res []int) {
 		return
 	}
 	var no = &NumHeap{}
-	var idx = make([]int, len(tasks))
-	for i := 0; i < len(idx); i++ {
-		idx[i] = i
+	for i := 0; i < len(tasks); i++ {
+		tasks[i] = append(tasks[i], i)
 	}
-	sort.Slice(idx, func(i, j int) bool {
+	sort.Slice(tasks, func(i, j int) bool {
 		return tasks[i][0] < tasks[j][0]
 	})
-	var t = tasks[idx[0]][0]
-	var i = 0
 	heap.Init(no)
-	for {
-		for i < len(idx) {
-			if t == 0 || tasks[idx[i]][0] <= t {
-				heap.Push(no, NumOrder{
-					Idx: idx[i],
-					Num: tasks[idx[i]],
-				})
-				i++
-				continue
+	for t, i := 0, 0; i < len(tasks);  {
+		if t <= 0 || tasks[i][0] <= t {
+			if t <= 0 {
+				t = tasks[i][0]
 			}
-			break
+			heap.Push(no, tasks[i])
+			i++
+			continue
 		}
-
 		if no.Len() > 0 {
-			task, ok := heap.Pop(no).(NumOrder)
-			if ok {
-				res = append(res, task.Idx)
-				t = task.Num[0] + task.Num[1]
+			if task, ok := heap.Pop(no).([]int); ok {
+				res = append(res, task[2])
+				t += task[1]
 			}
 		} else {
 			t = 0
 		}
-		if i >= len(idx) && no.Len() <= 0 {
-			return
+	}
+	for no.Len() > 0 {
+		if task, ok := heap.Pop(no).([]int); ok {
+			res = append(res, task[2])
 		}
 	}
+	return
 }
 
-type NumOrder struct {
-	Idx int
-	Num []int
-}
-
-type NumHeap []NumOrder
+type NumHeap [][]int
 
 func (h NumHeap) Len() int { return len(h) }
 func (h NumHeap) Less(i, j int) bool {
-	if h[i].Num[1] == h[j].Num[1] {
-		return h[i].Idx < h[j].Idx
+	if h[i][1] == h[j][1] {
+		return h[i][2] < h[j][2]
 	}
-	return h[i].Num[1] < h[j].Num[1]
+	return h[i][1] < h[j][1]
 }
 func (h NumHeap) Swap(i, j int) { h[i], h[j] = h[j], h[i] }
 
 func (h *NumHeap) Push(x interface{}) {
-	*h = append(*h, x.(NumOrder))
+	*h = append(*h, x.([]int))
 }
 
 func (h *NumHeap) Pop() interface{} {
