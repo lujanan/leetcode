@@ -1,11 +1,15 @@
 package algorithm_0
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
 
 func Test_plusOne(t *testing.T) {
+	fmt.Println(float64(float64(1)/float64(3)))
+	return
+
 	type args struct {
 		digits []int
 	}
