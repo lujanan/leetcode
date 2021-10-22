@@ -39,7 +39,48 @@
 
 package algorithm_200
 
+// 摩尔投票法：摩尔投票法的核心思想为对拼消耗。
+// 首先我们考虑最基本的摩尔投票问题，比如找出一组数字序列中出现次数大于总数1/2的数字（并且假设这个数字一定存在）。
+// 我们可以直接利用反证法证明这样的数字只可能有一个。
+// 题目要求找出次数大于 n/3 的数，则最多有 2 个
 func majorityElement(nums []int) (res []int) {
+	var v1, v2, e1, e2 int
+	for i := 0; i < len(nums); i++ {
+		if v1 > 0 && e1 == nums[i] {
+			v1++
+		} else if v2 > 0 && e2 == nums[i] {
+			v2++
+		} else if v1 == 0 {
+			e1 = nums[i]
+			v1++
+		} else if v2 == 0 {
+			e2 = nums[i]
+			v2++
+		} else {
+			v1--
+			v2--
+		}
+	}
+
+	var n1, n2 int
+	for i := 0; i < len(nums); i++ {
+		if v1 > 0 && nums[i] == e1 {
+			n1++
+		}
+		if v2 > 0 && nums[i] == e2 {
+			n2++
+		}
+	}
+	if v1 > 0 && n1 > len(nums)/3 {
+		res = append(res, e1)
+	}
+	if v2 > 0 && n2 > len(nums)/3 {
+		res = append(res, e2)
+	}
+	return
+}
+
+func majorityElement0(nums []int) (res []int) {
 	aMap := make(map[int]int)
 	for i := 0; i < len(nums); i++ {
 		if _, ok := aMap[nums[i]]; !ok {
