@@ -1,6 +1,7 @@
 package algorithm_500
 
 // 前缀和
+// n^2 会超时
 func checkSubarraySum(nums []int, k int) bool {
 	if len(nums) < 2 {
 		return false
