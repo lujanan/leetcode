@@ -44,7 +44,33 @@
 
 package algorithm_400
 
+// 单调栈解法
 func nextGreaterElement(nums1 []int, nums2 []int) (res []int) {
+	var stack []int
+	var numMap = make(map[int]int)
+	for i := len(nums2) - 1; i >= 0; i-- {
+		j := len(stack) - 1
+		for ; j >= 0; j-- {
+			if nums2[i] < stack[j] {
+				break
+			}
+		}
+		stack = stack[:j+1]
+		if len(stack) < 1 {
+			numMap[nums2[i]] = -1
+		} else {
+			numMap[nums2[i]] = stack[len(stack)-1]
+		}
+		stack = append(stack, nums2[i])
+	}
+	for i := 0; i < len(nums1); i++ {
+		res = append(res, numMap[nums1[i]])
+	}
+	return
+}
+
+// 暴力
+func nextGreaterElement0(nums1 []int, nums2 []int) (res []int) {
 	for i := 0; i < len(nums1); i++ {
 		var num, found = -1, false
 		for j := 0; j < len(nums2); j++ {
