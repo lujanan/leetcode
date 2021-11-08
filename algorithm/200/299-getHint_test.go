@@ -79,6 +79,7 @@ func Test_getHint(t *testing.T) {
 		{"t2", args{"1123", "0111"}, "1A1B"},
 		{"t3", args{"1", "0"}, "0A0B"},
 		{"t4", args{"1", "1"}, "1A0B"},
+		{"t5", args{"2345738645043753487364895", "3748523058573345803983405"}, "3A17B"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -67,26 +67,33 @@ import "fmt"
 
 func getHint(secret string, guess string) string {
 	var r, w int
-	var del = make(map[int]bool)
-	var subSecret string
-	var guessMap = make(map[string]int)
+	var guessMap, secrectMap = make(map[byte]int), make(map[byte]int)
 	for i := 0; i < len(secret); i++ {
 		if secret[i] == guess[i] {
 			r++
-			del[i] = true
-		} else {
-			subSecret += string(secret[i])
-			if _, ok := guessMap[string(guess[i])]; !ok {
-				guessMap[string(guess[i])] = 0
-			}
-			guessMap[string(guess[i])]++
+			continue
 		}
-	}
 
-	for i := 0; i < len(subSecret); i++ {
-		if _, ok := guessMap[string(subSecret[i])]; ok && guessMap[string(subSecret[i])] > 0 {
+		if _, ok := guessMap[secret[i]]; ok && guessMap[secret[i]] > 0 {
 			w++
-			guessMap[string(subSecret[i])]--
+			guessMap[secret[i]]--
+		} else {
+			if _, e := secrectMap[secret[i]]; e {
+				secrectMap[secret[i]]++
+			} else {
+				secrectMap[secret[i]] = 1
+			}
+		}
+
+		if _, ok := secrectMap[guess[i]]; ok && secrectMap[guess[i]] > 0 {
+			w++
+			secrectMap[guess[i]]--
+		} else {
+			if _, e := guessMap[guess[i]]; e {
+				guessMap[guess[i]]++
+			} else {
+				guessMap[guess[i]] = 1
+			}
 		}
 	}
 	return fmt.Sprintf("%dA%dB", r, w)
