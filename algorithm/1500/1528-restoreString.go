@@ -56,10 +56,9 @@
 package algorithm_1500
 
 func restoreString(s string, indices []int) string {
-	var sb = []byte(s)
 	var res = make([]byte, len(s))
-	for i := 0; i < len(indices); i++ {
-		res[indices[i]] = sb[i]
+	for i := 0; i < len(s); i++ {
+		res[indices[i]] = s[i]
 	}
 	return string(res)
 }
