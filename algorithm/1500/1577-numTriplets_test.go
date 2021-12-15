@@ -69,6 +69,7 @@ func Test_numTriplets(t *testing.T) {
 		{"t2", args{[]int{1, 1}, []int{1, 1, 1}}, 9},
 		{"t3", args{[]int{7, 7, 8, 3}, []int{1, 2, 9, 7}}, 2},
 		{"t4", args{[]int{4, 7, 9, 11, 23}, []int{3, 5, 1024, 12, 18}}, 0},
+		{"t5", args{[]int{7,4,34,2,32,12,81,100}, []int{5,2,8,9,91,9,10,11,10}}, 2},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

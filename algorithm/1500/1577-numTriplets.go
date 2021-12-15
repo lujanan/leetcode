@@ -67,12 +67,26 @@ func numTriplets(nums1 []int, nums2 []int) (res int) {
 		}
 		n2Map[v]++
 	}
+	nums1, nums2 = nums1[:0], nums2[:0]
+	for k := range n1Map {
+		nums1 = append(nums1, k)
+	}
+	for k := range n2Map {
+		nums2 = append(nums2, k)
+	}
 
 	for k, v := range n1Map {
 		for i := 0; i < len(nums2); i++ {
-			for j := i + 1; j < len(nums2); j++ {
+			for j := i; j < len(nums2); j++ {
+				if i == j && n2Map[nums2[i]] <= 1 {
+					continue
+				}
 				if k*k == nums2[i]*nums2[j] {
-					res += v
+					if i == j {
+						res += v * n2Map[nums2[i]] * (n2Map[nums2[i]] - 1) / 2
+					} else {
+						res += v * n2Map[nums2[i]] * n2Map[nums2[j]]
+					}
 				}
 			}
 		}
@@ -80,9 +94,16 @@ func numTriplets(nums1 []int, nums2 []int) (res int) {
 
 	for k, v := range n2Map {
 		for i := 0; i < len(nums1); i++ {
-			for j := i + 1; j < len(nums1); j++ {
+			for j := i; j < len(nums1); j++ {
+				if i == j && n1Map[nums1[i]] <= 1 {
+					continue
+				}
 				if k*k == nums1[i]*nums1[j] {
-					res += v
+					if i == j {
+						res += v * n1Map[nums1[i]] * (n1Map[nums1[i]] - 1) / 2
+					} else {
+						res += v * n1Map[nums1[i]] * n1Map[nums1[j]]
+					}
 				}
 			}
 		}
