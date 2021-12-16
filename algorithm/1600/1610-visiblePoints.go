@@ -60,8 +60,7 @@ import (
 	"sort"
 )
 
-func visiblePoints(points [][]int, angle int, location []int) int {
-	var same int
+func visiblePoints(points [][]int, angle int, location []int) (same int) {
 	var list []float64
 	for _, p := range points {
 		if p[0] == location[0] && p[1] == location[1] {
@@ -78,11 +77,20 @@ func visiblePoints(points [][]int, angle int, location []int) int {
 	}
 
 	degree := float64(angle) * math.Pi / 180
-	var max int
+	var max, r int
 	for i, deg := range list[:n] {
-		j := sort.Search(2*n, func(j int) bool { return list[j] > deg+degree })
-		if j > i+max {
-			max = j - i
+		// 二分搜索
+		// j := sort.Search(2*n, func(j int) bool { return list[j] > deg+degree })
+		// if j > i+max {
+		// 	max = j - i
+		// }
+
+		// 滑动窗口
+		for r < 2*n && list[r] <= deg+degree {
+			r++
+		}
+		if max+i < r {
+			max = r - i
 		}
 	}
 	return same + max
