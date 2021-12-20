@@ -40,13 +40,15 @@ func removeDuplicateLetters(s string) string {
 	var str []byte
 	for i := 0; i < len(s); i++ {
 		var ch = s[i]
-		if len(str) > 0 && str[len(str)-1]-'a' > ch-'a' && lmap[str[len(str)-1]-'a'] > 0 {
-			inStack[str[len(str)-1]-'a'] = false
-			inStack[ch-'a'] = true
-			str = append(str[:len(str)-1], ch)
-		} else if (len(str) > 0 && i+1 < len(s) && ch-'a' > s[i+1]-'a' && lmap[ch-'a'] > 1) || inStack[ch-'a'] {
-			
-		} else {
+		if !inStack[ch-'a'] {
+			for len(str) > 0 && ch < str[len(str)-1] {
+				last := str[len(str)-1] - 'a'
+				if lmap[last] < 1 {
+					break
+				}
+				str = str[:len(str)-1]
+				inStack[last] = false
+			}
 			str = append(str, ch)
 			inStack[ch-'a'] = true
 		}

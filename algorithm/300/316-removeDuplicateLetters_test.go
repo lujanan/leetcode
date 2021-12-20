@@ -41,8 +41,9 @@ func Test_removeDuplicateLetters(t *testing.T) {
 		args args
 		want string
 	}{
-		// {"t1", args{"bcabc"}, "abc"},
+		{"t1", args{"bcabc"}, "abc"},
 		{"t2", args{"cbacdcbc"}, "acdb"},
+		{"t3", args{"bcaskldhqowasdsadqwdkabc"}, "akldhosqwbc"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
