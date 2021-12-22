@@ -38,22 +38,27 @@
 
 package algorithm_1000
 
-func gcdOfStrings(str1 string, str2 string) string {
-	if str1+str2 != str2+str1 {
-		return ""
-	}
+import "testing"
 
-	// 最大公因数，辗转相除法
-	fn := func(a, b int) int {
-		r := a % b
-		for r != 0 {
-			a, b = b, r
-			r = a % b
-		}
-		return b
+func Test_gcdOfStrings(t *testing.T) {
+	type args struct {
+		str1 string
+		str2 string
 	}
-	if len(str1) >= len(str2) {
-		return str1[:fn(len(str1), len(str2))]
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"t1", args{"ABCABC", "ABC"}, "ABC"},
+		{"t2", args{"ABABAB", "ABAB"}, "AB"},
+		{"t3", args{"LEET", "CODE"}, ""},
 	}
-	return str1[:fn(len(str2), len(str1))]
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := gcdOfStrings(tt.args.str1, tt.args.str2); got != tt.want {
+				t.Errorf("gcdOfStrings() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
