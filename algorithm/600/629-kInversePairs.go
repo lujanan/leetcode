@@ -33,4 +33,5 @@ package algorithm_600
 
 func kInversePairs(n int, k int) int {
 
+	return 0
 }
