@@ -51,6 +51,7 @@ func Test_repeatedStringMatch(t *testing.T) {
 		a string
 		b string
 	}
+
 	tests := []struct {
 		name string
 		args args
