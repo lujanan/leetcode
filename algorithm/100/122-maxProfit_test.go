@@ -43,23 +43,27 @@
 
 package algorithm_100
 
-// 动态规划
-func maxProfit(prices []int) int {
-	if len(prices) < 1 {
-		return 0
-	}
-	var d0, t0, d1, t1 = 0, 0, -prices[0], -prices[0]
-	for i := 1; i < len(prices); i++ {
-		d0 = max(t0, t1+prices[i])
-		d1 = max(t1, t0-prices[i])
-		t0, t1 = d0, d1
-	}
-	return max(d0, d1)
-}
+import "testing"
 
-func max(a, b int) int {
-	if a > b {
-		return a
+func Test_maxProfit(t *testing.T) {
+	type args struct {
+		prices []int
 	}
-	return b
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{[]int{7, 1, 5, 3, 6, 4}}, 7},
+		{"t2", args{[]int{1, 2, 3, 4, 5}}, 4},
+		{"t3", args{[]int{7, 6, 4, 3, 1}}, 0},
+		{"t4", args{[]int{7, 11, 5, 32, 6, 43, 23, 2, 23, 12, 45, 28}}, 122},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maxProfit(tt.args.prices); got != tt.want {
+				t.Errorf("maxProfit() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
