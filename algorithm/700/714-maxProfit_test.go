@@ -40,24 +40,27 @@
 
 package algorithm_700
 
-// 动态规划
-func maxProfit(prices []int, fee int) int {
-	if len(prices) < 1 {
-		return 0
-	}
+import "testing"
 
-	var d0, t0, d1, t1 = 0, 0, -prices[0], -prices[0]
-	for i := 1; i < len(prices); i++ {
-		d0 = max(t0, t1+prices[i]-fee)
-		d1 = max(t1, t0-prices[i])
-		t0, t1 = d0, d1
+func Test_maxProfit(t *testing.T) {
+	type args struct {
+		prices []int
+		fee    int
 	}
-	return max(d0, d1)
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{[]int{1, 3, 2, 8, 4, 9}, 2}, 8},
+		{"t2", args{[]int{1, 3, 7, 5, 10, 3}, 3}, 6},
+		{"t3", args{[]int{12, 42, 56, 34, 67, 12, 78, 45, 90, 1}, 5}, 168},
 	}
-	return b
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maxProfit(tt.args.prices, tt.args.fee); got != tt.want {
+				t.Errorf("maxProfit() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
