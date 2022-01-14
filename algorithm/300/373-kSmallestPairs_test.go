@@ -47,7 +47,8 @@
 package algorithm_300
 
 import (
-	"reflect"
+	"fmt"
+	// "reflect"
 	"testing"
 )
 
@@ -69,8 +70,21 @@ func Test_kSmallestPairs(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := kSmallestPairs(tt.args.nums1, tt.args.nums2, tt.args.k); !reflect.DeepEqual(got, tt.want) {
+			got := kSmallestPairs(tt.args.nums1, tt.args.nums2, tt.args.k)
+			// if !reflect.DeepEqual(got, tt.want) {
+			// 	t.Errorf("kSmallestPairs() = %v, want %v", got, tt.want)
+			// }
+			if len(got) != len(tt.want) {
 				t.Errorf("kSmallestPairs() = %v, want %v", got, tt.want)
+			}
+			var wantMap = make(map[string]bool)
+			for _, v := range tt.want {
+				wantMap[fmt.Sprintf("%d-%d", v[0], v[1])] = false
+			}
+			for _, v := range got {
+				if _, ok := wantMap[fmt.Sprintf("%d-%d", v[0], v[1])]; !ok {
+					t.Errorf("kSmallestPairs() = %v, want %v", got, tt.want)
+				}
 			}
 		})
 	}
