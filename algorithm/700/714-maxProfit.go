@@ -40,8 +40,27 @@
 
 package algorithm_700
 
-// 动态规划
+// 贪心
 func maxProfit(prices []int, fee int) int {
+	if len(prices) < 1 {
+		return 0
+	}
+
+	var buy = prices[0] + fee
+	var mon int
+	for i := 1; i < len(prices); i++ {
+		if prices[i]+fee < buy {
+			buy = prices[i] + fee
+		} else if prices[i] > buy {
+			mon += prices[i] - buy
+			buy = prices[i]
+		}
+	}
+	return mon
+}
+
+// 动态规划
+func maxProfit1(prices []int, fee int) int {
 	if len(prices) < 1 {
 		return 0
 	}
