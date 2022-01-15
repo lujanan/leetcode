@@ -41,22 +41,14 @@ func jump(nums []int) int {
 	if len(nums) < 1 {
 		return 0
 	}
-	var idx, step int
-	for idx < len(nums)-1 {
-		var maxIdx, maxStep = 0, 0
-		for i := nums[idx]; i > 0; i-- {
-			if idx+i < len(nums) && maxStep < i+nums[idx+i] {
-				maxStep = i + nums[idx+i]
-				maxIdx = i
-				if maxStep+idx >= len(nums)-1 {
-					break
-				}
-			}
+	var idx, step, maxPos int
+	for i := 0; i < len(nums)-1; i++ {
+		maxPos = max(maxPos, i+nums[i])
+		if i == idx {
+			idx = maxPos
+			step++
 		}
-		idx += maxIdx
-		step++
 	}
-
 	return step
 }
 
