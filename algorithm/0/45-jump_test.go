@@ -36,33 +36,26 @@
 
 package algorithm_0
 
-// 贪心
-func jump(nums []int) int {
-	if len(nums) < 1 {
-		return 0
+import "testing"
+
+func Test_jump(t *testing.T) {
+	type args struct {
+		nums []int
 	}
-	var idx, step int
-	for idx < len(nums)-1 {
-		var maxIdx, maxStep = 0, 0
-		for i := nums[idx]; i > 0; i-- {
-			if idx+i < len(nums) && maxStep < i+nums[idx+i] {
-				maxStep = i + nums[idx+i]
-				maxIdx = i
-				if maxStep+idx >= len(nums)-1 {
-					break
-				}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{[]int{2, 3, 1, 1, 4}}, 2},
+		{"t2", args{[]int{2, 3, 0, 1, 4}}, 2},
+		{"t3", args{[]int{2, 3, 1, 1, 4, 1, 3, 5, 6, 1, 1, 1, 1, 1, 1}}, 4},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := jump(tt.args.nums); got != tt.want {
+				t.Errorf("jump() = %v, want %v", got, tt.want)
 			}
-		}
-		idx += maxIdx
-		step++
+		})
 	}
-
-	return step
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
