@@ -35,10 +35,5 @@
 package algorithm_100
 
 func rob(nums []int) int {
-	// var ra, rb, rc, rd = nums[0], 0
-	// for i := 1; i < len(nums); i++ {
-	// 	ra, rb, rc, rd = rc+nums[i], rc, rb, ra
-	// }
-
 	return 0
 }
