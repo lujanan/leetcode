@@ -12,6 +12,8 @@ func simplifiedFractions(n int) (res []string) {
 		return fn(b, a%b)
 	}
 
+	
+
 	for i := 2; i <= n; i++ {
 		for j := 1; j < i; j++ {
 			if fn(i, j) == 1 {
