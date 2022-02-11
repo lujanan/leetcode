@@ -43,7 +43,36 @@ package algorithm_100
  *     Right *TreeNode
  * }
  */
+//  广度优先搜索
 func levelOrder(root *TreeNode) (res [][]int) {
+	if root == nil {
+		return nil
+	}
+	var cur = []*TreeNode{root}
+	var next []*TreeNode
+
+loop:
+	res = append(res, []int{})
+	for _, node := range cur {
+		res[len(res)-1] = append(res[len(res)-1], node.Val)
+		if node.Left != nil {
+			next = append(next, node.Left)
+		}
+		if node.Right != nil {
+			next = append(next, node.Right)
+		}
+	}
+	if len(next) > 0 {
+		cur = cur[:0]
+		cur = append(cur, next...)
+		next = next[:0]
+		goto loop
+	}
+	return
+}
+
+// 深度优先搜索
+func levelOrder1(root *TreeNode) (res [][]int) {
 	if root == nil {
 		return nil
 	}
