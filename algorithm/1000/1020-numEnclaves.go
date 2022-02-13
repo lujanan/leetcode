@@ -1,5 +1,7 @@
 package algorithm_1000
 
+// https://leetcode-cn.com/problems/number-of-enclaves/
+
 func numEnclaves(grid [][]int) (res int) {
 	var dx = []int{-1, 1, 0, 0}
 	var dy = []int{0, 0, -1, 1}
