@@ -9,6 +9,9 @@ func minMutation(start string, end string, bank []string) int {
 	for _, v := range bank {
 		bMap[v] = 1
 	}
+	if _, ok := bMap[end]; !ok {
+		return -1
+	}
 
 	var gl = []byte{'A', 'C', 'G', 'T'}
 	var step int
