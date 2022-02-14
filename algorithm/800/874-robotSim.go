@@ -75,27 +75,45 @@
 
 package algorithm_800
 
+import "fmt"
+
 func robotSim(commands []int, obstacles [][]int) int {
 	var dx = []int{0, 1, 0, -1}
 	var dy = []int{1, 0, -1, 0}
-	var dm = map[int]int{
-		-1: 1,
-		-2: -1,
+
+	var oMap = make(map[string]int)
+	for _, v := range obstacles {
+		oMap[fmt.Sprintf("%d-%d", v[0], v[1])] = 0
 	}
 
 	var x, y, d, max int
 	for _, c := range commands {
-		if c < 0 {
-			d = (d + dm[c]) % 4
+		if c == -1 {
+			d = (d + 1) % 4
+		} else if c == -2 {
+			d = (d + 3) % 4
 
 		} else {
-			x += dx[d] * c
-			y += dy[d] * c
-			if max < x*x+y*y {
-				max = x*x + y*y
+			for i := 1; i <= c; i++ {
+				x += dx[d]
+				y += dy[d]
+				if _, ok := oMap[fmt.Sprintf("%d-%d", x, y)]; ok {
+					x -= dx[d]
+					y -= dy[d]
+					break
+				}
 			}
+
+			max = maxVal(max, x*x+y*y)
 		}
 	}
 
 	return max
+}
+
+func maxVal(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
 }
