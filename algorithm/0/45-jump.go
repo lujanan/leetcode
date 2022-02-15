@@ -36,6 +36,29 @@
 
 package algorithm_0
 
+func jump1(nums []int) int {
+	if len(nums) <= 1 {
+		return 0
+	}
+	var step int
+
+	for i := 0; i < len(nums); {
+		if nums[i]+i >= len(nums)-1 {
+			return step + 1
+		}
+		var m = i + 1
+		for j := i + 2; j <= nums[i]+i; j++ {
+			if nums[m]+m < nums[j]+j {
+				m = j
+			}
+		}
+		step++
+		i = m
+	}
+
+	return step
+}
+
 // 贪心
 func jump(nums []int) int {
 	if len(nums) < 1 {

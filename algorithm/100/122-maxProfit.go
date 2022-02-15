@@ -45,9 +45,6 @@ package algorithm_100
 
 // 贪心
 func maxProfit(prices []int) int {
-	if len(prices) < 1 {
-		return 0
-	}
 	var mon int
 	for i := 1; i < len(prices); i++ {
 		mon += max(0, prices[i]-prices[i-1])
@@ -57,9 +54,6 @@ func maxProfit(prices []int) int {
 
 // 动态规划
 func maxProfit1(prices []int) int {
-	if len(prices) < 1 {
-		return 0
-	}
 	var d0, t0, d1, t1 = 0, 0, -prices[0], -prices[0]
 	for i := 1; i < len(prices); i++ {
 		d0 = max(t0, t1+prices[i])
