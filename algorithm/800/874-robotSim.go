@@ -75,15 +75,13 @@
 
 package algorithm_800
 
-import "fmt"
-
 func robotSim(commands []int, obstacles [][]int) int {
 	var dx = []int{0, 1, 0, -1}
 	var dy = []int{1, 0, -1, 0}
 
-	var oMap = make(map[string]int)
+	var oMap = make(map[[2]int]int)
 	for _, v := range obstacles {
-		oMap[fmt.Sprintf("%d-%d", v[0], v[1])] = 0
+		oMap[[2]int{v[0], v[1]}] = 0
 	}
 
 	var x, y, d, max int
@@ -97,7 +95,7 @@ func robotSim(commands []int, obstacles [][]int) int {
 			for i := 1; i <= c; i++ {
 				x += dx[d]
 				y += dy[d]
-				if _, ok := oMap[fmt.Sprintf("%d-%d", x, y)]; ok {
+				if _, ok := oMap[[2]int{x, y}]; ok {
 					x -= dx[d]
 					y -= dy[d]
 					break
