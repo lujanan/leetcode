@@ -63,9 +63,16 @@ func gridIllumination(n int, lamps [][]int, queries [][]int) []int {
 	var dy = []int{-1, -1, 0, 1, 1, 1, 0, -1}
 
 	// 灯网格
+	var xm, ym, pm, nm = make(map[int]int), make(map[int]int), make(map[int]int), make(map[int]int)
 	var martx = make(map[[2]int]int)
 	for _, l := range lamps {
-		martx[[2]int{l[0], l[1]}] = 1
+		if _, ok := martx[[2]int{l[0], l[1]}]; !ok {
+			xm[l[1]]++
+			ym[l[0]]++
+			pm[l[0]+l[1]]++
+			nm[l[1]-l[0]]++
+			martx[[2]int{l[0], l[1]}] = 1
+		}
 	}
 
 	// 搜索是否亮
@@ -73,19 +80,17 @@ func gridIllumination(n int, lamps [][]int, queries [][]int) []int {
 		if _, ok := martx[[2]int{y, x}]; ok {
 			return true
 		}
-		// 是否被照亮
-		for i := 0; i < 8; i++ {
-			ny, nx := y, x
-			for {
-				ty, tx := ny+dy[i], nx+dx[i]
-				if ty < 0 || ty >= n || tx < 0 || tx >= n {
-					break
-				}
-				if _, ok := martx[[2]int{ty, tx}]; ok {
-					return true
-				}
-				ny, nx = ty, tx
-			}
+		if _, ok := xm[x]; ok && xm[x] > 0 {
+			return true
+		}
+		if _, ok := ym[y]; ok && ym[y] > 0 {
+			return true
+		}
+		if _, ok := pm[x+y]; ok && pm[x+y] > 0 {
+			return true
+		}
+		if _, ok := nm[x-y]; ok && nm[x-y] > 0 {
+			return true
 		}
 		return false
 	}
@@ -97,9 +102,22 @@ func gridIllumination(n int, lamps [][]int, queries [][]int) []int {
 		}
 
 		res = append(res, 1)
-		delete(martx, [2]int{q[0], q[1]})
+		if _, ok := martx[[2]int{q[0], q[1]}]; ok {
+			delete(martx, [2]int{q[0], q[1]})
+			xm[q[1]]--
+			ym[q[0]]--
+			pm[q[1]+q[0]]--
+			nm[q[1]-q[0]]--
+		}
+
 		for i := 0; i < 8; i++ {
-			delete(martx, [2]int{q[0] + dy[i], q[1] + dx[i]})
+			if _, ok := martx[[2]int{q[0] + dy[i], q[1] + dx[i]}]; ok {
+				delete(martx, [2]int{q[0] + dy[i], q[1] + dx[i]})
+				xm[q[1]+dx[i]]--
+				ym[q[0]+dy[i]]--
+				pm[q[1]+dx[i]+q[0]+dy[i]]--
+				nm[q[1]+dx[i]-q[0]-dy[i]]--
+			}
 		}
 	}
 	return res

@@ -99,6 +99,15 @@ func Test_gridIllumination(t *testing.T) {
 			},
 			[]int{1, 1, 0},
 		},
+		{
+			"t4",
+			args{
+				6,
+				[][]int{{2, 5}, {4, 2}, {0, 3}, {0, 5}, {1, 4}, {4, 2}, {3, 3}, {1, 0}},
+				[][]int{{4, 3}, {3, 1}, {5, 3}, {0, 5}, {4, 4}, {3, 3}},
+			},
+			[]int{1, 0, 1, 1, 0, 1},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
