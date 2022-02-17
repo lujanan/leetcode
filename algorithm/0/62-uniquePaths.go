@@ -49,7 +49,22 @@
 
 package algorithm_0
 
+// 动态规划
 func uniquePaths(m int, n int) int {
+	var dp []int
+	for i := 0; i < n; i++ {
+		dp = append(dp, 1)
+	}
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			dp[j] += dp[j-1]
+		}
+	}
+	return dp[n-1]
+}
+
+// bfs
+func uniquePaths1(m int, n int) int {
 	var dyx = [][]int{{0, 1}, {1, 0}}
 	var curr = map[[2]int]int64{{0, 0}: 1}
 	var next = make(map[[2]int]int64)
