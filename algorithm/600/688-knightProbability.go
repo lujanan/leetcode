@@ -43,30 +43,64 @@
 
 package algorithm_600
 
+// 题目理解：
+// 1、马跳到棋盘外就不在继续
+// 2、每步都要计算当前的概率
+// 3、每进行一步仍留在棋盘的概率 = 当前留在棋盘的概率 x 上一步仍留在棋盘的概率
 func knightProbability(n int, k int, row int, column int) float64 {
-	var dp = [2]int{}
+	var dy = []int{-2, -2, -1, 1, 2, 2, 1, -1}
+	var dx = []int{-1, 1, 2, 2, 1, -1, -2, -2}
+	var dp = make([][][]float64, n)
+	for i := 0; i < n; i++ {
+		dp[i] = make([][]float64, n)
+		for j := 0; j < n; j++ {
+			dp[i][j] = make([]float64, k+1)
+			dp[i][j][0] = 1
+		}
+	}
+	for i := 1; i <= k; i++ {
+		for y := 0; y < n; y++ {
+			for x := 0; x < n; x++ {
+				for idx := 0; idx < 8; idx++ {
+					// 查询上一跳的位置，当前位置的概率有前一格跳到当前格的概率之和
+					nx, ny := x-dx[idx], y-dy[idx]
+					if nx < 0 || nx >= n || ny < 0 || ny >= n {
+						continue
+					}
+					// 有8个方向可跳到当前格，每格概率 1/8 
+					dp[y][x][i] += dp[ny][nx][i-1] / 8
+				}
+			}
+		}
+	}
+	return dp[row][column][k]
+}
+
+// 
+func knightProbability1(n int, k int, row int, column int) float64 {
+	var dp float64 = 1
 	var dy = []int{-2, -2, -1, 1, 2, 2, 1, -1}
 	var dx = []int{-1, 1, 2, 2, 1, -1, -2, -2}
 
-	var fn func(x, y, step int)
-	fn = func(x, y, step int) {
-		if step > k {
-			return
-		}
-		if x < 0 || x >= n || y < 0 || y >= n {
-			dp[0]++
-			return
-		}
-		if step == k {
-			dp[1]++
-			return
+	var next = [][2]int{{row, column}}
+	for i := 0; i < k; i++ {
+		var tmp = make([][2]int, 0)
+		var in float64
+		for _, node := range next {
+			for k := 0; k < 8; k++ {
+				nx, ny := node[1]+dx[k], node[0]+dy[k]
+				if nx < 0 || nx >= n || ny < 0 || ny >= n {
+					continue
+				}
+				in++
+				tmp = append(tmp, [2]int{ny, nx})
+			}
 		}
 
-		for k := 0; k < 8; k++ {
-			fn(x+dx[k], y+dy[k], step+1)
+		if len(next) > 0 {
+			dp = dp * in / float64(len(next)) / 8
+			next = tmp
 		}
 	}
-
-	fn(column, row, 0)
-	return float64(dp[1]) / float64(dp[0]+dp[1])
+	return dp
 }

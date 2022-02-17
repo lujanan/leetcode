@@ -58,7 +58,9 @@ func Test_knightProbability(t *testing.T) {
 		want float64
 	}{
 		{"t1", args{3, 2, 0, 0}, 0.0625},
-		// {"t2", args{1, 0, 0, 0}, 1.0000},
+		{"t2", args{1, 0, 0, 0}, 1.0000},
+		{"t3", args{10, 8, 0, 0}, 0.04556},
+		{"t4", args{8, 30, 6, 4}, 0.00019},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
