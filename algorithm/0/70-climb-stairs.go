@@ -26,7 +26,19 @@
 
 package algorithm_0
 
-func climbStairs(n int) (res int) {
+func climbStairs(n int) int {
+	if n <= 2 {
+		return n
+	}
+
+	var p1, res = 1, 2
+	for i := 3; i <= n; i++ {
+		p1, res = res, res+p1
+	}
+	return res
+}
+
+func climbStairs1(n int) (res int) {
 	if n <= 2 {
 		return n
 	}
