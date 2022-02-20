@@ -62,12 +62,12 @@ func knightProbability(n int, k int, row int, column int) float64 {
 		for y := 0; y < n; y++ {
 			for x := 0; x < n; x++ {
 				for idx := 0; idx < 8; idx++ {
-					// 查询上一跳的位置，当前位置的概率有前一格跳到当前格的概率之和
-					nx, ny := x-dx[idx], y-dy[idx]
+					// 当前可跳的位置
+					nx, ny := x+dx[idx], y+dy[idx]
 					if nx < 0 || nx >= n || ny < 0 || ny >= n {
 						continue
 					}
-					// 有8个方向可跳到当前格，每格概率 1/8 
+					// 有8个方向可跳，每方向概率 1/8
 					dp[y][x][i] += dp[ny][nx][i-1] / 8
 				}
 			}
@@ -76,7 +76,7 @@ func knightProbability(n int, k int, row int, column int) float64 {
 	return dp[row][column][k]
 }
 
-// 
+//
 func knightProbability1(n int, k int, row int, column int) float64 {
 	var dp float64 = 1
 	var dy = []int{-2, -2, -1, 1, 2, 2, 1, -1}
