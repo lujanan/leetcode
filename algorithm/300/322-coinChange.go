@@ -19,14 +19,13 @@ func coinChange(coins []int, amount int) int {
 		dp[coins[i]] = 1
 	}
 
+	m := amount + 1
 	for i := coins[0]; i <= amount; i++ {
 		for i := 0; i < len(coins); i++ {
-			if coins[i] >= amount {
-				break
+			if coins[i] < amount {
+				dp[i] = min(dp[i-coins[i]], m) + 1
 			}
-			dp[coins[i]] = 1
 		}
-		dp[i] = min(dp[i-1], dp[i-2]) + 1
 	}
 
 	var fn func(money int) int
