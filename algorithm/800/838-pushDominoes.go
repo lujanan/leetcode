@@ -45,46 +45,78 @@
 
 package algorithm_800
 
-func pushDominoes(dominoes string) string {
+func pushDominoes2(dominoes string) string {
 	// dp[i] = dp[i-1], dp[i+1]
+	s := []byte(dominoes)
+	i, n, left := 0, len(s), byte('L')
+	for i < n {
+		j := i
+		for j < n && s[j] == '.' {
+			// 找到一段连续的没有被推动的骨牌
+			j++
+		}
+		right := byte('R')
+		if j < n {
+			right = s[j]
+		}
+		if left == right {
+			// 方向相同，那么这些竖立骨牌也会倒向同一方向
+			for i < j {
+				s[i] = right
+				i++
+			}
+		} else if left == 'R' && right == 'L' {
+			// 方向相对，那么就从两侧向中间倒
+			k := j - 1
+			for i < k {
+				s[i] = 'R'
+				s[k] = 'L'
+				i++
+				k--
+			}
+		}
+		left = right
+		i = j + 1
+	}
+	return string(s)
+}
+
+// 双指针
+func pushDominoes(dominoes string) string {
 
 	var str = []byte(dominoes)
-	for i := 0; i < len(dominoes); i++ {
+	var left = byte('L')
+	for i := 0; i < len(dominoes); {
 		if str[i] != '.' {
+			left = str[i]
+			i++
 			continue
 		}
-		var left, right byte = '.', '.'
-		if i-1 >= 0 {
-			left = str[i-1]
-		}
-
+		
 		var l, r = i, i + 1
 		for r < len(dominoes) && str[r] == '.' {
 			r++
 		}
+		var right = byte('R')
 		if r < len(dominoes) {
 			right = str[r]
 		}
 		i = r
-		r--
 
-		if left == 'R' && right == 'L' {
+		if left == right {
 			for l < r {
-				str[l], str[r] = 'R', 'L'
-				l++
-				r--
-			}
-		} else if left == 'R' {
-			for l <= r {
-				str[l] = 'R'
+				str[l] = right
 				l++
 			}
-		} else if right == 'L' {
-			for l <= r {
-				str[r] = 'L'
+		} else if left == 'R' && right == 'L' {
+			r--
+			for l < r {
+				str[l], str[r] = left, right
+				l++
 				r--
 			}
 		}
+		left = right
 	}
 
 	return string(str)
