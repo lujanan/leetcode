@@ -45,44 +45,105 @@
 
 package algorithm_800
 
-func pushDominoes2(dominoes string) string {
-	// dp[i] = dp[i-1], dp[i+1]
-	s := []byte(dominoes)
-	i, n, left := 0, len(s), byte('L')
-	for i < n {
-		j := i
-		for j < n && s[j] == '.' {
-			// 找到一段连续的没有被推动的骨牌
-			j++
+import "bytes"
+
+// BFS
+func pushDominoes(dominoes string) string {
+	var n = len(dominoes)
+	var times = make([]int, n)    // 受力时间
+	var force = make([][]byte, n) // 每个点的每次受力方向
+	var q []int                   // 受力的点
+	var res = make([]byte, n)     // 记录结果
+
+	for i, v := range dominoes {
+		times[i] = -1 // 初始化没有受力
+		res[i] = '.'  // 初始化无受力状态
+		if v != '.' {
+			q = append(q, i)
+			times[i] = 0                         // 初始受力
+			force[i] = append(force[i], byte(v)) // 方向
 		}
-		right := byte('R')
-		if j < n {
-			right = s[j]
-		}
-		if left == right {
-			// 方向相同，那么这些竖立骨牌也会倒向同一方向
-			for i < j {
-				s[i] = right
-				i++
-			}
-		} else if left == 'R' && right == 'L' {
-			// 方向相对，那么就从两侧向中间倒
-			k := j - 1
-			for i < k {
-				s[i] = 'R'
-				s[k] = 'L'
-				i++
-				k--
-			}
-		}
-		left = right
-		i = j + 1
 	}
-	return string(s)
+
+	for len(q) > 0 {
+		idx := q[0]
+		q = q[1:]
+		if len(force[idx]) > 1 {
+			// 多个力作用，第一个力左右后不再改变 或者 多个力之间互相抵消
+			continue
+		}
+
+		f := force[idx][0]
+		res[idx] = f
+		next := idx - 1
+		if f == 'R' {
+			next = idx + 1
+		}
+
+		// 边界值不处理
+		if 0 > next || next >= n {
+			continue
+		}
+
+		// 处理下一个牌
+		curT := times[idx]
+		if times[next] == -1 {
+			q = append(q, next)
+			times[next] = curT + 1
+			force[next] = append(force[next], f)
+		} else if times[next] == curT+1 {
+			force[next] = append(force[next], f)
+		}
+	}
+
+	return string(res)
 }
 
-// 双指针
-func pushDominoes(dominoes string) string {
+func pushDominoes2(dominoes string) string {
+	n := len(dominoes)
+	q := []int{}
+	time := make([]int, n)
+	for i := range time {
+		time[i] = -1
+	}
+	force := make([][]byte, n)
+	for i, ch := range dominoes {
+		if ch != '.' {
+			q = append(q, i)
+			time[i] = 0
+			force[i] = append(force[i], byte(ch))
+		}
+	}
+
+	ans := bytes.Repeat([]byte{'.'}, n)
+	for len(q) > 0 {
+		i := q[0]
+		q = q[1:]
+		if len(force[i]) > 1 {
+			continue
+		}
+		f := force[i][0]
+		ans[i] = f
+		ni := i - 1
+		if f == 'R' {
+			ni = i + 1
+		}
+		if 0 <= ni && ni < n {
+			t := time[i]
+			if time[ni] == -1 {
+				q = append(q, ni)
+				time[ni] = t + 1
+				force[ni] = append(force[ni], f)
+			} else if time[ni] == t+1 {
+				force[ni] = append(force[ni], f)
+			}
+		}
+	}
+	return string(ans)
+}
+
+// 双指针 模拟
+func pushDominoes1(dominoes string) string {
 
 	var str = []byte(dominoes)
 	var left = byte('L')
@@ -92,7 +153,7 @@ func pushDominoes(dominoes string) string {
 			i++
 			continue
 		}
-		
+
 		var l, r = i, i + 1
 		for r < len(dominoes) && str[r] == '.' {
 			r++
