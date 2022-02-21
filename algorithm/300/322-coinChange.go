@@ -44,34 +44,20 @@ func coinChange(coins []int, amount int) int {
 
 	var dp = make([]int, amount+1)
 	for i := 1; i <= amount; i++ {
-		dp[i] = -1
-	}
-
-	for i := 0; i < len(coins); i++ {
-		if coins[i] == amount {
-			return 1
-		} else if coins[i] < amount {
-			dp[coins[i]] = 1
-		}
+		dp[i] = amount + 1
 	}
 
 	for i := 1; i <= amount; i++ {
-		if dp[i] >= 0 {
-			continue
-		}
-		var left = amount + 1
 		for j := 0; j < len(coins); j++ {
-			tmp := i - coins[j]
-			if tmp < 0 {
-				continue
-			}
-			if tmp >= 0 && dp[tmp] >= 0 {
-				left = min(left, dp[tmp])
-				dp[i] = left + 1
+			if coins[j] <= i {
+				dp[i] = min(dp[i], dp[i-coins[j]]+1)
 			}
 		}
 	}
 
+	if dp[amount] > amount {
+		return -1
+	}
 	return dp[amount]
 }
 
