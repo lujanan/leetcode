@@ -47,8 +47,8 @@
 package algorithm_1100
 
 func longestCommonSubsequence(text1 string, text2 string) int {
-	// dp[i][j] = max(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) 
-	// dp[i][j] += t1[i] == t2[j] && dp[i-1][j-1] == dp[i-1][j] && dp[i-1][j] == dp[i][j-1] ? 1 : 0
+	// t1[i] == t2[j] dp[i][j] = dp[i-1][j-1] + 1
+	// t1[i] != t2[j] dp[i][j] = max(dp[i][j-1], dp[i-1][j])
 
 	var dp = make([][]int, len(text1)+1)
 	for i := 0; i <= len(text1); i++ {
@@ -57,9 +57,10 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 
 	for i := 1; i <= len(text1); i++ {
 		for j := 1; j <= len(text2); j++ {
-			dp[i][j] = maxn(dp[i][j-1], dp[i-1][j-1], dp[i-1][j])
-			if text1[i-1] == text2[j-1] && dp[i][j-1] == dp[i-1][j-1] && dp[i-1][j-1] == dp[i-1][j] {
-				dp[i][j]++
+			if text1[i-1] == text2[j-1] {
+				dp[i][j] = dp[i-1][j-1] + 1
+			} else {
+				dp[i][j] = max(dp[i][j-1], dp[i-1][j])
 			}
 		}
 	}
@@ -67,12 +68,9 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	return dp[len(text1)][len(text2)]
 }
 
-func maxn(a ...int) int {
-	var m = a[0]
-	for i := 1; i < len(a); i++ {
-		if m < a[i] {
-			m = a[i]
-		}
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
-	return m
+	return b
 }
