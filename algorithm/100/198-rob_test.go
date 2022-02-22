@@ -34,19 +34,25 @@
 
 package algorithm_100
 
-func rob(nums []int) int {
-	// dp[i][0] = max(dp[i-1][1])
-	// dp[i][1] = max(dp[i-1][1], dp[i-1][0]+nums[i])
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
+import "testing"
 
-	var dp = [2]int{0, nums[0]}
-	for i := 1; i < len(nums); i++ {
-		dp[1], dp[0] = max(dp[1], dp[0]+nums[i]), dp[1]
+func Test_rob(t *testing.T) {
+	type args struct {
+		nums []int
 	}
-	return max(dp[1], dp[0])
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{[]int{1, 2, 3, 1}}, 4},
+		{"t2", args{[]int{2, 7, 9, 3, 1}}, 12},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := rob(tt.args.nums); got != tt.want {
+				t.Errorf("rob() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
