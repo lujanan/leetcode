@@ -44,7 +44,7 @@
 package algorithm_100
 
 // 贪心
-func maxProfit(prices []int) int {
+func maxProfit2(prices []int) int {
 	var mon int
 	for i := 1; i < len(prices); i++ {
 		mon += max(0, prices[i]-prices[i-1])
