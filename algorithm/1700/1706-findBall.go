@@ -62,23 +62,68 @@
 package algorithm_1700
 
 func findBall(grid [][]int) []int {
-	var m, n = len(grid), len(grid[0])
-	var fn func(y, x int) int
-	fn = func(y, x int) int {
-		if y >= m {
-			return x
+	var n = len(grid[0])
+	var res = [2][]int{make([]int, n), make([]int, n)}
+	for i := 0; i < n; i++ {
+		if grid[0][i] == 1 && i-1 >= 0 && grid[0][i-1] == 1 {
+			res[0][i] = i - 1
+		} else if grid[0][i] == -1 && i+1 < n && grid[0][i+1] == -1 {
+			res[0][i] = i + 1
+		} else {
+			res[0][i] = -1
 		}
-
-		var nx = x + grid[y][x]
-		if nx < 0 || nx >= n || grid[y][x] != grid[y][nx] {
-			return -1
-		}
-		return fn(y+1, nx)
 	}
 
-	var res []int
-	for i := 0; i < len(grid[0]); i++ {
-		res = append(res, fn(0, i))
+	for y := 1; y < len(grid); y++ {
+		for i := 0; i < n; i++ {
+			if i-1 >= 0 && grid[y][i-1] == grid[y][i] && res[0][i-1] >= 0 {
+				res[1][i] = res[0][i-1]
+			} else if i+1 < n && grid[y][i] == grid[y][i+1] && res[0][i+1] >= 0 {
+				res[1][i] = res[0][i+1]
+			} else {
+				res[1][i] = -1
+			}
+		}
+		res[0] = res[1]
+	}
+
+	return res[0]
+}
+
+// dp1
+func findBall2(grid [][]int) []int {
+	var n = len(grid[0])
+	var dp = make([][]int, len(grid)+1)
+	for i := 0; i < len(dp); i++ {
+		dp[i] = make([]int, len(grid[0]))
+	}
+	var res = make([]int, n)
+	res[0] = -1
+	dp[0][0] = n
+	for i := 1; i < len(dp[0]); i++ {
+		dp[0][i] = i
+		res[i] = -1
+	}
+
+	for i := 1; i < len(dp); i++ {
+		for j := 0; j < len(dp[0]); j++ {
+			if dp[i-1][j] <= 0 {
+				continue
+			}
+
+			nx := j + grid[i-1][j]
+			if nx < 0 || nx >= n || grid[i-1][j] != grid[i-1][nx] {
+				continue
+			}
+			dp[i][nx] = dp[i-1][j]
+		}
+	}
+	for i := 0; i < n; i++ {
+		if dp[len(dp)-1][i] == n {
+			res[0] = i
+		} else if dp[len(dp)-1][i] > 0 {
+			res[dp[len(dp)-1][i]] = i
+		}
 	}
 	return res
 }
