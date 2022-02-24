@@ -63,31 +63,46 @@ package algorithm_1700
 
 func findBall(grid [][]int) []int {
 	var n = len(grid[0])
-	var res = [2][]int{make([]int, n), make([]int, n)}
-	for i := 0; i < n; i++ {
-		if grid[0][i] == 1 && i-1 >= 0 && grid[0][i-1] == 1 {
-			res[0][i] = i - 1
-		} else if grid[0][i] == -1 && i+1 < n && grid[0][i+1] == -1 {
-			res[0][i] = i + 1
-		} else {
-			res[0][i] = -1
-		}
-	}
-
-	for y := 1; y < len(grid); y++ {
-		for i := 0; i < n; i++ {
-			if i-1 >= 0 && grid[y][i-1] == grid[y][i] && res[0][i-1] >= 0 {
-				res[1][i] = res[0][i-1]
-			} else if i+1 < n && grid[y][i] == grid[y][i+1] && res[0][i+1] >= 0 {
-				res[1][i] = res[0][i+1]
-			} else {
-				res[1][i] = -1
+	var res = make([]int, n)
+	for col := range res {
+		j := col
+		for _, row := range grid {
+			dir := row[col]
+			col += dir
+			if col < 0 || col >= n || row[col] != dir {
+				col = -1
+				break
 			}
 		}
-		res[0] = res[1]
+		res[j] = col
+	}
+	return res
+}
+
+// dp2
+func findBall3(grid [][]int) []int {
+	var n = len(grid[0])
+	var res = make([]int, n)
+	for i := 0; i < n; i++ {
+		res[i] = i
 	}
 
-	return res[0]
+	for y := 0; y < len(grid); y++ {
+		for i := 0; i < n; i++ {
+			if res[i] < 0 {
+				continue
+			}
+			if grid[y][res[i]] == -1 && res[i]-1 >= 0 && grid[y][res[i]-1] == -1 {
+				res[i] = res[i] - 1
+			} else if grid[y][res[i]] == 1 && res[i]+1 < n && grid[y][res[i]+1] == 1 {
+				res[i] = res[i] + 1
+			} else {
+				res[i] = -1
+			}
+		}
+	}
+
+	return res
 }
 
 // dp1
