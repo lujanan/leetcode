@@ -40,31 +40,35 @@ package algorithm_100
 func solve(board [][]byte) [][]byte {
 	var d = [][]int{{-1, 0}, {0, 1}, {1, 0}, {0, -1}}
 	var h, w = len(board), len(board[0])
+	var fn func(y, x int)
+	fn = func(y, x int) {
+		if x < 0 || x >= w || y < 0 || y >= h || board[y][x] != 'O' {
+			return
+		}
 
-	var fn func(y, x int) int
-	fn = func(y, x int) int {
-		if board[y][x] == 'X' {
-			return 0
-		}
-		if (x == 0 || x+1 == w || y == 0 || y+1 == h) && board[y][x] == 'O' {
-			return 1
-		}
-		board[y][x] = 'X'
-		var num int
+		board[y][x] = 'a'
 		for _, v := range d {
-			var ny, nx = y + v[0], x + v[1]
-			if nx >= 0 && nx < w && y >= 0 && y < h {
-				num += fn(ny, nx)
-			}
+			fn(y+v[0], x+v[1])
 		}
-		if num > 0 {
-			board[y][x] = 'O'
-		}
-		return num
 	}
-	for i := 1; i < h-1; i++ {
-		for j := 1; j < w-1; j++ {
-			fn(i, j)
+
+	for i := 0; i < h; i++ {
+		fn(i, 0)
+		fn(i, w-1)
+	}
+
+	for j := 1; j < w-1; j++ {
+		fn(0, j)
+		fn(h-1, j)
+	}
+
+	for i := 0; i < h; i++ {
+		for j := 0; j < w; j++ {
+			if board[i][j] == 'a' {
+				board[i][j] = 'O'
+			} else if board[i][j] == 'O' {
+				board[i][j] = 'X'
+			}
 		}
 	}
 	return board
