@@ -53,12 +53,13 @@ func reverseList(head *ListNode) *ListNode {
 	var res = head
 	if head != nil {
 		head = head.Next
+		res.Next = nil
 	}
 
 	for head != nil {
 		next := head.Next
 		head.Next = res
-		head = next
+		res, head = head, next
 	}
 	return res
 }
