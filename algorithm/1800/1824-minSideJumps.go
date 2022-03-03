@@ -62,7 +62,8 @@ package algorithm_1800
 
 func minSideJumps(obstacles []int) int {
 	var num = len(obstacles)
-	var dp = [2][]int{{0, 1, 0, 1}, {0, 1, 0, 1}}
+	var dp = make([][3]int, num)
+	dp[0] = [3]int{1, 0, 1}
 	var min = func(a, b int) int {
 		if a < b {
 			return a
@@ -70,7 +71,42 @@ func minSideJumps(obstacles []int) int {
 		return b
 	}
 
-	for i := 0; i < num-1; i++ {
+	for i := 1; i < num; i++ {
+		if obstacles[i] != 1 {
+			dp[i][0] = dp[i-1][0]
+		}
+		if obstacles[i] != 2 {
+			dp[i][1] = dp[i-1][1]
+		}
+		if obstacles[i] != 3 {
+			dp[i][2] = dp[i-1][2]
+		}
+
+		if obstacles[i] != 1 {
+			dp[i][0] = min(dp[i][0], min(dp[i][1], dp[i][2])+1)
+		}
+		if obstacles[i] != 2 {
+			dp[i][1] = min(dp[i][1], min(dp[i][0], dp[i][2])+1)
+		}
+		if obstacles[i] != 3 {
+			dp[i][2] = min(dp[i][2], min(dp[i][0], dp[i][1])+1)
+		}
+	}
+	return min(min(dp[num-1][0], dp[num-1][1]), dp[num-1][2])
+}
+
+func minSideJumps1(obstacles []int) int {
+	var num = len(obstacles)
+	var dp = [2][]int{{1, 0, 1}, {1, 0, 1}}
+	var min = func(a, b int) int {
+		if a < b {
+			return a
+		}
+		return b
+	}
+
+	for i := 1; i < num-1; i++ {
+
 		if obstacles[i+1] > 0 {
 			switch obstacles[i+1] {
 			case 1:
@@ -88,7 +124,7 @@ func minSideJumps(obstacles []int) int {
 				if obstacles[i] != 3 {
 					dp[0][3] = min(min(dp[1][3], dp[1][1]+1), dp[1][2]+1)
 				}
-				
+
 			case 3:
 				if obstacles[i] != 1 {
 					dp[0][1] = min(min(dp[1][1], dp[1][2]+1), dp[1][3]+1)
