@@ -62,7 +62,7 @@ package algorithm_1800
 
 func minSideJumps(obstacles []int) int {
 	var num = len(obstacles)
-	var dp = make([][3]int, num)
+	var dp = [2][3]int{}
 	dp[0] = [3]int{1, 0, 1}
 	var min = func(a, b int) int {
 		if a < b {
@@ -72,76 +72,28 @@ func minSideJumps(obstacles []int) int {
 	}
 
 	for i := 1; i < num; i++ {
-		if obstacles[i] != 1 {
-			dp[i][0] = dp[i-1][0]
-		}
-		if obstacles[i] != 2 {
-			dp[i][1] = dp[i-1][1]
-		}
-		if obstacles[i] != 3 {
-			dp[i][2] = dp[i-1][2]
-		}
+		dp[1] = [3]int{num, num, num}
 
 		if obstacles[i] != 1 {
-			dp[i][0] = min(dp[i][0], min(dp[i][1], dp[i][2])+1)
+			dp[1][0] = dp[0][0]
 		}
 		if obstacles[i] != 2 {
-			dp[i][1] = min(dp[i][1], min(dp[i][0], dp[i][2])+1)
+			dp[1][1] = dp[0][1]
 		}
 		if obstacles[i] != 3 {
-			dp[i][2] = min(dp[i][2], min(dp[i][0], dp[i][1])+1)
-		}
-	}
-	return min(min(dp[num-1][0], dp[num-1][1]), dp[num-1][2])
-}
-
-func minSideJumps1(obstacles []int) int {
-	var num = len(obstacles)
-	var dp = [2][]int{{1, 0, 1}, {1, 0, 1}}
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
-
-	for i := 1; i < num-1; i++ {
-
-		if obstacles[i+1] > 0 {
-			switch obstacles[i+1] {
-			case 1:
-				if obstacles[i] != 2 {
-					dp[0][2] = min(min(dp[1][2], dp[1][1]+1), dp[1][3]+1)
-				}
-				if obstacles[i] != 3 {
-					dp[0][3] = min(min(dp[1][3], dp[1][1]+1), dp[1][2]+1)
-				}
-
-			case 2:
-				if obstacles[i] != 1 {
-					dp[0][1] = min(min(dp[1][1], dp[1][2]+1), dp[1][3]+1)
-				}
-				if obstacles[i] != 3 {
-					dp[0][3] = min(min(dp[1][3], dp[1][1]+1), dp[1][2]+1)
-				}
-
-			case 3:
-				if obstacles[i] != 1 {
-					dp[0][1] = min(min(dp[1][1], dp[1][2]+1), dp[1][3]+1)
-				}
-				if obstacles[i] != 2 {
-					dp[0][2] = min(min(dp[1][2], dp[1][1]+1), dp[1][3]+1)
-				}
-			}
-			dp[0][obstacles[i+1]] = num
-		} else {
-			dp[0][1] = min(min(dp[1][1], dp[1][2]+1), dp[1][3]+1)
-			dp[0][2] = min(min(dp[1][2], dp[1][1]+1), dp[1][3]+1)
-			dp[0][3] = min(min(dp[1][3], dp[1][1]+1), dp[1][2]+1)
+			dp[1][2] = dp[0][2]
 		}
 
-		dp[1] = dp[1][:0]
-		dp[1] = append(dp[1], dp[0]...)
+		if obstacles[i] != 1 {
+			dp[1][0] = min(dp[1][0], min(dp[1][1], dp[1][2])+1)
+		}
+		if obstacles[i] != 2 {
+			dp[1][1] = min(dp[1][1], min(dp[1][0], dp[1][2])+1)
+		}
+		if obstacles[i] != 3 {
+			dp[1][2] = min(dp[1][2], min(dp[1][0], dp[1][1])+1)
+		}
+		dp[0] = dp[1]
 	}
-	return min(min(dp[0][1], dp[0][2]), dp[0][3])
+	return min(min(dp[0][0], dp[0][1]), dp[0][2])
 }
