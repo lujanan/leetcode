@@ -41,6 +41,7 @@
 package algorithm_1000
 
 func numMovesStones(a int, b int, c int) (res []int) {
+	// 排序
 	if a > b {
 		a, b = b, a
 	}
@@ -54,11 +55,11 @@ func numMovesStones(a int, b int, c int) (res []int) {
 	res = []int{0, 0}
 	var ab, bc = b - a - 1, c - b - 1
 	if ab == 0 && bc == 0 {
-		return
+		return // 3数相邻
 	} else if ab <= 1 || bc <= 1 {
-		res[0] = 1
+		res[0] = 1 // 任意2数距离少于等于2
 	} else {
-		res[0] = 2
+		res[0] = 2 // 其他情况最少移两次
 	}
 	res[1] = ab + bc
 	return res
