@@ -4,6 +4,21 @@ package algorithm_400
 // https://leetcode-cn.com/problems/find-all-duplicates-in-an-array/
 
 func findDuplicates(nums []int) []int {
+	var n = len(nums)
+	for i := range nums {
+		nums[(nums[i]-1)%n] += n
+	}
+
+	var res []int
+	for i := range nums {
+		if nums[i] > 2*n {
+			res = append(res, i+1)
+		}
+	}
+	return res
+}
+
+func findDuplicates1(nums []int) []int {
 	var tmp = 0
 	for i := 0; i < len(nums); i++ {
 		if nums[i] < 1 {
