@@ -38,45 +38,41 @@
 
 package algorithm_0
 
+import "sort"
+
 func threeSum(nums []int) [][]int {
+	var n = len(nums)
+	sort.Ints(nums)
+	var res [][]int
+	var k, i, j, sum int
+	for k = 0; k < n-2; {
+		if nums[k] > 0 {
+			break
+		}
+		for i, j = k+1, n-1; i < n && j >= 0 && j > i; {
+			sum = nums[k] + nums[i] + nums[j]
+			if sum == 0 {
+				res = append(res, []int{nums[k], nums[i], nums[j]})
+			}
 
-	var nMap = make(map[int]int)
-	for _, v := range nums {
-		nMap[v]++
-	}
-	var sortABC = func(a, b, c int) [3]int {
-		if a > b {
-			a, b = b, a
-		}
-		if a > c {
-			a, c = c, a
-		}
-		if b > c {
-			b, c = c, b
-		}
-		return [3]int{a, b, c}
-	}
-	var resMap = make(map[[3]int]int)
-
-	var diff int
-	var ok bool
-	for i := 0; i < len(nums); i++ {
-		for j := i + 1; j < len(nums); j++ {
-			diff = 0 - nums[i] - nums[j]
-			if _, ok = nMap[diff]; ok {
-				if diff == 0 && ((nums[i] == 0 && nMap[diff] > 2) || nums[i] != nums[j]) {
-					resMap[sortABC(diff, nums[i], nums[j])] = 1
-				} else if (nMap[diff] != nums[i] || (nMap[diff] == nums[i] && nMap[diff] > 1)) &&
-					(nMap[diff] != nums[j] || (nMap[diff] == nums[j] && nMap[diff] > 1)) {
-					resMap[sortABC(diff, nums[i], nums[j])] = 1
+			if sum <= 0 {
+				i++
+				for i < n && nums[i] == nums[i-1] {
+					i++
+				}
+			}
+			if sum >= 0 {
+				j--
+				for j >= 0 && nums[j] == nums[j+1] {
+					j--
 				}
 			}
 		}
+		k++
+		for k < n-2 && nums[k] == nums[k-1] {
+			k++
+		}
 	}
 
-	var res [][]int
-	for k := range resMap {
-		res = append(res, k[:])
-	}
 	return res
 }
