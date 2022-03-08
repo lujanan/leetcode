@@ -52,7 +52,89 @@
 
 package algorithm_2000
 
+// 前缀和+预处理
 func platesBetweenCandles(s string, queries [][]int) []int {
+	var sum = make([]int, len(s))
+	if s[0] == '*' {
+		sum[0] = 1
+	}
+	for i := 1; i < len(s); i++ {
+		sum[i] = sum[i-1]
+		if s[i] == '*' {
+			sum[i]++
+		}
+	}
+
+	var left, right = make([]int, len(s)), make([]int, len(s))
+	left[len(s)-1], right[0] = -1, -1
+	for i := 1; i < len(s); i++ {
+		if s[i] == '|' {
+			right[i] = i
+		} else {
+			right[i] = right[i-1]
+		}
+	}
+	for i := len(s) - 2; i >= 0; i-- {
+		if s[i] == '|' {
+			left[i] = i
+		} else {
+			left[i] = left[i+1]
+		}
+	}
+
+	var res []int
+	for _, q := range queries {
+		if left[q[0]] >= 0 && right[q[1]] >= 0 && right[q[1]] >= left[q[0]] {
+			res = append(res, sum[right[q[1]]]-sum[left[q[0]]])
+		} else {
+			res = append(res, 0)
+		}
+	}
+	return res
+}
+
+// 前缀和+预处理
+func platesBetweenCandles2(s string, queries [][]int) []int {
+	var sum = make([][3]int, len(s))
+	if s[0] == '*' {
+		sum[0][0] = 1
+	}
+	for i := 1; i < len(s); i++ {
+		sum[i] = sum[i-1]
+		if s[i] == '*' {
+			sum[i][0]++
+		}
+	}
+
+	sum[len(s)-1][1], sum[0][2] = -1, -1
+	for i := 1; i < len(s); i++ {
+		if s[i] == '|' {
+			sum[i][2] = i
+		} else {
+			sum[i][2] = sum[i-1][2]
+		}
+	}
+	for i := len(s) - 2; i >= 0; i-- {
+		if s[i] == '|' {
+			sum[i][1] = i
+		} else {
+			sum[i][1] = sum[i+1][1]
+		}
+	}
+
+	var res []int
+	for _, q := range queries {
+		if sum[q[0]][1] >= 0 && sum[q[1]][2] >= 0 && sum[q[1]][2] >= sum[q[0]][1] {
+			res = append(res, sum[sum[q[1]][2]][0]-sum[sum[q[0]][1]][0])
+		} else {
+			res = append(res, 0)
+		}
+	}
+	return res
+}
+
+// // 前缀和+二分查找
+func platesBetweenCandles1(s string, queries [][]int) []int {
 	var sum = make([]int, len(s))
 	if s[0] == '*' {
 		sum[0] = 1
