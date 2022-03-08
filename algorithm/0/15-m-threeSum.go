@@ -45,10 +45,14 @@ func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
 	var res [][]int
 	var k, i, j, sum int
-	for k = 0; k < n-2; {
+	for k = 0; k < n-2; k++ {
 		if nums[k] > 0 {
 			break
 		}
+		if k > 0 && nums[k] == nums[k-1] {
+			continue
+		}
+
 		for i, j = k+1, n-1; i < n && j >= 0 && j > i; {
 			sum = nums[k] + nums[i] + nums[j]
 			if sum == 0 {
@@ -67,10 +71,6 @@ func threeSum(nums []int) [][]int {
 					j--
 				}
 			}
-		}
-		k++
-		for k < n-2 && nums[k] == nums[k-1] {
-			k++
 		}
 	}
 
