@@ -46,14 +46,6 @@
 
 package algorithm_700
 
-// 差分数组，
-// 题意：k++ 时，数组左移
-// 计算 nums[i] == idx 时 k 的值，此时，下标 idx 继续右移，nums[i] < idx 恒成立，此时 k-- ,
-// 当 k<0 时，k = n + k
-// 引入数组 kl 记录 0~k-1 时的分数
-// 差分数组，找到最小的 minK 和 最大的 maxK 的区间，kl[minK]+1, kl[maxK]-1 即可实现区间内的数值+1
-// 而不影响其他区间的数值
-// 注意：存在 k < 0 时存在两个区间；maxK 大于数组长度
 func bestRotation(nums []int) int {
 	var res, rmi, lmi int
 	var n = len(nums)
@@ -72,6 +64,47 @@ func bestRotation(nums []int) int {
 		} else {
 			kl[0]++
 			kl[n+lmi]++
+		}
+	}
+
+	for i := 1; i < n; i++ {
+		kl[i] += kl[i-1]
+		if kl[res] < kl[i] {
+			res = i
+		}
+	}
+	return res
+}
+
+// 差分数组，
+// 题意：k++ 时，数组左移
+// 计算 nums[i] == idx 时 k 的值，此时，下标 idx 继续右移，nums[i] < idx 恒成立，此时 k-- ,
+// 当 k<0 时，k = n + k
+// 引入数组 kl 记录 0~k-1 时的分数
+// 差分数组，找到最小的 minK 和 最大的 maxK 的区间，kl[minK]+1, kl[maxK]-1 即可实现区间内的数值+1
+// 而不影响其他区间的数值
+// 注意：存在 k < 0 时存在两个区间；maxK 大于数组长度
+func bestRotation2(nums []int) int {
+	var res, rmi, lmi, nli int
+	var n = len(nums)
+	var kl = make([]int, len(nums))
+	for i := 0; i < n; i++ {
+		rmi = i - nums[i]
+		if rmi < 0 {
+			rmi += n
+		}
+
+		nli = n - nums[i]
+		lmi = rmi - nli + 1
+		if lmi >= 0 {
+			kl[lmi]++
+		} else {
+			kl[0]++
+			kl[n+lmi]++
+		}
+
+		if rmi+1 < n {
+			kl[rmi+1]--
 		}
 	}
 
