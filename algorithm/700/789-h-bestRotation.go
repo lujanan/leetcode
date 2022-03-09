@@ -51,19 +51,14 @@ func bestRotation(nums []int) int {
 	var n = len(nums)
 	var kl = make([]int, len(nums)+1)
 	for i := 0; i < n; i++ {
-		rmi = (i - nums[i] + n) % n
-		// lmi = rmi + nums[i] - n + 1
-		lmi = (i - n + 1 + n) % n
-
-		// i - nums[i] + nums[i] -n + 1
-		// nums[i] - i + nums[i] -n + 1
+		rmi = (i - nums[i] + n) % n // 右边界
+		// lmi = (i - nums[i] + n - (n - 1 - nums[i])) % n // 符合条件的有 n - 1 - nums[i] 个位置，左边界 = 右边界 - 数量
+		lmi = (i + 1) % n
 
 		kl[rmi+1]--
-		if lmi >= 0 {
-			kl[lmi]++
-		} else {
+		kl[lmi]++
+		if lmi >= rmi {
 			kl[0]++
-			kl[n+lmi]++
 		}
 	}
 
