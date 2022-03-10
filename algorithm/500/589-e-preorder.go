@@ -49,6 +49,24 @@ package algorithm_500
 
 func preorder(root *Node) []int {
 	var res []int
+	var list = []*Node{root}
+	for len(list) > 0 {
+		node := list[len(list)-1]
+		list = list[:len(list)-1]
+
+		if node == nil {
+			continue
+		}
+		res = append(res, node.Val)
+		for i := len(node.Children) - 1; i >= 0; i-- {
+			list = append(list, node.Children[i])
+		}
+	}
+	return res
+}
+
+func preorder1(root *Node) []int {
+	var res []int
 
 	var fn func(node *Node)
 	fn = func(node *Node) {
