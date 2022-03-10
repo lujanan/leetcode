@@ -8,6 +8,36 @@ import "sort"
 func permuteUnique(nums []int) [][]int {
 	var res [][]int
 	var n, last = len(nums), -1
+	var visited = make([]int, n)
+	var arr []int
+
+	var fn func(idx int)
+	fn = func(idx int) {
+		if idx == n {
+			res = append(res, append([]int{}, arr...))
+			return
+		}
+		last = -1
+		for i := 0; i < n; i++ {
+			if visited[i] == 1 || last >= 0 && nums[i] == nums[last] {
+				continue
+			}
+			arr = append(arr, nums[i])
+			visited[i] = 1
+			fn(idx + 1)
+			last = i
+			arr = arr[:len(arr)-1]
+			visited[i] = 0
+		}
+	}
+	sort.Ints(nums)
+	fn(0)
+	return res
+}
+
+func permuteUnique1(nums []int) [][]int {
+	var res [][]int
+	var n, last = len(nums), -1
 	var visited = make([]bool, n)
 
 	var fn func(idx int, arr []int)
