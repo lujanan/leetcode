@@ -52,7 +52,6 @@ package algorithm_0
 
 func solveSudoku(board [][]byte) [][]byte {
 	var row, col, rc = [9][9]int{}, [9][9]int{}, [9][9]int{}
-	var succ bool
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if board[i][j] != '.' {
@@ -65,13 +64,13 @@ func solveSudoku(board [][]byte) [][]byte {
 
 	var dfs func(y, x int) bool
 	dfs = func(y, x int) bool {
-		x, y = y+x/9, x%9
-		for ; y < 9 && board[y][x] != '.'; x, y = y+(x+1)/9, (x+1)%9 {
-			// x, y = y+(x+1)/9, (x+1)%9
+		y, x = y+x/9, x%9
+		// for ; y < 9 && board[y][x] != '.'; x, y = y+(x+1)/9, (x+1)%9 {
+		for y < 9 && board[y][x] != '.' {
+			y, x = y+(x+1)/9, (x+1)%9
 		}
 
-		succ = y >= 9
-		if succ {
+		if y >= 9 {
 			return true
 		}
 
@@ -83,14 +82,14 @@ func solveSudoku(board [][]byte) [][]byte {
 			row[y][i], col[x][i], rc[y/3*3+x/3][i] = 1, 1, 1
 			board[y][x] = '1' + byte(i)
 
-			if succ = dfs(y, x+1); succ {
-				break
+			if dfs(y, x+1) {
+				return true
 			}
 
 			row[y][i], col[x][i], rc[y/3*3+x/3][i] = 0, 0, 0
 			board[y][x] = '.'
 		}
-		return succ
+		return false
 	}
 	dfs(0, 0)
 	return board
