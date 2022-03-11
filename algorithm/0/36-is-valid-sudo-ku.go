@@ -64,8 +64,28 @@
 
 package algorithm_0
 
-// 暴力
+// 位运算
 func isValidSudoku(board [][]byte) bool {
+	var row, col, rc = [9]int{}, [9]int{}, [9]int{}
+	var n int
+	for y := 0; y < 9; y++ {
+		for x := 0; x < 9; x++ {
+			if board[y][x] == '.' {
+				continue
+			}
+
+			n = 1 << (board[y][x] - '1')
+			if row[y]&n != 0 || col[x]&n != 0 || rc[y/3*3+x/3]&n != 0 {
+				return false
+			}
+			row[y], col[x], rc[y/3*3+x/3] = row[y]|n, col[x]|n, rc[y/3*3+x/3]|n
+		}
+	}
+	return true
+}
+
+// 暴力
+func isValidSudoku1(board [][]byte) bool {
 	for i := 0; i < 9; i++ {
 		var checkRow = make(map[byte]bool)
 		var checkCol = make(map[byte]bool)
