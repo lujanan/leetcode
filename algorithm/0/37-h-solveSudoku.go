@@ -50,7 +50,54 @@
 
 package algorithm_0
 
+// 位运算优化
 func solveSudoku(board [][]byte) [][]byte {
+	var row, col, rc = [9]int{}, [9]int{}, [9]int{}
+	var check [][2]int
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			if board[i][j] != '.' {
+				n := int(board[i][j] - '1')
+				row[i] |= 1 << n
+				col[j] |= 1 << n
+				rc[i/3*3+j/3] |= 1 << n
+			} else {
+				check = append(check, [2]int{i, j})
+			}
+		}
+	}
+
+	var dfs func(pos int) bool
+	dfs = func(pos int) bool {
+		if pos >= len(check) {
+			return true
+		}
+
+		var y, x = check[pos][0], check[pos][1]
+		for i := 0; i < 9; i++ {
+			n := 1 << i
+			if row[y]&n != 0 || col[x]&n != 0 || rc[y/3*3+x/3]&n != 0 {
+				continue
+			}
+
+			row[y], col[x], rc[y/3*3+x/3] = row[y]|n, col[x]|n, rc[y/3*3+x/3]|n
+			board[y][x] = '1' + byte(i)
+
+			if dfs(pos + 1) {
+				return true
+			}
+
+			row[y], col[x], rc[y/3*3+x/3] = row[y]^n, col[x]^n, rc[y/3*3+x/3]^n
+			board[y][x] = '.'
+		}
+		return false
+	}
+	dfs(0)
+
+	return board
+}
+
+func solveSudoku1(board [][]byte) [][]byte {
 	var row, col, rc = [9][9]int{}, [9][9]int{}, [9][9]int{}
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
@@ -65,7 +112,6 @@ func solveSudoku(board [][]byte) [][]byte {
 	var dfs func(y, x int) bool
 	dfs = func(y, x int) bool {
 		y, x = y+x/9, x%9
-		// for ; y < 9 && board[y][x] != '.'; x, y = y+(x+1)/9, (x+1)%9 {
 		for y < 9 && board[y][x] != '.' {
 			y, x = y+(x+1)/9, (x+1)%9
 		}
