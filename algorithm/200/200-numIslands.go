@@ -1,6 +1,13 @@
 package algorithm_200
 
-func numIslands(grid [][]byte) (res int) {
+// 并查集
+func numIslands(grid [][]byte) int {
+
+	
+}
+
+// 深度优先搜索
+func numIslands1(grid [][]byte) (res int) {
 	var dx = []int{-1, 1, 0, 0}
 	var dy = []int{0, 0, -1, 1}
 

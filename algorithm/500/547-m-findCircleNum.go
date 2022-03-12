@@ -3,6 +3,7 @@ package algorithm_500
 // 547. 省份数量
 // https://leetcode-cn.com/problems/number-of-provinces/
 
+// 并查集
 func findCircleNum(isConnected [][]int) int {
 	var n = len(isConnected)
 	var cnt = n
