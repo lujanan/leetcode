@@ -12,8 +12,8 @@ func Test_validUtf8(t *testing.T) {
 		want bool
 	}{
 		{"t0", args{[]int{123}}, true},
-		// {"t1", args{[]int{197, 130, 1}}, true},
-		// {"t1", args{[]int{235, 140, 4}}, false},
+		{"t1", args{[]int{197, 130, 1}}, true},
+		{"t1", args{[]int{235, 140, 4}}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
