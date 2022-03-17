@@ -39,12 +39,17 @@ func longestWord(words []string) string {
 	sort.Slice(words, func(i, j int) bool {
 		if len(words[i]) > len(words[j]) {
 			return true
-		} else if len(words[i]) == len(words[j]) {
+		}
+		if len(words[i]) == len(words[j]) {
 			for k := 0; k < len(words[i]); k++ {
-				if words[i][k]-'a' > words[j][k]-'a' {
+				if words[i][k] == words[j][k] {
+					continue
+				} else if words[i][k] < words[j][k] {
 					return true
 				}
+				return false
 			}
+			return i < j
 		}
 		return false
 	})
