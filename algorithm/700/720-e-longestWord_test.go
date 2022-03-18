@@ -44,11 +44,13 @@ func Test_longestWord(t *testing.T) {
 		args args
 		want string
 	}{
-		// {"t1", args{[]string{"w", "wo", "wor", "worl", "world"}}, "world"},
-		// {"t2", args{[]string{"a", "banana", "app", "appl", "ap", "apply", "apple"}}, "apple"},
-		// {"t3", args{[]string{"a", "banana", "app", "appe", "ap", "apply", "apple"}}, "appe"},
-		// {"t4", args{[]string{"a"}}, "a"},
+		{"t1", args{[]string{"w", "wo", "wor", "worl", "world"}}, "world"},
+		{"t2", args{[]string{"a", "banana", "app", "appl", "ap", "apply", "apple"}}, "apple"},
+		{"t3", args{[]string{"a", "banana", "app", "appe", "ap", "apply", "apple"}}, "appe"},
+		{"t4", args{[]string{"a"}}, "a"},
 		{"t5", args{[]string{"t", "ti", "tig", "tige", "tiger", "e", "en", "eng", "engl", "engli", "englis", "english", "h", "hi", "his", "hist", "histo", "histor", "history"}}, "english"},
+		{"t6", args{[]string{"rac", "rs", "ra", "on", "r", "otif", "o", "onpdu", "rsf", "rs", "ot", "oti", "racy", "onpd"}}, "otif"},
+		{"t7", args{[]string{"racy", "otif"}}, ""},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

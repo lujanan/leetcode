@@ -35,16 +35,50 @@ package algorithm_700
 
 import "sort"
 
+// todo 字典树解法
+
+// 排序+hash 优化
 func longestWord(words []string) string {
+	sort.Slice(words, func(i, j int) bool {
+		if len(words[i]) < len(words[j]) {
+			return true
+		} else if len(words[i]) == len(words[j]) {
+			return words[i] > words[j]
+		}
+		return false
+	})
+	var wMap = make(map[string]int)
+	var longWord string
+	for i := range words {
+		if len(words[i]) == 1 {
+			longWord = words[i]
+			wMap[words[i]] = 0
+		} else if len(words[i]) > 1 {
+			if _, ok := wMap[words[i][:len(words[i])-1]]; ok {
+				longWord = words[i]
+				wMap[words[i]] = 0
+			}
+		}
+	}
+	return longWord
+}
+
+// 排序+hash
+func longestWord1(words []string) string {
 	sort.Slice(words, func(i, j int) bool {
 		if len(words[i]) > len(words[j]) {
 			return true
-		} else if len(words[i]) == len(words[j]) {
+		}
+		if len(words[i]) == len(words[j]) {
 			for k := 0; k < len(words[i]); k++ {
-				if words[i][k]-'a' > words[j][k]-'a' {
+				if words[i][k] == words[j][k] {
+					continue
+				} else if words[i][k] < words[j][k] {
 					return true
 				}
+				return false
 			}
+			return i < j
 		}
 		return false
 	})
