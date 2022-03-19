@@ -53,28 +53,26 @@
 
 package algorithm_500
 
-func checkRecord(n int) int {
-	
-}
+import "testing"
 
-// 回溯，超时
-func checkRecord1(n int) int {
-	var res int64
-	var dfs func(num int, str string, hasA bool)
-	dfs = func(num int, str string, hasA bool) {
-		if num == n {
-			res++
-			return
-		}
-
-		dfs(num+1, str+"P", hasA)
-		if num < 2 || (num >= 2 && str[len(str)-2:] != "LL") {
-			dfs(num+1, str+"L", hasA)
-		}
-		if !hasA {
-			dfs(num+1, str+"A", true)
-		}
+func Test_checkRecord(t *testing.T) {
+	type args struct {
+		n int
 	}
-	dfs(0, "", false)
-	return int(res % 1000000007)
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{2}, 8},
+		{"t2", args{1}, 3},
+		{"t3", args{10101}, 183236316},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := checkRecord(tt.args.n); got != tt.want {
+				t.Errorf("checkRecord() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
