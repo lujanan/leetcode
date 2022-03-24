@@ -29,6 +29,29 @@
 package algorithm_600
 
 func imageSmoother(img [][]int) (res [][]int) {
+	// 8联通
+	var dxy = [][2]int{{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}}
+	var m, n = len(img), len(img[0])
+	res = make([][]int, len(img))
+	for i := 0; i < m; i++ {
+		res[i] = make([]int, n)
+		for j := 0; j < n; j++ {
+			var num, total = 1, img[i][j]
+			for k := range dxy {
+				var ny, nx = i + dxy[k][0], j + dxy[k][1]
+				if ny < 0 || ny >= m || nx < 0 || nx >= n {
+					continue
+				}
+				num++
+				total += img[ny][nx]
+			}
+			res[i][j] = total / num
+		}
+	}
+	return res
+}
+
+func imageSmoother1(img [][]int) (res [][]int) {
 	res = make([][]int, len(img))
 	for i := 0; i < len(img); i++ {
 		for j := 0; j < len(img[i]); j++ {
