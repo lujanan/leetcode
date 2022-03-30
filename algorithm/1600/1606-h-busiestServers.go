@@ -81,36 +81,55 @@ package algorithm_1600
 
 import (
 	"container/heap"
+	"sort"
 )
 
 func busiestServers(k int, arrival []int, load []int) []int {
-	mq := make(queue, 0)
+	var busy = make(queue, 0)
+	heap.Init(&busy)
+
+	var idle = hi{make([]int, k)}
 	for i := 0; i < k; i++ {
-		mq = append(mq, &kh{idx: i})
+		idle.IntSlice[i] = i
 	}
-	heap.Init(&mq)
-
-	var list = make([]int, k)
-	for i := 0; i < len(arrival); i++ {
-		var item = heap.Pop(&mq).(*kh)
-		if item.end <= arrival[i] {
-			list[item.idx]++
-			item.end = arrival[i] + load[i]
-		}
-		heap.Push(&mq, item)
-	}
-
 	var res []int
 	var mt int
-	for i := range list {
-		if mt < list[i] {
-			mt = list[i]
-			res = []int{i}
-		} else if mt == list[i] {
-			res = append(res, i)
+	var list = make([]int, k)
+	for i := 0; i < len(arrival); i++ {
+		for busy.Len() > 0 && busy[0].end <= arrival[i] {
+			var item = heap.Pop(&busy).(*kh)
+			heap.Push(&idle, i+((item.idx-i)%k+k)%k)
+		}
+
+		if idle.Len() > 0 {
+			var idx = heap.Pop(&idle).(int) % k
+			list[idx]++
+			var item = &kh{
+				idx: idx,
+				end: arrival[i] + load[i],
+			}
+			heap.Push(&busy, item)
+
+			if mt < list[item.idx] {
+				mt = list[item.idx]
+				res = []int{item.idx}
+			} else if mt == list[item.idx] {
+				res = append(res, item.idx)
+			}
 		}
 	}
 	return res
+}
+
+type hi struct{ sort.IntSlice }
+
+func (h *hi) Push(v interface{}) { h.IntSlice = append(h.IntSlice, v.(int)) }
+
+func (h *hi) Pop() interface{} {
+	a := h.IntSlice
+	v := a[len(a)-1]
+	h.IntSlice = a[:len(a)-1]
+	return v
 }
 
 type kh struct {
@@ -122,12 +141,7 @@ type queue []*kh
 func (q queue) Len() int { return len(q) }
 
 func (q queue) Less(i, j int) bool {
-	if q[i].end < q[j].end {
-		return true
-	} else if q[i].end > q[j].end {
-		return false
-	}
-	return q[i].idx < q[j].idx
+	return q[i].end < q[j].end
 }
 
 func (q queue) Swap(i, j int) {
