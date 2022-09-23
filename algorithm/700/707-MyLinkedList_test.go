@@ -46,44 +46,44 @@ import (
 )
 
 func TestConstructor(t *testing.T) {
-	obj := Constructor()
-	param_1 := obj.Get(0)
-	fmt.Println(param_1)
-	obj.AddAtHead(1)
-	printlnLink(&obj)
-	obj.AddAtTail(3)
-	printlnLink(&obj)
-	obj.AddAtIndex(1, 2)
-	printlnLink(&obj)
-	obj.DeleteAtIndex(1)
-	printlnLink(&obj)
+	// obj := Constructor()
+	// param_1 := obj.Get(0)
+	// fmt.Println(param_1)
+	// obj.AddAtHead(1)
+	// printlnLink(&obj)
+	// obj.AddAtTail(3)
+	// printlnLink(&obj)
+	// obj.AddAtIndex(1, 2)
+	// printlnLink(&obj)
+	// obj.DeleteAtIndex(1)
+	// printlnLink(&obj)
 
-	return
+	// return
 
-	obj2 := Constructor()
-	obj2.AddAtHead(7)
-	obj2.AddAtHead(2)
-	obj2.AddAtHead(1)
-	printlnLink(&obj2)
+	// obj2 := Constructor()
+	// obj2.AddAtHead(7)
+	// obj2.AddAtHead(2)
+	// obj2.AddAtHead(1)
+	// printlnLink(&obj2)
 
-	obj2.AddAtIndex(3, 0)
-	printlnLink(&obj2)
-	obj2.DeleteAtIndex(2)
-	printlnLink(&obj2)
+	// obj2.AddAtIndex(3, 0)
+	// printlnLink(&obj2)
+	// obj2.DeleteAtIndex(2)
+	// printlnLink(&obj2)
 
-	obj2.AddAtHead(6)
-	obj2.AddAtTail(4)
-	printlnLink(&obj2)
+	// obj2.AddAtHead(6)
+	// obj2.AddAtTail(4)
+	// printlnLink(&obj2)
 
-	fmt.Println(obj2.Get(4))
-	obj2.AddAtHead(4)
-	printlnLink(&obj2)
-	obj2.AddAtIndex(5, 0)
-	printlnLink(&obj2)
-	obj2.AddAtHead(6)
-	printlnLink(&obj2)
+	// fmt.Println(obj2.Get(4))
+	// obj2.AddAtHead(4)
+	// printlnLink(&obj2)
+	// obj2.AddAtIndex(5, 0)
+	// printlnLink(&obj2)
+	// obj2.AddAtHead(6)
+	// printlnLink(&obj2)
 
-	return
+	// return
 
 	var egFunc = []string{
 		"MyLinkedList", "addAtHead", "addAtTail", "addAtTail", "addAtTail", "addAtTail", "addAtTail", "addAtTail", "deleteAtIndex",

@@ -112,6 +112,7 @@ func (this *MyLinkedList) AddAtIndex(index int, val int) {
 	if node == nil {
 		return
 	}
+	
 	var link = &MyLinkedList{
 		val:  val,
 		pre:  node.pre,
@@ -121,13 +122,11 @@ func (this *MyLinkedList) AddAtIndex(index int, val int) {
 	if node.next != nil {
 		node.next.pre = link
 	}
+	this.lenght++
 }
 
 func (this *MyLinkedList) DeleteAtIndex(index int) {
 	node := this.FindNode(index)
-	if node == nil {
-		return
-	}
 	if node != nil {
 		node.pre.next = node.next
 		if node.next != nil {
@@ -138,23 +137,23 @@ func (this *MyLinkedList) DeleteAtIndex(index int) {
 }
 
 func (this *MyLinkedList) FindNode(index int) (node *MyLinkedList) {
-	if index < 0 || index > this.lenght {
+	if index < 0 || index >= this.lenght {
 		return nil
 	}
 
-	if index <= this.lenght>>1 {
+	// if index <= this.lenght>>1 {
 		node = this.head
 		for i := index; i > 0; i-- {
 			node = node.next
 		}
 		return
-	}
+	// }
 
-	node = this.tail
-	for i := this.lenght - index - 1; i > 0; i-- {
-		node = node.pre
-	}
-	return
+	// node = this.tail
+	// for i := this.lenght - index - 1; i > 0; i-- {
+	// 	node = node.pre
+	// }
+	// return
 }
 
 /**
