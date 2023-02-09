@@ -53,7 +53,20 @@ import (
 	"strings"
 )
 
-func removeSubfolders(folder []string) (res []string) {
+func removeSubfolders(folder []string) (ans []string) {
+    sort.Strings(folder)
+    ans = append(ans, folder[0])
+    for _, f := range folder[1:] {
+        last := ans[len(ans)-1]
+        if !strings.HasPrefix(f, last) || f[len(last)] != '/' {
+            ans = append(ans, f)
+        }
+    }
+    return
+}
+
+
+func removeSubfolders2(folder []string) (res []string) {
 	if len(folder) < 1 {
 		return nil
 	}
