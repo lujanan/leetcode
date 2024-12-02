@@ -42,6 +42,7 @@ func Test_climbStairs1(t *testing.T) {
 		{"t3", args{3}, 3},
 		{"t4", args{4}, 5},
 		{"t5", args{5}, 8},
+		{"t6", args{5}, 8},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
