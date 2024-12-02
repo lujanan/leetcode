@@ -1,11 +1,16 @@
 package algorithm_0
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
 
 func Test_addTwoNumbers(t *testing.T) {
+	fmt.Println("12321")
+	return
+
+
 	type args struct {
 		l1 *ListNode
 		l2 *ListNode

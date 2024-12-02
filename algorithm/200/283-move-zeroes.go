@@ -18,6 +18,27 @@ package algorithm_200
 
 func moveZeroes(nums []int) []int {
 	var length = len(nums)
+	var i, j int
+	for i < length {
+		if nums[i] == 0 {
+			if j <= i {
+				j = i + 1
+			}
+			for ; j < length; j++ {
+				if nums[j] != 0 {
+					nums[i], nums[j] = nums[j], nums[i]
+					j++
+					break
+				}
+			}
+		}
+		i++
+	}
+	return nums
+}
+
+func moveZeroesV2(nums []int) []int {
+	var length = len(nums)
 	if length < 2 {
 		return nums
 	}
