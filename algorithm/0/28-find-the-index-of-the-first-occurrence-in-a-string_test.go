@@ -33,28 +33,28 @@
 
 package algorithm_0
 
-// leetcode submit region begin(Prohibit modification and deletion)
-func strStr(haystack string, needle string) int {
-	var l1, l2 = len(haystack), len(needle)
-	for i := 0; i < l1; i++ {
-		if i+l2-1 >= l1 {
-			return -1
-		}
+import "testing"
 
-		if haystack[i] == needle[0] {
-			j, k := 0, l2-1
-			for ; j < k; j, k = j+1, k-1 {
-				if needle[j] != haystack[j+i] || needle[k] != haystack[i+k] {
-					break
-				}
-
-			}
-			if j >= k {
-				return i
-			}
-		}
+func Test_strStr(t *testing.T) {
+	type args struct {
+		haystack string
+		needle   string
 	}
-	return -1
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{"sadbutsad", "sad"}, 0},
+		{"t2", args{"leetcode", "leeto"}, -1},
+		{"t3", args{"leetafascode", "leeto"}, -1},
+		{"t4", args{"leetcawghsoiaode", "aode"}, 12},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := strStr(tt.args.haystack, tt.args.needle); got != tt.want {
+				t.Errorf("strStr() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
-
-//leetcode submit region end(Prohibit modification and deletion)
