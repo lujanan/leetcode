@@ -61,6 +61,7 @@ func knightDialer(n int) int {
 	const mod = 1000000000 + 7
 	var num = [2][10]int{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}
 	for i := 2; i <= n; i++ {
+		// 数值可能很大，取模
 		num[1][0] = (num[0][4] + num[0][6]) % mod
 		num[1][1] = (num[0][6] + num[0][8]) % mod
 		num[1][2] = (num[0][7] + num[0][9]) % mod
