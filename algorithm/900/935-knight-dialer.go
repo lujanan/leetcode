@@ -58,18 +58,26 @@ package algorithm_900
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func knightDialer(n int) int {
-	var num = []int{2, 2, 2, 2, 3, 0, 3, 2, 2, 2}
-	var jump = []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	for j := 1; j < n; j++ {
-		for i := 0; i < 10; i++ {
-			jump[i] = jump[i] * num[i]
-		}
+	var num = [2][10]int{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}
+	for i := 2; i <= n; i++ {
+		num[1][0] = (num[0][4] + num[0][6]) % (1000000000 + 7)
+		num[1][1] = (num[0][6] + num[0][8]) % (1000000000 + 7)
+		num[1][2] = (num[0][7] + num[0][9]) % (1000000000 + 7)
+		num[1][3] = (num[0][4] + num[0][8]) % (1000000000 + 7)
+		num[1][4] = (num[0][0] + num[0][3] + num[0][9]) % (1000000000 + 7)
+		num[1][5] = 0
+		num[1][6] = (num[0][0] + num[0][1] + num[0][7]) % (1000000000 + 7)
+		num[1][7] = (num[0][2] + num[0][6]) % (1000000000 + 7)
+		num[1][8] = (num[0][1] + num[0][3]) % (1000000000 + 7)
+		num[1][9] = (num[0][2] + num[0][4]) % (1000000000 + 7)
+
+		num[0] = num[1]
 	}
 
 	for i := 1; i < 10; i++ {
-		jump[0] += jump[i]
+		num[0][0] += num[0][i]
 	}
-	return jump[0] % (1000000000 + 7)
+	return num[0][0] % (1000000000 + 7)
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
