@@ -58,18 +58,19 @@ package algorithm_900
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func knightDialer(n int) int {
+	const mod = 1000000000 + 7
 	var num = [2][10]int{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}
 	for i := 2; i <= n; i++ {
-		num[1][0] = (num[0][4] + num[0][6]) % (1000000000 + 7)
-		num[1][1] = (num[0][6] + num[0][8]) % (1000000000 + 7)
-		num[1][2] = (num[0][7] + num[0][9]) % (1000000000 + 7)
-		num[1][3] = (num[0][4] + num[0][8]) % (1000000000 + 7)
-		num[1][4] = (num[0][0] + num[0][3] + num[0][9]) % (1000000000 + 7)
+		num[1][0] = (num[0][4] + num[0][6]) % mod
+		num[1][1] = (num[0][6] + num[0][8]) % mod
+		num[1][2] = (num[0][7] + num[0][9]) % mod
+		num[1][3] = (num[0][4] + num[0][8]) % mod
+		num[1][4] = (num[0][0] + num[0][3] + num[0][9]) % mod
 		num[1][5] = 0
-		num[1][6] = (num[0][0] + num[0][1] + num[0][7]) % (1000000000 + 7)
-		num[1][7] = (num[0][2] + num[0][6]) % (1000000000 + 7)
-		num[1][8] = (num[0][1] + num[0][3]) % (1000000000 + 7)
-		num[1][9] = (num[0][2] + num[0][4]) % (1000000000 + 7)
+		num[1][6] = (num[0][0] + num[0][1] + num[0][7]) % mod
+		num[1][7] = (num[0][2] + num[0][6]) % mod
+		num[1][8] = (num[0][1] + num[0][3]) % mod
+		num[1][9] = (num[0][2] + num[0][4]) % mod
 
 		num[0] = num[1]
 	}
@@ -77,7 +78,7 @@ func knightDialer(n int) int {
 	for i := 1; i < 10; i++ {
 		num[0][0] += num[0][i]
 	}
-	return num[0][0] % (1000000000 + 7)
+	return num[0][0] % mod
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
