@@ -96,47 +96,54 @@
 
 package algorithm_3200
 
-import "container/heap"
+import (
+	"container/heap"
+)
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func getFinalState(nums []int, k int, multiplier int) []int {
 	var state = new(HeapArray)
-	heap.Init(state)
 	for i, v := range nums {
-		state.Push(&numIdx{num: v, idx: i})
+		state.Push(&NumIdx{Num: v, Idx: i})
 	}
+	heap.Init(state)
+
+	// bin, _ := json.Marshal(state)
+	// fmt.Println(string(bin))
 
 	for i := 0; i < k; i++ {
-		num := state.Pop().(*numIdx)
-		num.num *= multiplier
-		state.Push(num)
+		num := heap.Pop(state).(*NumIdx)
+		num.Num *= multiplier
+		heap.Push(state, num)
+		// bin, _ := json.Marshal(state)
+		// fmt.Println(string(bin))
 	}
 
 	for i := 0; i < len(nums); i++ {
-		num := state.Pop().(*numIdx)
-		nums[num.idx] = num.num
+		num := state.Pop().(*NumIdx)
+		nums[num.Idx] = num.Num
 	}
 	return nums
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
 
-type numIdx struct {
-	num int
-	idx int
+type NumIdx struct {
+	Num int
+	Idx int
 }
 
-type HeapArray []*numIdx
+type HeapArray []*NumIdx
 
 func (h HeapArray) Len() int {
 	return len(h)
 }
 
 func (h HeapArray) Less(i, j int) bool {
-	if h[i].num == h[j].num {
-		return i < j
+	if h[i].Num == h[j].Num {
+		return h[i].Idx < h[j].Idx
 	}
-	return h[i].num < h[j].num
+	return h[i].Num < h[j].Num
 }
 
 func (h HeapArray) Swap(i, j int) {
@@ -144,7 +151,7 @@ func (h HeapArray) Swap(i, j int) {
 }
 
 func (h *HeapArray) Push(num interface{}) {
-	*h = append(*h, num.(*numIdx))
+	*h = append(*h, num.(*NumIdx))
 }
 
 func (h *HeapArray) Pop() interface{} {
