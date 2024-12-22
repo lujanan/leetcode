@@ -33,3 +33,35 @@ func getKth(lo int, hi int, k int) int {
 	return arr[k-1][0]
 }
 
+
+func getKthV2(lo int, hi int, k int) int {
+	var wMap = make(map[int]int)
+	var wFn func(n int) int
+	wFn = func(n int) int {
+		if v, ok := wMap[n]; ok {
+			return v
+		}
+		if n == 1 {
+			wMap[n] = 0
+			return wMap[n]
+		}
+		if n&1 != 1 {
+			wMap[n] = wFn(n/2) + 1
+			return wMap[n]
+		}
+		wMap[n] = wFn(3*n+1) + 1
+		return wMap[n]
+	}
+
+	var arr = make([]int, 0, hi-lo+1)
+	for i := lo; i <= hi; i++ {
+		arr = append(arr, i)
+	}
+	sort.Slice(arr, func(i, j int) bool {
+		if wFn(arr[i]) == wFn(arr[j]) {
+			return arr[i] < arr[j]
+		}
+		return wFn(arr[i]) < wFn(arr[j])
+	})
+	return arr[k-1]
+}
