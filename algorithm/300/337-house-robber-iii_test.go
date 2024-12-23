@@ -29,6 +29,13 @@
 //
 //
 //
+// 示例 3:
+//输入: root = [1, 2, 3, null, 3, null, 1]
+//输出: 69
+//解释: 小偷一晚能够盗取的最高金额 3 + 3 = 6
+//
+//
+//
 //
 // 提示：
 //
@@ -53,33 +60,26 @@
 
 package algorithm_300
 
-import (
-	"math"
-)
+import "testing"
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
-
-func rob(root *TreeNode) int {
-	// dp[root][0] = max(dp[left][0], dp[left][1]) + max(dp[right][0], dp[right][1])
-	// dp[root][1] = dp[left][0] + dp[right][0]
-
-	var dFn func(node *TreeNode) [2]int
-	dFn = func(node *TreeNode) [2]int {
-		if node == nil {
-			return [2]int{0, 0}
-		}
-
-		var res = [2]int{0, 0}
-		var l = dFn(node.Left)
-		var r = dFn(node.Right)
-		res[0] = int(math.Max(float64(l[0]), float64(l[1])) + math.Max(float64(r[0]), float64(r[1])))
-		res[1] = node.Val + l[0] + r[0]
-		return res
+func Test_rob(t *testing.T) {
+	type args struct {
+		root *TreeNode
 	}
-	res := dFn(root)
-	return int(math.Max(float64(res[0]), float64(res[1])))
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{&TreeNode{3, &TreeNode{2, nil, &TreeNode{3, nil, &TreeNode{1, nil, nil}}}, &TreeNode{3, nil, &TreeNode{1, nil, nil}}}}, 7},
+		{"t2", args{&TreeNode{3, &TreeNode{4, &TreeNode{1, nil, nil}, &TreeNode{3, nil, nil}}, &TreeNode{5, nil, &TreeNode{1, nil, nil}}}}, 9},
+		{"t3", args{&TreeNode{1, &TreeNode{2, nil, &TreeNode{3, nil, nil}}, &TreeNode{3, nil, &TreeNode{1, nil, nil}}}}, 6},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := rob(tt.args.root); got != tt.want {
+				t.Errorf("rob() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
