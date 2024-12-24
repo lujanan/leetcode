@@ -51,29 +51,32 @@ import "container/heap"
 func eatenApples(apples []int, days []int) int {
 	var res, idx int
 	var aHeap = new(AppleHeap)
-	heap.Init(aHeap)
-	eatFn := func(idx int) {
-		for aHeap.Len() > 0 {
-			apple := heap.Pop(aHeap).(*AppleData)
-			if apple != nil && apple.Num > 0 && apple.Expire >= idx {
-				res++
-				if apple.Num > 1 && apple.Expire > idx {
-					heap.Push(aHeap, &AppleData{Num: apple.Num - 1, Expire: apple.Expire})
-				}
-				return
-			}
-		}
-	}
 
 	for idx = 0; idx < len(apples); idx++ {
 		if apples[idx] > 0 {
-			heap.Push(aHeap, &AppleData{Num: apples[idx], Expire: days[idx] + idx - 1})
+			aHeap.Push(&AppleData{Num: apples[idx], Effect: idx, Expire: days[idx] + idx - 1})
 		}
-		eatFn(idx)
 	}
+	heap.Init(aHeap)
 
+	idx = 0
 	for aHeap.Len() > 0 {
-		eatFn(idx)
+		for aHeap.Len() > 0 {
+			apple := heap.Pop(aHeap).(*AppleData)
+			if apple != nil && apple.Num > 0 && apple.Expire >= idx {
+				if apple.Effect < idx {
+					heap.Push(aHeap, apple)
+					break
+				}
+	
+				res++
+				if apple.Num > 1 && apple.Expire > idx {
+					apple.Num -= 1
+					heap.Push(aHeap, apple)
+					break
+				}
+			}
+		}
 		idx++
 	}
 	return res
@@ -82,6 +85,7 @@ func eatenApples(apples []int, days []int) int {
 type AppleData struct {
 	Num    int
 	Expire int
+	Effect int
 }
 
 type AppleHeap []*AppleData
