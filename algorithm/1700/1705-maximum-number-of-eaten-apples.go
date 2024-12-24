@@ -45,39 +45,47 @@
 
 package algorithm_1700
 
-import "container/heap"
+import (
+	"container/heap"
+	"math"
+)
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func eatenApples(apples []int, days []int) int {
 	var res, idx int
-	var aHeap = new(AppleHeap)
-
+	var aHeap = AppleHeap{}
 	for idx = 0; idx < len(apples); idx++ {
-		if apples[idx] > 0 {
-			aHeap.Push(&AppleData{Num: apples[idx], Effect: idx, Expire: days[idx] + idx - 1})
+		for aHeap.Len() > 0 && aHeap[0].Expire <= idx {
+			heap.Pop(&aHeap)
 		}
-	}
-	heap.Init(aHeap)
 
-	idx = 0
-	for aHeap.Len() > 0 {
-		for aHeap.Len() > 0 {
-			apple := heap.Pop(aHeap).(*AppleData)
-			if apple != nil && apple.Num > 0 && apple.Expire >= idx {
-				if apple.Effect < idx {
-					heap.Push(aHeap, apple)
-					break
-				}
-	
-				res++
-				if apple.Num > 1 && apple.Expire > idx {
-					apple.Num -= 1
-					heap.Push(aHeap, apple)
-					break
-				}
+		if apples[idx] > 0 {
+			heap.Push(&aHeap, AppleData{Num: apples[idx], Expire: days[idx] + idx})
+		}
+
+		if aHeap.Len() > 0 {
+			res++
+			if aHeap[0].Num > 1 {
+				aHeap[0].Num-- // 直接修改堆顶元素数量(该值并非堆排序用到的值，所以不影响堆排序，少一次弹出和压入操作)
+			} else {
+				heap.Pop(&aHeap)
 			}
 		}
-		idx++
+	}
+
+	for aHeap.Len() > 0 {
+		for aHeap.Len() > 0 && aHeap[0].Expire <= idx {
+			heap.Pop(&aHeap)
+		}
+
+		if aHeap.Len() <= 0 {
+			break
+		}
+
+		ap := heap.Pop(&aHeap).(AppleData)
+		num := int(math.Min(float64(ap.Num), float64(ap.Expire-idx)))
+		res += num
+		idx += num
 	}
 	return res
 }
@@ -85,27 +93,21 @@ func eatenApples(apples []int, days []int) int {
 type AppleData struct {
 	Num    int
 	Expire int
-	Effect int
 }
-
-type AppleHeap []*AppleData
+type AppleHeap []AppleData
 
 func (h AppleHeap) Len() int {
 	return len(h)
 }
-
 func (h AppleHeap) Less(i, j int) bool {
 	return h[i].Expire < h[j].Expire
 }
-
 func (h AppleHeap) Swap(i, j int) {
 	h[i], h[j] = h[j], h[i]
 }
-
 func (h *AppleHeap) Push(x interface{}) {
-	*h = append(*h, x.(*AppleData))
+	*h = append(*h, x.(AppleData))
 }
-
 func (h *AppleHeap) Pop() interface{} {
 	old := *h
 	n := len(old)
