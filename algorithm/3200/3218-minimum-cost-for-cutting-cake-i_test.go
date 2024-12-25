@@ -77,32 +77,28 @@
 
 package algorithm_3200
 
-import "sort"
+import "testing"
 
-// leetcode submit region begin(Prohibit modification and deletion)
-func minimumCost(m int, n int, horizontalCut []int, verticalCut []int) int {
-	sort.Slice(horizontalCut, func(i, j int) bool { return horizontalCut[i] > horizontalCut[j] })
-	sort.Slice(verticalCut, func(i, j int) bool { return verticalCut[i] > verticalCut[j] })
-
-	var res, i, j int
-	for i < len(horizontalCut) && j < len(verticalCut) {
-		if horizontalCut[i] > verticalCut[j] {
-			res += horizontalCut[i] * (j + 1)
-			i++
-		} else {
-			res += verticalCut[j] * (i + 1)
-			j++
-		}
+func Test_minimumCost(t *testing.T) {
+	type args struct {
+		m             int
+		n             int
+		horizontalCut []int
+		verticalCut   []int
 	}
-
-	for ; i < len(horizontalCut); i++ {
-		res += horizontalCut[i] * (j + 1)
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{3, 2, []int{1, 3}, []int{5}}, 13},
+		{"t2", args{2, 2, []int{7}, []int{4}}, 15},
 	}
-	for ; j < len(verticalCut); j++ {
-		res += verticalCut[j] * (i + 1)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minimumCost(tt.args.m, tt.args.n, tt.args.horizontalCut, tt.args.verticalCut); got != tt.want {
+				t.Errorf("minimumCost() = %v, want %v", got, tt.want)
+			}
+		})
 	}
-
-	return res
 }
-
-//leetcode submit region end(Prohibit modification and deletion)
