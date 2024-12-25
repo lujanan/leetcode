@@ -93,6 +93,7 @@ func Test_minimumCost(t *testing.T) {
 	}{
 		{"t1", args{3, 2, []int{1, 3}, []int{5}}, 13},
 		{"t2", args{2, 2, []int{7}, []int{4}}, 15},
+		{"t3", args{5, 6, []int{1, 2, 3, 4}, []int{5, 6, 7, 8, 1}}, 81},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
