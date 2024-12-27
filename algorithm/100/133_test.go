@@ -84,8 +84,10 @@ func Test_cloneGraph(t *testing.T) {
 		args args
 		want [][]int
 	}{
-		{"t1", args{&Node{}}, &Node{}},
-		{"t2", args{&Node{Val: 1, Neighbors: []*Node{&Node{Val: 2}, &Node{Val: 4}}}}, &Node{Val: 1, Neighbors: []*Node{&Node{Val: 2}, &Node{Val: 4}}}},
+		{"t1", args{[][]int{{2, 4}, {1, 3}, {2, 4}, {1, 3}}}, [][]int{{2, 4}, {1, 3}, {2, 4}, {1, 3}}},
+		{"t2", args{[][]int{{1}}}, [][]int{{1}}},
+		{"t3", args{nil}, nil},
+		{"t4", args{[][]int{{2, 3, 4}, {1, 7}, {1}, {1, 5, 6, 8}, {4}, {4}, {2}, {4}}}, [][]int{{2, 3, 4}, {1, 7}, {1}, {1, 5, 6, 8}, {4}, {4}, {2}, {4}}},
 	}
 	for _, tt := range tests {
 		var nodes = make([]*Node, len(tt.args.node))
@@ -104,9 +106,8 @@ func Test_cloneGraph(t *testing.T) {
 		}
 		t.Run(tt.name, func(t *testing.T) {
 			got := cloneGraph(node)
-			
-
-			if got := cloneGraph(node); !reflect.DeepEqual(got, tt.want) {
+			var res = node2Arr(got)
+			if !reflect.DeepEqual(res, tt.want) {
 				t.Errorf("cloneGraph() = %v, want %v", got, tt.want)
 			}
 		})

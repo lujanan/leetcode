@@ -1,3 +1,5 @@
+// 133.克隆图
+//
 //给你无向 连通 图中一个节点的引用，请你返回该图的 深拷贝（克隆）。
 //
 // 图中的每个节点都包含它的值 val（int） 和其邻居的列表（list[Node]）。
@@ -71,7 +73,6 @@
 package algorithm_100
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -93,6 +94,31 @@ func cloneGraph(node *Node) *Node {
 	if node == nil {
 		return nil
 	}
+	var visisted = make(map[int]*Node)
+	var clone func(node *Node) *Node
+	clone = func(node *Node) *Node {
+		if node == nil {
+			return nil
+		}
+
+		if n, ok := visisted[node.Val]; ok {
+			return n
+		}
+
+		n := &Node{Val: node.Val}
+		visisted[node.Val] = n
+		for i := 0; i < len(node.Neighbors); i++ {
+			n.Neighbors = append(n.Neighbors, clone(node.Neighbors[i]))
+		}
+		return n
+	}
+	return clone(node)
+}
+
+func cloneGraphV2(node *Node) *Node {
+	if node == nil {
+		return nil
+	}
 	var visisted = make(map[int][]int)
 	var nodes = []*Node{node}
 	var tmpNodes []*Node
@@ -107,7 +133,7 @@ func cloneGraph(node *Node) *Node {
 				visisted[v.Val] = append(visisted[v.Val], v.Neighbors[i].Val)
 			}
 		}
-		nodes, tmpNodes = tmpNodes, tmpNodes[:0]
+		nodes, tmpNodes = tmpNodes, make([]*Node, 0)
 	}
 
 	nodes = make([]*Node, len(visisted))
@@ -124,6 +150,35 @@ func cloneGraph(node *Node) *Node {
 		return nodes[0]
 	}
 	return nil
+}
+
+func node2Arr(node *Node) [][]int {
+	if node == nil {
+		return nil
+	}
+	var visisted = make(map[int][]int)
+	var nodes = []*Node{node}
+	var tmpNodes []*Node
+	for len(nodes) > 0 {
+		for _, v := range nodes {
+			if _, ok := visisted[v.Val]; ok {
+				continue
+			}
+			visisted[v.Val] = make([]int, 0)
+			for i := 0; i < len(v.Neighbors); i++ {
+				tmpNodes = append(tmpNodes, v.Neighbors[i])
+				visisted[v.Val] = append(visisted[v.Val], v.Neighbors[i].Val)
+			}
+		}
+		nodes, tmpNodes = tmpNodes, make([]*Node, 0)
+	}
+
+	var res = make([][]int, len(visisted))
+	for k, ns := range visisted {
+		sort.Slice(ns, func(i, j int) bool { return ns[i] < ns[j] })
+		res[k-1] = ns
+	}
+	return res
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
