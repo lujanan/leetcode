@@ -62,12 +62,12 @@ func occurrencesOfElement(nums []int, queries []int, x int) []int {
 	}
 
 	var idxLen = len(nIdx)
-	var res []int
+	var res = make([]int, len(queries))
 	for i := 0; i < len(queries); i++ {
 		if queries[i] > idxLen {
-			res = append(res, -1)
+			res[i] = -1
 		} else {
-			res = append(res, nIdx[queries[i]-1])
+			res[i] = nIdx[queries[i]-1]
 		}
 	}
 
