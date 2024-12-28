@@ -47,6 +47,13 @@
 package algorithm_100
 
 // leetcode submit region begin(Prohibit modification and deletion)
+
+// 翻转数组
+// []int{1, 2, 3, 4, 5, 6, 7} k=3
+// 1. 先整体翻转数组 []int{7, 6, 5, 4, 3, 2, 1}
+// 2. 翻转前k个元素 []int{5, 6, 7, 4, 3, 2, 1}
+// 3. 翻转后n-k个元素 []int{5, 6, 7, 1, 2, 3, 4}
+// 时间复杂度O(n)，空间复杂度O(1)
 func rotate(nums []int, k int) []int {
 	var nl = len(nums)
 	k %= nl
@@ -54,9 +61,48 @@ func rotate(nums []int, k int) []int {
 		return nums
 	}
 
+	for i, j := 0, nl-1; i < j; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]	
+	}
+	for i, j := 0, k-1; i < j; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]
+	}
+	for i, j := k, nl-1; i < j; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]
+	}
 	return nums
 }
 
+// 时间复杂度O(n)，空间复杂度O(1)
+// 通过最大公约数来计算循环次数
+// 1. 从第一个元素开始，每次移动k个位置，直到回到起始位置
+func rotateV1(nums []int, k int) []int {
+	var nl = len(nums)
+	k %= nl
+	var gcb func(a, b int) int
+	gcb = func(a, b int) int {
+		for a != 0 {
+			a, b = b%a, a
+		}
+		return b
+	}
+
+	var n int
+	for st, cnt := 0, gcb(nl, k); st < cnt; st++ {
+		var tmp = nums[st]
+		for i := st + k; ; i += k {
+			nums[i%nl], tmp = tmp, nums[i%nl]
+			n++
+			if i%nl == st || n > nl {
+				break
+			}
+		}
+	}
+	return nums
+}
+
+// 时间复杂度O(n)，空间复杂度O(k)
+// 通过额外数组来存储需要移动的元素
 func rotateV2(nums []int, k int) []int {
 	var nl = len(nums)
 	k %= nl

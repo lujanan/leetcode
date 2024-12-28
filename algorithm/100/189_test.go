@@ -64,6 +64,7 @@ func Test_rotate(t *testing.T) {
 		{"t1", args{[]int{1, 2, 3, 4, 5, 6, 7}, 3}, []int{5, 6, 7, 1, 2, 3, 4}},
 		{"t2", args{[]int{-1, -100, 3, 99}, 2}, []int{3, 99, -1, -100}},
 		{"t3", args{[]int{1, 2, 3, 4, 5, 6}, 4}, []int{3, 4, 5, 6, 1, 2}},
+		{"t4", args{[]int{1, 2}, 3}, []int{2, 1}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
