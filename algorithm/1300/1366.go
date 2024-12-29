@@ -3,8 +3,6 @@
 package algorithm_1300
 
 import (
-	"encoding/json"
-	"fmt"
 	"sort"
 )
 
