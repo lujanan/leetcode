@@ -1,3 +1,4 @@
+// 122. 买卖股票的最佳时机 II
 //给定一个数组 prices ，其中 prices[i] 是一支给定股票第 i 天的价格。
 //
 // 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
@@ -42,6 +43,17 @@
 // Related Topics 贪心 数组 动态规划 👍 1518 👎 0
 
 package algorithm_100
+
+import "math"
+
+// 动态规划
+func maxProfit3(prices []int) int {
+	var dp1, dp0 = -prices[0], 0
+	for i := 1; i < len(prices); i++ {
+		dp1, dp0 = int(math.Max(float64(dp1), float64(dp0-prices[i]))), int(math.Max(float64(dp0), float64(dp1+prices[i])))
+	}
+	return int(math.Max(float64(dp1), float64(dp0)))
+}
 
 // 贪心
 func maxProfit2(prices []int) int {
