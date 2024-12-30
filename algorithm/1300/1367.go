@@ -77,29 +77,30 @@ type TreeNode struct {
 }
 
 func isSubPath(head *ListNode, root *TreeNode) bool {
-    if root == nil {
-        return false
-    }
-    return dfs(root, head) || isSubPath(head, root.Left) || isSubPath(head, root.Right)
+	if root == nil {
+		return false
+	}
+	return dfs(root, head) || isSubPath(head, root.Left) || isSubPath(head, root.Right)
 }
 
 func dfs(rt *TreeNode, head *ListNode) bool {
-    // 链表已经全部匹配完，匹配成功
-    if head == nil {
-        return true
-    }
-    // 二叉树访问到了空节点，匹配失败
-    if rt == nil {
-        return false
-    }
-    // 当前匹配的二叉树上节点的值与链表节点的值不相等，匹配失败
-    if rt.Val != head.Val {
-        return false
-    }
-    return dfs(rt.Left, head.Next) || dfs(rt.Right, head.Next)
+	// 链表已经全部匹配完，匹配成功
+	if head == nil {
+		return true
+	}
+	// 二叉树访问到了空节点，匹配失败
+	if rt == nil {
+		return false
+	}
+	// 当前匹配的二叉树上节点的值与链表节点的值不相等，匹配失败
+	if rt.Val != head.Val {
+		return false
+	}
+	return dfs(rt.Left, head.Next) || dfs(rt.Right, head.Next)
 }
 
-
+// 链表转数组，二叉树搜索所有路径转数组
+// 再搜索子数组
 func isSubPathV2(head *ListNode, root *TreeNode) bool {
 	var headArr []int
 	for head != nil {
