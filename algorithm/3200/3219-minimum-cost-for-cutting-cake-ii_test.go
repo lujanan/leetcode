@@ -77,58 +77,29 @@
 
 package algorithm_3200
 
-import "sort"
+import "testing"
 
-// leetcode submit region begin(Prohibit modification and deletion)
-func minimumCostV2(m int, n int, horizontalCut []int, verticalCut []int) int64 {
-	sort.Ints(horizontalCut)
-	sort.Ints(verticalCut)
-	var res int64
-	for i, j := len(horizontalCut)-1, len(verticalCut)-1; i >= 0 || j >= 0; {
-		if i >= 0 && j >= 0 {
-			if horizontalCut[i] > verticalCut[j] {
-				res += int64(horizontalCut[i] * (len(verticalCut) - j))
-				i--
-			} else {
-				res += int64(verticalCut[j] * (len(horizontalCut) - i))
-				j--
+func Test_minimumCostV2(t *testing.T) {
+	type args struct {
+		m             int
+		n             int
+		horizontalCut []int
+		verticalCut   []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int64
+	}{
+		{"t1", args{3, 2, []int{1, 3}, []int{5}}, 13},
+		{"t2", args{2, 2, []int{7}, []int{4}}, 15},
+		{"t3", args{5, 6, []int{1, 2, 3, 4}, []int{5, 6, 7, 8, 1}}, 81},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := minimumCostV2(tt.args.m, tt.args.n, tt.args.horizontalCut, tt.args.verticalCut); got != tt.want {
+				t.Errorf("minimumCostV2() = %v, want %v", got, tt.want)
 			}
-		} else if i >= 0 {
-			res += int64(horizontalCut[i] * (len(verticalCut) + 1))
-			i--
-		} else if j >= 0 {
-			res += int64(verticalCut[j] * (len(horizontalCut) + 1))
-			j--
-		}
+		})
 	}
-
-	return int64(res)
 }
-
-func minimumCostV3(m int, n int, horizontalCut []int, verticalCut []int) int64 {
-	sort.Slice(horizontalCut, func(i, j int) bool { return horizontalCut[i] > horizontalCut[j] })
-	sort.Slice(verticalCut, func(i, j int) bool { return verticalCut[i] > verticalCut[j] })
-
-	var res int64
-	var i, j int
-	for i < len(horizontalCut) && j < len(verticalCut) {
-		if horizontalCut[i] > verticalCut[j] {
-			res += int64(horizontalCut[i] * (j + 1))
-			i++
-		} else {
-			res += int64(verticalCut[j] * (i + 1))
-			j++
-		}
-	}
-
-	for ; i < len(horizontalCut); i++ {
-		res += int64(horizontalCut[i] * (j + 1))
-	}
-	for ; j < len(verticalCut); j++ {
-		res += int64(verticalCut[j] * (i + 1))
-	}
-
-	return res
-}
-
-//leetcode submit region end(Prohibit modification and deletion)
