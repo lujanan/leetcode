@@ -50,7 +50,7 @@ import "sort"
 
 // leetcode submit region begin(Prohibit modification and deletion)
 type MyCalendar struct {
-	BookList [][2]int
+	BookList []int
 }
 
 func ConstructorV2() MyCalendar {
@@ -58,18 +58,12 @@ func ConstructorV2() MyCalendar {
 }
 
 func (this *MyCalendar) Book(startTime int, endTime int) bool {
-	for i := 0; i < len(this.BookList); i++ {
-		if endTime <= this.BookList[i][0] {
-			break
+	for i := 1; i < len(this.BookList); i = i + 2 {
+		if !(startTime >= this.BookList[i] || endTime <= this.BookList[i-1]) {
+			return false
 		}
-		if startTime >= this.BookList[i][1] {
-			continue
-		}
-		return false
 	}
-
-	this.BookList = append(this.BookList, [2]int{startTime, endTime})
-	sort.Slice(this.BookList, func(i int, j int) bool { return this.BookList[i][0] < this.BookList[j][0] })
+	this.BookList = append(this.BookList, startTime, endTime)
 	return true
 }
 
