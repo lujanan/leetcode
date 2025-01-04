@@ -46,8 +46,6 @@
 
 package algorithm_700
 
-import "sort"
-
 // leetcode submit region begin(Prohibit modification and deletion)
 type MyCalendar struct {
 	BookList []int
