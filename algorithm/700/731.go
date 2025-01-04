@@ -81,8 +81,27 @@ func (this MyCalendarTwo) update(start, end, l, r, idx int) {
 	this.num[idx] = this.lasy[idx] + int(math.Max(float64(this.num[idx<<1]), float64(this.num[idx<<1+1])))
 }
 
-func (this MyCalendarTwo) Book(start, end int) bool {
+func (this MyCalendarTwo) query(start, end, l, r, idx int) int {
+	if start > r || end < l {
+		return 0
+	}
 
+	if start <= l && r <= end {
+		return this.num[idx]
+	}
+
+	mid := (l + r) >> 1
+	left := this.query(start, end, l, mid, idx<<1)
+	right := this.query(start, end, mid+1, r, idx<<1+1)
+	return this.lasy[idx] + int(math.Max(float64(left), float64(right)))
+}
+
+func (this MyCalendarTwo) Book(start, end int) bool {
+	if this.query(start, end-1, 0, 10e9, 1) > 1 {
+		return false
+	}
+	this.update(start, end-1, 0, 10e9, 1)
+	return true
 }
 
 func (this MyCalendarTwo) BookV2(startTime int, endTime int) bool {
