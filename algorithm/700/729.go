@@ -46,16 +46,62 @@
 
 package algorithm_700
 
+import "math"
+
 // leetcode submit region begin(Prohibit modification and deletion)
 type MyCalendar struct {
-	BookList []int
+	BookList  []int
+	num, lasy map[int]int
 }
 
 func ConstructorV2() MyCalendar {
-	return MyCalendar{}
+	return MyCalendar{
+		num:  make(map[int]int),
+		lasy: make(map[int]int),
+	}
 }
 
-func (this *MyCalendar) Book(startTime int, endTime int) bool {
+func (this MyCalendar) update(start, end, l, r, idx int) {
+	if start > r || end < l {
+		return
+	}
+
+	if start <= l && r <= end {
+		this.num[idx]++
+		this.lasy[idx]++
+		return
+	}
+
+	mid := (l + r) >> 1
+	this.update(start, end, l, mid, idx<<1)
+	this.update(start, end, mid+1, r, idx<<1+1)
+	this.num[idx] = this.lasy[idx] + int(math.Max(float64(this.num[idx<<1]), float64(this.num[idx<<1+1])))
+}
+
+func (this MyCalendar) query(start, end, l, r, idx int) int {
+	if start > r || end < l {
+		return 0
+	}
+
+	if start <= l && r <= end {
+		return this.num[idx]
+	}
+
+	mid := (l + r) >> 1
+	left := this.query(start, end, l, mid, idx<<1)
+	right := this.query(start, end, mid+1, r, idx<<1+1)
+	return this.lasy[idx] + int(math.Max(float64(left), float64(right)))
+}
+
+func (this MyCalendar) Book(startTime int, endTime int) bool {
+	if this.query(startTime, endTime-1, 0, 10e9, 1) > 0 {
+		return false
+	}
+	this.update(startTime, endTime-1, 0, 10e9, 1)
+	return true
+}
+
+func (this MyCalendar) BookV1(startTime int, endTime int) bool {
 	for i := 1; i < len(this.BookList); i = i + 2 {
 		if !(startTime >= this.BookList[i] || endTime <= this.BookList[i-1]) {
 			return false

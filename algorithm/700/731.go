@@ -54,13 +54,38 @@ import "math"
 // leetcode submit region begin(Prohibit modification and deletion)
 type MyCalendarTwo struct {
 	BookOne, BookTwo []int
+	num, lasy        map[int]int
 }
 
 func ConstructorV3() MyCalendarTwo {
-	return MyCalendarTwo{}
+	return MyCalendarTwo{
+		num:  make(map[int]int),
+		lasy: make(map[int]int),
+	}
 }
 
-func (this *MyCalendarTwo) Book(startTime int, endTime int) bool {
+func (this MyCalendarTwo) update(start, end, l, r, idx int) {
+	if start > r || end < l {
+		return
+	}
+
+	if start <= l && r <= end {
+		this.num[idx]++
+		this.lasy[idx]++
+		return
+	}
+
+	mid := (l + r) >> 1
+	this.update(start, end, l, mid, idx<<1)
+	this.update(start, end, mid+1, r, idx<<1+1)
+	this.num[idx] = this.lasy[idx] + int(math.Max(float64(this.num[idx<<1]), float64(this.num[idx<<1+1])))
+}
+
+func (this MyCalendarTwo) Book(start, end int) bool {
+
+}
+
+func (this MyCalendarTwo) BookV2(startTime int, endTime int) bool {
 	for i := 1; i < len(this.BookTwo); i = i + 2 {
 		if !(startTime >= this.BookTwo[i] || endTime <= this.BookTwo[i-1]) {
 			return false
