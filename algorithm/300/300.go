@@ -2,7 +2,27 @@
 
 package algorithm_300
 
+import "math"
+
+// dp方程：
+// 1.如果 j < i && num[j] < num[i]时，那dp[i] = max(dp[j]) + 1
+// 2.最长的子序列不一定包括数组的最后一个元素
 func lengthOfLIS(nums []int) int {
+	var dp = make([]int, len(nums)+1)
+	dp[0], dp[len(nums)] = 1, 1
+	for i := 1; i < len(nums); i++ {
+		dp[i] = 1
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] {
+				dp[i] = int(math.Max(float64(dp[i]), float64(dp[j]+1)))
+			}
+		}
+		dp[len(nums)] = int(math.Max(float64(dp[len(nums)]), float64(dp[i])))
+	}
+	return dp[len(nums)]
+}
+
+func lengthOfLISV2(nums []int) int {
 	var dp = make([][2]int, len(nums)+1)
 	dp[0], dp[1] = [2]int{-10e4 - 1, 1}, [2]int{nums[0], 1}
 	for i := 1; i < len(nums); i++ {
