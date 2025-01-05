@@ -31,6 +31,18 @@ func climbStairs(n int) int {
 		return n
 	}
 
+	var dp = []int{1, 2}
+	for i := 3; i <= n; i++ {
+		dp[1], dp[0] = dp[1]+dp[0], dp[1]
+	}
+	return dp[1]
+}
+
+func climbStairsV3(n int) int {
+	if n <= 2 {
+		return n
+	}
+
 	var arr = []int{1, 2}
 	for i := 3; i <= n; i++ {
 		arr[0], arr[1] = arr[1], arr[0]+arr[1]
