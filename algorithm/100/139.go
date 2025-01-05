@@ -3,6 +3,26 @@
 package algorithm_100
 
 func wordBreak(s string, wordDict []string) bool {
+	var wordMap = make(map[string]bool)
+	for _, v := range wordDict {
+		wordMap[v] = true
+	}
+
+	var dp = make([]bool, len(s)+1)
+	dp[0] = true
+	for i := 1; i <= len(s); i++ {
+		for j := 0; j < i; j++ {
+			if dp[j] && wordMap[string([]byte(s)[j:i])] {
+				dp[i] = true
+			}
+		}
+	}
+
+	return dp[len(s)]
+}
+
+// dp写得复杂了
+func wordBreakV2(s string, wordDict []string) bool {
 	var str = []byte(s)
 	var dp = make(map[int]bool)
 	for i := 0; i < len(wordDict); i++ {
@@ -23,12 +43,15 @@ func wordBreak(s string, wordDict []string) bool {
 		var dp1 = make(map[int]bool)
 		for i := 0; i < len(wordDict); i++ {
 			for idx := range dp {
-				if idx+len(wordDict[i]) <= len(s) &&
-					string(str[idx:idx+len(wordDict[i])]) == wordDict[i] {
-					if idx+len(wordDict[i]) == len(s) {
+				nextIdx := idx + len(wordDict[i])
+				if nextIdx <= len(s) && string(str[idx:nextIdx]) == wordDict[i] {
+					if nextIdx == len(s) {
 						return true
 					}
-					dp1[idx+len(wordDict[i])] = true
+					if dp[nextIdx] {
+						continue
+					}
+					dp1[nextIdx] = true
 				}
 			}
 		}
