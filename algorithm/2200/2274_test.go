@@ -57,6 +57,7 @@ func Test_maxConsecutive(t *testing.T) {
 		{"t1", args{2, 9, []int{4, 6}}, 3},
 		{"t2", args{6, 8, []int{7, 6, 8}}, 0},
 		{"t3", args{1, 8, []int{3, 7}}, 3},
+		{"t4", args{1, 18, []int{3, 10, 9, 5, 7, 6, 2, 8, 4}}, 8},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

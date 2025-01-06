@@ -42,13 +42,16 @@
 package algorithm_2200
 
 import (
+	"fmt"
 	"math"
-	"sort"
 )
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func maxConsecutive(bottom int, top int, special []int) int {
-	sort.Ints(special)
+	// sort.Ints(special)
+	// quickSort(special, 0, len(special)-1)
+	mergeSort(special, 0, len(special)-1)
+
 	var max = int(math.Max(float64(special[0]-bottom), float64(top-special[len(special)-1])))
 	for i := 1; i < len(special); i++ {
 		max = int(math.Max(float64(max), float64(special[i]-special[i-1]-1)))
@@ -57,11 +60,56 @@ func maxConsecutive(bottom int, top int, special []int) int {
 }
 
 func quickSort(arr []int, l, r int) {
-	// if l >= r {
-	// 	return
-	// }
-	// mid := arr[r]
+	if l >= r {
+		return
+	}
 
+	mid := quickPartion(arr, l, r)
+	quickSort(arr, l, mid-1)
+	quickSort(arr, mid+1, r)
+}
+
+func quickPartion(arr []int, l, r int) int {
+	var mid = arr[r]
+	var i, j = l, r - 1
+	for i <= j {
+		if arr[i] <= mid {
+			i++
+			continue
+		}
+		if arr[j] >= mid {
+			j--
+			continue
+		}
+
+		arr[i], arr[j] = arr[j], arr[i]
+		i++
+		j--
+	}
+	arr[r], arr[i] = arr[i], arr[r]
+	return i
+}
+
+func mergeSort(arr []int, l, r int) {
+	if l >= r {
+		return
+	}
+
+	mid := (l + r) >> 1
+	mergeSort(arr, l, mid)
+	mergeSort(arr, mid+1, r)
+
+	var tmpArr = append([]int{}, arr[l:r+1]...)
+	for idx, i, j := l, 0, mid+1-l; idx <= r; idx++ {
+		if i <= mid-l && (j > r-l || tmpArr[i] <= tmpArr[j]) {
+			arr[idx] = tmpArr[i]
+			i++
+		} else {
+			arr[idx] = tmpArr[j]
+			j++
+		}
+	}
+	fmt.Println(arr, l, r)
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
