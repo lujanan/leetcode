@@ -39,7 +39,35 @@
 
 package algorithm_300
 
+import "math"
+
 func coinChange(coins []int, amount int) int {
+	var min = func(a, b int) int {
+		if a < b {
+			return a
+		}
+		return b
+	}
+	var dp = make([]int, amount+1)
+	for i := 1; i <= amount; i++ {
+		dp[i] = -1 // 默认无法凑成
+
+		for j := 0; j < len(coins); j++ {
+			if i >= coins[j] && dp[i-coins[j]] >= 0 {
+				if dp[i] < 0 {
+					dp[i] = dp[i-coins[j]] + 1
+				} else {
+					// dp[i] = int(math.Min(float64(dp[i]), float64(dp[i-coins[j]]+1)))
+					dp[i] = min(dp[i], dp[i-coins[j]] + 1)
+				}
+			}
+		}
+	}
+
+	return dp[amount]
+}
+
+func coinChangeV2(coins []int, amount int) int {
 	// dp[i] = min(dp[i-k]...) +1
 
 	var dp = make([]int, amount+1)
