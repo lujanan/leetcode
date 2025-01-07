@@ -37,6 +37,14 @@ package algorithm_100
 import "math"
 
 func rob(nums []int) int {
+	var dp = []int{0, nums[0]}
+	for i := 1; i < len(nums); i++ {
+		dp[1], dp[0] = dp[0]+nums[i], int(math.Max(float64(dp[0]), float64(dp[1])))
+	}
+	return int(math.Max(float64(dp[0]), float64(dp[1])))
+}
+
+func robV3(nums []int) int {
 	// dp[i][0] = max(dp[i-1][0], dp[i-1][1])
 	// dp[i][1] = dp[i-1][0] + nums[i]
 	var res = [2][2]int{{0, nums[0]}}
