@@ -39,8 +39,6 @@
 
 package algorithm_300
 
-import "math"
-
 func coinChange(coins []int, amount int) int {
 	var min = func(a, b int) int {
 		if a < b {
@@ -58,7 +56,7 @@ func coinChange(coins []int, amount int) int {
 					dp[i] = dp[i-coins[j]] + 1
 				} else {
 					// dp[i] = int(math.Min(float64(dp[i]), float64(dp[i-coins[j]]+1)))
-					dp[i] = min(dp[i], dp[i-coins[j]] + 1)
+					dp[i] = min(dp[i], dp[i-coins[j]]+1)
 				}
 			}
 		}
