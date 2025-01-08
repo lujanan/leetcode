@@ -70,6 +70,7 @@ func Test_isInterleave(t *testing.T) {
 		{"t2", args{"aabcc", "dbbca", "aadbbbaccc"}, false},
 		{"t3", args{"", "", ""}, true},
 		{"t4", args{"cbcccbabbccbbcccbbbcabbbabcababbbbbbaccaccbabbaacbaabbbc", "abcbbcaababccacbaaaccbabaabbaaabcbababbcccbbabbbcbbb", "abcbcccbacbbbbccbcbcacacbbbbacabbbabbcacbcaabcbaaacbcbbbabbbaacacbbaaaabccbcbaabbbaaabbcccbcbabababbbcbbbcbb"}, true},
+		{"t5", args{"a", "", "c"}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
