@@ -60,9 +60,9 @@ func Test_minDistance(t *testing.T) {
 		args args
 		want int
 	}{
-		// {"t1", args{"horse", "ros"}, 3},
-		// {"t2", args{"intention", "execution"}, 5},
-		// {"t3", args{"horsqwuehqwie", "rosshdnfls"}, 11},
+		{"t1", args{"horse", "ros"}, 3},
+		{"t2", args{"intention", "execution"}, 5},
+		{"t3", args{"horsqwuehqwie", "rosshdnfls"}, 11},
 		{"t4", args{"zoologicoarchaeologist", "zoogeologist"}, 10},
 	}
 	for _, tt := range tests {
