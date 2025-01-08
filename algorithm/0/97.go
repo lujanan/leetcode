@@ -55,22 +55,26 @@ package algorithm_0
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func isInterleave(s1 string, s2 string, s3 string) bool {
+
+	// dp状态
+	// 如果 k = i + j - 1, s3[:k] 由 s1[:i] 和 s2[:j] 交错构成
+	// 那必然存在 s3[k-1] == s1[i-1] 或 s3[k-1] == s2[j-1]，即 s3 的最后一个字符必定等于 si 或 s2 的最后一个字符 
+	// 所以 s3[k-1] = s3[k-2] + s1[i-1] || s3[k-2] + s2[j-1]
+	// 只要知道 s3[k-2] 的状态，即可根据 s1 或 s2 判断 s3[k-1] 的状态
+	// s3[0] = s1[0] || s2[0]
 	if len(s1)+len(s2) != len(s3) {
 		return false
 	}
 	var dp = make([]bool, len(s2)+1)
-	dp[0] = true
 	for i := 0; i <= len(s1); i++ {
-		var tmpDp = make([]bool, len(s2)+1)
 		for j := 0; j <= len(s2); j++ {
-			if i > 0 {
-				dp[j] = dp[j] || (dp[j] && s1[i-1] == s3[i+j-1])
+			if i == 0 && j == 0 {
+				dp[j] = true
+				continue
 			}
-			if j > 0 {
-				dp[j] = dp[j] || (tmpDp[j-1] && s2[j-1] == s3[i+j-1])
-			}
+
+			dp[j] = (i > 0 && dp[j] && s1[i-1] == s3[i+j-1]) || (j > 0 && dp[j-1] && s2[j-1] == s3[i+j-1])
 		}
-		dp = tmpDp
 	}
 
 	return dp[len(s2)]
