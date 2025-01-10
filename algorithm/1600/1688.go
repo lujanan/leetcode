@@ -47,6 +47,24 @@ package algorithm_1600
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func maxRepeating(sequence string, word string) int {
+	var seq = make([]int, len(sequence))
+	var res int
+	for i, j := 0, len(word)-1; j < len(sequence); i, j = i+1, j+1 {
+		if sequence[i:j+1] == word {
+			seq[j] = 1
+			if i > 0 && seq[i-1] > 0 {
+				seq[j] += seq[i-1]
+			}
+		}
+
+		if res < seq[j] {
+			res = seq[j]
+		}
+	}
+	return res
+}
+
+func maxRepeatingV2(sequence string, word string) int {
 	var max = func(a, b int) int {
 		if a > b {
 			return a
