@@ -35,21 +35,25 @@
 
 package algorithm_600
 
-// leetcode submit region begin(Prohibit modification and deletion)
-// 枚举所有子串对称中心点
-// 奇数长度子串对称点长度为 1
-// 偶数长度子串对称点长度为 2
-func countSubstrings(s string) int {
-	var res int
-	for i := 0; i < len(s)<<1-1; i++ {
-		l, r := i>>1, i>>1+i&1
-		for l >= 0 && r < len(s) && s[l] == s[r] {
-			res++
-			l--
-			r++
-		}
-	}
-	return res
-}
+import "testing"
 
-//leetcode submit region end(Prohibit modification and deletion)
+func Test_countSubstrings(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{"abc"}, 3},
+		{"t2", args{"aaa"}, 6},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := countSubstrings(tt.args.s); got != tt.want {
+				t.Errorf("countSubstrings() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
