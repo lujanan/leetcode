@@ -44,6 +44,7 @@ func countSubstrings(s string) int {
 		if s[i] == s[i-1] {
 			res++
 			dp[i] = 2
+		
 		}
 		if i > 1 && s[i] == s[i-2] {
 			res++
