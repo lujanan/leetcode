@@ -48,7 +48,17 @@
 package algorithm_100
 
 // leetcode submit region begin(Prohibit modification and deletion)
+// 1^0=1, 1^1=0, 任意数异或 0 等于本身，任意数与自身进行异或等于0
+// 对数组各个数进行异或操作，相同的2个数异或后得到0，剩下的单个数异或后得到本身
 func singleNumberV2(nums []int) int {
+	var res int
+	for _, n := range nums {
+		res ^= n
+	}
+	return res
+}
+
+func singleNumberV3(nums []int) int {
 	var res, tmp int16
 	for i := 0; i < 16; i++ {
 		tmp = 0
