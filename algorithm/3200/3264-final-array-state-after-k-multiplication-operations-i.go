@@ -108,15 +108,10 @@ func getFinalState(nums []int, k int, multiplier int) []int {
 	}
 	heap.Init(state)
 
-	// bin, _ := json.Marshal(state)
-	// fmt.Println(string(bin))
-
 	for i := 0; i < k; i++ {
 		num := heap.Pop(state).(*NumIdx)
 		num.Num *= multiplier
 		heap.Push(state, num)
-		// bin, _ := json.Marshal(state)
-		// fmt.Println(string(bin))
 	}
 
 	for i := 0; i < len(nums); i++ {
