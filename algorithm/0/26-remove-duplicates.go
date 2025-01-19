@@ -57,6 +57,18 @@
 package algorithm_0
 
 func removeDuplicates(nums []int) int {
+	var i, j = 1, 1
+	for j < len(nums) {
+		if nums[i-1] != nums[j] {
+			nums[i] = nums[j]
+			i++
+		}
+		j++
+	}
+	return i
+}
+
+func removeDuplicatesV3(nums []int) int {
 	var length = len(nums)
 	if length < 2 {
 		return length

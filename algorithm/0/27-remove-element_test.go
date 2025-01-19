@@ -71,10 +71,11 @@ func Test_removeElement(t *testing.T) {
 		args args
 		want int
 	}{
-		// {"t1", args{[]int{3, 2, 2, 3}, 3}, 2},
-		// {"t2", args{[]int{0, 1, 2, 2, 3, 0, 4, 2}, 2}, 5},
-		// {"t3", args{[]int{1, 1, 1, 1}, 1}, 0},
+		{"t1", args{[]int{3, 2, 2, 3}, 3}, 2},
+		{"t2", args{[]int{0, 1, 2, 2, 3, 0, 4, 2}, 2}, 5},
+		{"t3", args{[]int{1, 1, 1, 1}, 1}, 0},
 		{"t4", args{[]int{4, 5}, 4}, 1},
+		{"t5", args{[]int{2}, 3}, 1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -60,6 +60,22 @@ package algorithm_0
 //leetcode submit region begin(Prohibit modification and deletion)
 
 func removeDuplicatesV2(nums []int) int {
+	if len(nums) < 3 {
+		return len(nums)
+	}
+
+	var i, j = 2, 2
+	for j < len(nums) {
+		if nums[i-1] != nums[j] || nums[i-2] != nums[j] {
+			nums[i] = nums[j]
+			i++
+		}
+		j++
+	}
+	return i
+}
+
+func removeDuplicatesV4(nums []int) int {
 	if len(nums) <= 2 {
 		return len(nums)
 	}

@@ -60,6 +60,22 @@
 package algorithm_0
 
 func removeElement(nums []int, val int) int {
+	var i, j = 0, len(nums) - 1
+	for i <= j {
+		if nums[i] != val {
+			i++
+			continue
+		}
+		if nums[j] == val {
+			j--
+			continue
+		}
+		nums[i], nums[j] = nums[j], nums[i]
+	}
+	return i
+}
+
+func removeElementV2(nums []int, val int) int {
 	if len(nums) < 1 {
 		return 0
 	}
