@@ -46,14 +46,26 @@ package algorithm_2200
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func maxValueOfCoins(piles [][]int, k int) int {
+	// dp[1] = max(piles[i][1])
+	// dp[2] = max(piles[i][2]) or [max(piles[i][1]) + max(dp[1])]
+
+	var dp = make([]int, k+1)
 	for _, p := range piles {
+		if dp[1] < p[0] {
+			dp[1], dp[0] = p[0], dp[1]
+		} else if dp[0] < p[0] {
+			dp[0] = p[0]
+		}
+
 		for j := 1; j < len(p) && j < k; j++ {
 			p[j] += p[j-1]
 		}
 	}
 
-	var dp = make([][]int, k+1)
-	
+	var dp = make([]int, k+1)
+	for i := 1; i < count; i++ {
+
+	}
 
 }
 
