@@ -44,15 +44,13 @@
 
 package algorithm_100
 
-import "math"
-
 // 动态规划
 func maxProfit3(prices []int) int {
 	var dp1, dp0 = -prices[0], 0
 	for i := 1; i < len(prices); i++ {
-		dp1, dp0 = int(math.Max(float64(dp1), float64(dp0-prices[i]))), int(math.Max(float64(dp0), float64(dp1+prices[i])))
+		dp1, dp0 = max(dp1, dp0-prices[i]), max(dp0, dp1+prices[i])
 	}
-	return int(math.Max(float64(dp1), float64(dp0)))
+	return max(dp1, dp0)
 }
 
 // 贪心
@@ -73,11 +71,4 @@ func maxProfit1(prices []int) int {
 		t0, t1 = d0, d1
 	}
 	return max(d0, d1)
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }

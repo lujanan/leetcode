@@ -2,12 +2,8 @@
 
 package algorithm_0
 
-import (
-	"math"
-)
-
 func addBinary(a string, b string) string {
-	var res = make([]byte, int(math.Max(float64(len(a)), float64(len(b))))+1)
+	var res = make([]byte, max(len(a), len(b))+1)
 	var ext, ai, bj uint8
 	for i, j, k := len(a)-1, len(b)-1, len(res)-1; k >= 0; i, j, k = i-1, j-1, k-1 {
 		ai, bj = 0, 0
