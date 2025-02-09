@@ -57,13 +57,6 @@ func minDistance(word1 string, word2 string) int {
 		return len(word1)
 	}
 
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
-
 	var dp = make([][]int, len(word1)+1)
 	for i := 0; i < len(dp); i++ {
 		dp[i] = make([]int, len(word2)+1)

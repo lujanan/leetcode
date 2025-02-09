@@ -64,12 +64,6 @@ func minSideJumps(obstacles []int) int {
 	var num = len(obstacles)
 	var dp = [2][3]int{}
 	dp[0] = [3]int{1, 0, 1}
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
 
 	for i := 1; i < num; i++ {
 		dp[1] = [3]int{num, num, num}

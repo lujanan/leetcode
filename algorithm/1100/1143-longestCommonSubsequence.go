@@ -67,10 +67,3 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 
 	return dp[len(text1)][len(text2)]
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

@@ -4,13 +4,6 @@ package algorithm_0
 // https://leetcode-cn.com/problems/minimum-path-sum/
 
 func minPathSum(grid [][]int) int {
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
-
 	var h, w = len(grid), len(grid[0])
 	for i := 0; i < h; i++ {
 		for j := 0; j < w; j++ {
@@ -30,13 +23,6 @@ func minPathSum(grid [][]int) int {
 }
 
 func minPathSum1(grid [][]int) int {
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
-
 	var h, w = len(grid), len(grid[0])
 	for i := h - 1; i >= 0; i-- {
 		for j := w - 1; j >= 0; j-- {
