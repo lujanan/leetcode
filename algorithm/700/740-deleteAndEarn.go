@@ -7,12 +7,6 @@ import "sort"
 
 // 转化成打家劫舍问题
 func deleteAndEarn(nums []int) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
 	// 耗费空间
 	var mVal int
 	for _, v := range nums {
@@ -40,12 +34,6 @@ func deleteAndEarn1(nums []int) int {
 		nMap[v] += v
 	}
 	sort.Ints(tmp)
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
 
 	var dp = [2][2]int{}
 	dp[0] = [2]int{0, nMap[tmp[0]]}

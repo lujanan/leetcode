@@ -131,19 +131,6 @@ func subArrayRanges(nums []int) int64 {
 // 暴力双循环
 func subArrayRanges1(nums []int) int64 {
 	var res int64
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	for i := 0; i < len(nums); i++ {
 		var a, b = nums[i], nums[i]
 		for j := i + 1; j < len(nums); j++ {

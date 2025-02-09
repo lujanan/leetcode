@@ -51,13 +51,6 @@
 package algorithm_100
 
 func maxProfit_123(prices []int) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	// 答案可同时解答 121, 123, 188 题
 	
 	// 买卖不多于 k 次，在第 i 天的状态，dp[i][0] 表示当天没股票，dp[i][1] 表示当天有股票

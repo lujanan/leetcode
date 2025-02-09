@@ -42,19 +42,6 @@ package algorithm_200
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func maximalSquare(matrix [][]byte) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-	var min = func(a, b int) int {
-		if a > b {
-			return b
-		}
-		return a
-	}
-
 	var dp = make([][2]int, len(matrix[0]))
 	for j := 0; j < len(matrix[0]); j++ {
 		dp[j][0], dp[j][1] = 0, int(matrix[0][j]-'0')

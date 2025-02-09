@@ -61,13 +61,6 @@ import "sort"
 
 // 前缀和 + 滑动窗口
 func maxConsecutiveAnswers(answerKey string, k int) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	var res, tlSum, trSum, tl, flSum, frSum, fl int
 	for r, v := range answerKey {
 		if v == 'T' {
@@ -98,13 +91,6 @@ func maxConsecutiveAnswers(answerKey string, k int) int {
 
 // 前缀和 + 二分查找
 func maxConsecutiveAnswers1(answerKey string, k int) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	var pt, pf = make([]int, len(answerKey)+1), make([]int, len(answerKey)+1)
 	for i, v := range answerKey {
 		pt[i+1], pf[i+1] = pt[i], pf[i]
