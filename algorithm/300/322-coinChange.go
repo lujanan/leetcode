@@ -40,12 +40,6 @@
 package algorithm_300
 
 func coinChange(coins []int, amount int) int {
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
 	var dp = make([]int, amount+1)
 	for i := 1; i <= amount; i++ {
 		dp[i] = -1 // 默认无法凑成
@@ -55,7 +49,6 @@ func coinChange(coins []int, amount int) int {
 				if dp[i] < 0 {
 					dp[i] = dp[i-coins[j]] + 1
 				} else {
-					// dp[i] = int(math.Min(float64(dp[i]), float64(dp[i-coins[j]]+1)))
 					dp[i] = min(dp[i], dp[i-coins[j]]+1)
 				}
 			}
@@ -85,11 +78,4 @@ func coinChangeV2(coins []int, amount int) int {
 		return -1
 	}
 	return dp[amount]
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }

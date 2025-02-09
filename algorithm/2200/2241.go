@@ -2,8 +2,6 @@
 
 package algorithm_2200
 
-import "math"
-
 var moneyVal = []int{20, 50, 100, 200, 500}
 
 type ATM struct {
@@ -27,7 +25,7 @@ func (this ATM) Withdraw(amount int) []int {
 			continue
 		}
 
-		res[i] = int(math.Min(float64(this.money[i]), float64(amount/moneyVal[i])))
+		res[i] = min(this.money[i], amount/moneyVal[i])
 		amount -= res[i] * moneyVal[i]
 	}
 

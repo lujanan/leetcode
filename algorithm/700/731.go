@@ -49,8 +49,6 @@
 
 package algorithm_700
 
-import "math"
-
 // leetcode submit region begin(Prohibit modification and deletion)
 type MyCalendarTwo struct {
 	BookOne, BookTwo []int
@@ -78,7 +76,7 @@ func (this MyCalendarTwo) update(start, end, l, r, idx int) {
 	mid := (l + r) >> 1
 	this.update(start, end, l, mid, idx<<1)
 	this.update(start, end, mid+1, r, idx<<1+1)
-	this.num[idx] = this.lasy[idx] + int(math.Max(float64(this.num[idx<<1]), float64(this.num[idx<<1+1])))
+	this.num[idx] = this.lasy[idx] + max(this.num[idx<<1], this.num[idx<<1+1])
 }
 
 func (this MyCalendarTwo) query(start, end, l, r, idx int) int {
@@ -93,7 +91,7 @@ func (this MyCalendarTwo) query(start, end, l, r, idx int) int {
 	mid := (l + r) >> 1
 	left := this.query(start, end, l, mid, idx<<1)
 	right := this.query(start, end, mid+1, r, idx<<1+1)
-	return this.lasy[idx] + int(math.Max(float64(left), float64(right)))
+	return this.lasy[idx] + max(left, right)
 }
 
 func (this MyCalendarTwo) Book(start, end int) bool {
@@ -115,9 +113,7 @@ func (this MyCalendarTwo) BookV2(startTime int, endTime int) bool {
 		if startTime >= this.BookOne[i] || endTime <= this.BookOne[i-1] {
 			continue
 		}
-		this.BookTwo = append(this.BookTwo,
-			int(math.Max(float64(startTime), float64(this.BookOne[i-1]))),
-			int(math.Min(float64(endTime), float64(this.BookOne[i]))))
+		this.BookTwo = append(this.BookTwo, max(startTime, this.BookOne[i-1]), max(endTime, this.BookOne[i]))
 	}
 
 	this.BookOne = append(this.BookOne, startTime, endTime)

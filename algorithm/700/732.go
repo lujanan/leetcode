@@ -2,8 +2,6 @@
 
 package algorithm_700
 
-import "math"
-
 // 1.动态线段树
 // 2.懒标志，0~10e9区间内，如果1~10都为1，那直接标志为1，不需要标志10个都为1
 
@@ -32,7 +30,7 @@ func (this MyCalendarThree) update(start, end, l, r, idx int) {
 	mid := (l + r) >> 1
 	this.update(start, end, l, mid, idx<<1)
 	this.update(start, end, mid+1, r, idx<<1+1)
-	this.num[idx] = this.lazy[idx] + int(math.Max(float64(this.num[idx<<1]), float64(this.num[idx<<1+1])))
+	this.num[idx] = this.lazy[idx] + max(this.num[idx<<1], this.num[idx<<1+1])
 }
 
 func (this MyCalendarThree) Book(start, end int) int {
