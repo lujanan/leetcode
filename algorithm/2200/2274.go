@@ -43,7 +43,6 @@ package algorithm_2200
 
 import (
 	"fmt"
-	"math"
 )
 
 // leetcode submit region begin(Prohibit modification and deletion)
@@ -52,11 +51,11 @@ func maxConsecutive(bottom int, top int, special []int) int {
 	// quickSort(special, 0, len(special)-1)
 	mergeSort(special, 0, len(special)-1)
 
-	var max = int(math.Max(float64(special[0]-bottom), float64(top-special[len(special)-1])))
+	var maxC = max(special[0]-bottom, top-special[len(special)-1])
 	for i := 1; i < len(special); i++ {
-		max = int(math.Max(float64(max), float64(special[i]-special[i-1]-1)))
+		maxC = max(maxC, special[i]-special[i-1]-1)
 	}
-	return max
+	return maxC
 }
 
 func quickSort(arr []int, l, r int) {
