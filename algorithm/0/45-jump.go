@@ -74,10 +74,3 @@ func jump(nums []int) int {
 	}
 	return step
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

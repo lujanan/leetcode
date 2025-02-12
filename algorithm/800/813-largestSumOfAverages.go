@@ -4,12 +4,6 @@ package algorithm_800
 // https://leetcode-cn.com/problems/largest-sum-of-averages/
 
 func largestSumOfAverages(nums []int, k int) float64 {
-	var max = func(a, b float64) float64 {
-		if a > b {
-			return a
-		}
-		return b
-	}
 	var nl = len(nums)
 	var sum = make([]float64, nl+1)
 	for i := range nums {
@@ -33,12 +27,6 @@ func largestSumOfAverages(nums []int, k int) float64 {
 }
 
 func largestSumOfAverages2(nums []int, k int) float64 {
-	var max = func(a, b float64) float64 {
-		if a > b {
-			return a
-		}
-		return b
-	}
 	var nl = len(nums)
 	var sum = make([]float64, nl+1)
 	var dp = make([][]float64, nl+1)
@@ -60,12 +48,6 @@ func largestSumOfAverages2(nums []int, k int) float64 {
 }
 
 func largestSumOfAverages1(nums []int, k int) float64 {
-	var max = func(a, b float64) float64 {
-		if a > b {
-			return a
-		}
-		return b
-	}
 	var sum = make([]float64, len(nums)+1)
 
 	for i := 1; i < len(sum); i++ {

@@ -2,8 +2,6 @@
 
 package algorithm_300
 
-import "math"
-
 // dp方程：
 // 1.如果 j < i && num[j] < num[i]时，那dp[i] = max(dp[j]) + 1
 // 2.最长的子序列不一定包括数组的最后一个元素
@@ -14,10 +12,10 @@ func lengthOfLIS(nums []int) int {
 		dp[i] = 1
 		for j := 0; j < i; j++ {
 			if nums[i] > nums[j] {
-				dp[i] = int(math.Max(float64(dp[i]), float64(dp[j]+1)))
+				dp[i] = max(dp[i], dp[j]+1)
 			}
 		}
-		dp[len(nums)] = int(math.Max(float64(dp[len(nums)]), float64(dp[i])))
+		dp[len(nums)] = max(dp[len(nums)], dp[i])
 	}
 	return dp[len(nums)]
 }

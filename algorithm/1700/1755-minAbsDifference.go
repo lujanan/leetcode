@@ -31,12 +31,6 @@ func minAbsDifference(nums []int, goal int) int {
 
 	sort.Ints(lNum)
 	sort.Ints(rNum)
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
 
 	var res = math.MaxInt32
 	for i := range lNum {
@@ -86,12 +80,6 @@ func minAbsDifference1(nums []int, goal int) int {
 
 	sort.Ints(lNum)
 	sort.Ints(rNum)
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
 
 	var res = math.MaxInt32
 	for i := range lNum {

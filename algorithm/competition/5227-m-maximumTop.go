@@ -1,18 +1,11 @@
 package algorithm_competition
 
 func maximumTop(nums []int, k int) int {
-	// var max = func(a, b int) int {
-	// 	if a > b {
-	// 		return a
-	// 	}
-	// 	return b
-	// }
 	var nMap = make(map[int]int)
 	for i := range nums {
 		nMap[nums[i]]++
 	}
 
-	
 	// dp[i][0] = max(num[i+1], dp[i-1][1])
 	// dp[i][0] = max(num[i+1], dp[i-1][1])
 	// dp[i][1] = max(num[i], dp[i-1][1])

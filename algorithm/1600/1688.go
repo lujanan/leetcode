@@ -65,13 +65,6 @@ func maxRepeating(sequence string, word string) int {
 }
 
 func maxRepeatingV2(sequence string, word string) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	var dp = make([][3]int, len(sequence))
 	for i, j := 0, len(word)-1; i < len(sequence); i, j = i+1, j+1 {
 		if j < len(sequence) && sequence[i:j+1] == word {

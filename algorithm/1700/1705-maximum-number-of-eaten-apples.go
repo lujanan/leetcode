@@ -47,7 +47,6 @@ package algorithm_1700
 
 import (
 	"container/heap"
-	"math"
 )
 
 // leetcode submit region begin(Prohibit modification and deletion)
@@ -83,7 +82,7 @@ func eatenApples(apples []int, days []int) int {
 		}
 
 		ap := heap.Pop(&aHeap).(AppleData)
-		num := int(math.Min(float64(ap.Num), float64(ap.Expire-idx)))
+		num := min(ap.Num, ap.Expire-idx)
 		res += num
 		idx += num
 	}

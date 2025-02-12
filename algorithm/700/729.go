@@ -46,8 +46,6 @@
 
 package algorithm_700
 
-import "math"
-
 // leetcode submit region begin(Prohibit modification and deletion)
 type MyCalendar struct {
 	BookList  []int
@@ -75,7 +73,7 @@ func (this MyCalendar) update(start, end, l, r, idx int) {
 	mid := (l + r) >> 1
 	this.update(start, end, l, mid, idx<<1)
 	this.update(start, end, mid+1, r, idx<<1+1)
-	this.num[idx] = this.lasy[idx] + int(math.Max(float64(this.num[idx<<1]), float64(this.num[idx<<1+1])))
+	this.num[idx] = this.lasy[idx] + max(this.num[idx<<1], this.num[idx<<1+1])
 }
 
 func (this MyCalendar) query(start, end, l, r, idx int) int {
@@ -90,7 +88,7 @@ func (this MyCalendar) query(start, end, l, r, idx int) int {
 	mid := (l + r) >> 1
 	left := this.query(start, end, l, mid, idx<<1)
 	right := this.query(start, end, mid+1, r, idx<<1+1)
-	return this.lasy[idx] + int(math.Max(float64(left), float64(right)))
+	return this.lasy[idx] + max(left, right)
 }
 
 func (this MyCalendar) Book(startTime int, endTime int) bool {

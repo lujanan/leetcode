@@ -36,13 +36,6 @@
 package algorithm_100
 
 func maxProfit_188(k int, prices []int) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	var dp = make([][2]int, k+1)
 	for i := 0; i <= k && len(prices) > 0; i++ {
 		dp[i][1] = -prices[0]

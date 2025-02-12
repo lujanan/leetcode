@@ -40,27 +40,18 @@
 
 package algorithm_200
 
-import "math"
-
 func rob(nums []int) int {
 	var dp = [4]int{0, nums[0], 0, 0}
 	for i := 1; i < len(nums); i++ {
 		if i < len(nums)-1 {
-			dp[1], dp[0] = int(math.Max(float64(dp[0]+nums[i]), float64(dp[1]))), dp[1]
+			dp[1], dp[0] = max(dp[0]+nums[i], dp[1]), dp[1]
 		}
-		dp[3], dp[2] = int(math.Max(float64(dp[2]+nums[i]), float64(dp[3]))), dp[3]
+		dp[3], dp[2] = max(dp[2]+nums[i], dp[3]), dp[3]
 	}
-	return int(math.Max(math.Max(float64(dp[0]), float64(dp[1])), math.Max(float64(dp[2]), float64(dp[3]))))
+	return max(max(dp[0], dp[1]), max(dp[2], dp[3]))
 }
 
 func robV2(nums []int) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	var n = len(nums)
 	var dp = []int{0, nums[0], 0, 0}
 	for i := 1; i < n; i++ {

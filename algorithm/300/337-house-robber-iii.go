@@ -53,10 +53,6 @@
 
 package algorithm_300
 
-import (
-	"math"
-)
-
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -76,10 +72,10 @@ func rob(root *TreeNode) int {
 		var res = [2]int{0, 0}
 		var l = dFn(node.Left)
 		var r = dFn(node.Right)
-		res[0] = int(math.Max(float64(l[0]), float64(l[1])) + math.Max(float64(r[0]), float64(r[1])))
+		res[0] = max(l[0], l[1]) + max(r[0], r[1])
 		res[1] = node.Val + l[0] + r[0]
 		return res
 	}
 	res := dFn(root)
-	return int(math.Max(float64(res[0]), float64(res[1])))
+	return max(res[0], res[1])
 }

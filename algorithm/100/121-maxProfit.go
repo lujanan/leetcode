@@ -37,13 +37,11 @@
 
 package algorithm_100
 
-import "math"
-
 func maxProfit(prices []int) int {
 	var buy, sell = prices[0], 0
 	for i := 1; i < len(prices); i++ {
-		sell = int(math.Max(float64(sell), float64(prices[i]-buy)))
-		buy = int(math.Min(float64(buy), float64(prices[i])))
+		sell = max(sell, prices[i]-buy)
+		buy = min(buy, prices[i])
 	}
 	return sell
 }

@@ -67,19 +67,6 @@ func strongPasswordChecker(password string) int {
 		}
 	}
 	categories := hasLower + hasUpper + hasDigit
-	var max = func(a, b int) int {
-		if b > a {
-			return b
-		}
-		return a
-	}
-
-	var min = func(a, b int) int {
-		if a > b {
-			return b
-		}
-		return a
-	}
 
 	switch n := len(password); {
 	case n < 6:
@@ -168,13 +155,6 @@ func strongPasswordChecker1(password string) int {
 			}
 			n = 1
 		}
-	}
-
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
 	}
 
 	var res int

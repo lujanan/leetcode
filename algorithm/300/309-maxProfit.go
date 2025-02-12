@@ -37,12 +37,6 @@
 package algorithm_300
 
 func maxProfit(prices []int) int {
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
 	var dp = make([][2]int, len(prices)+1)
 	dp[1][1] = -prices[0]
 	for i := 1; i < len(prices); i++ {

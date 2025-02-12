@@ -39,13 +39,6 @@ import "sort"
 // 前缀和 + 滑动窗口
 func longestOnes(nums []int, k int) int {
 	var lsum, rsum, res, l int
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	for r, v := range nums {
 		rsum += 1 - v
 		for lsum < rsum-k {
@@ -63,13 +56,6 @@ func longestOnes1(nums []int, k int) int {
 	var p = make([]int, len(nums)+1)
 	for i := range nums {
 		p[i+1] = p[i] + 1 - nums[i]
-	}
-
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
 	}
 
 	var res int
