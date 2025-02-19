@@ -5,6 +5,25 @@ package algorithm_600
 import "math"
 
 func maxDistance(arrays [][]int) int {
+	var res int
+	var dp = [2]int{arrays[0][0], arrays[0][len(arrays[0])-1]}
+	var abs = func(a, b int) int {
+		if a > b {
+			return a - b
+		}
+		return b - a
+	}
+
+	for i := 1; i < len(arrays); i++ {
+		res = max(res, abs(arrays[i][0], dp[1]), abs(arrays[i][len(arrays[i])-1], dp[0]))
+		dp[0] = min(dp[0], arrays[i][0])
+		dp[1] = max(dp[1], arrays[i][len(arrays[i])-1])
+	}
+
+	return res
+}
+
+func maxDistance1(arrays [][]int) int {
 	var dp = [4]int{0, 1, 0, 1}
 	if arrays[1][0] < arrays[0][0] {
 		dp[0], dp[1] = dp[1], dp[0]
@@ -26,15 +45,11 @@ func maxDistance(arrays [][]int) int {
 		}
 	}
 
-	fmt.Println(dp)
-
 	isSame := dp[0] == dp[2]
 	dp[0] = arrays[dp[0]][0]
 	dp[1] = arrays[dp[1]][0]
 	dp[2] = arrays[dp[2]][len(arrays[dp[2]])-1]
 	dp[3] = arrays[dp[3]][len(arrays[dp[3]])-1]
-
-	fmt.Println(dp)
 
 	if !isSame {
 		return int(math.Abs(float64(dp[2] - dp[0])))
