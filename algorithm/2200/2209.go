@@ -3,14 +3,27 @@
 package algorithm_2200
 
 func minimumWhiteTiles(floor string, numCarpets int, carpetLen int) int {
-	var res = make([][]int, 2)
+	var f = make([]int, len(floor)+1)
+	var res = [2][]int{}
 	res[0] = make([]int, len(floor)+1)
-
 	for i := 0; i < len(floor); i++ {
 		res[0][i+1] = res[0][i]
 		if floor[i] == '1' {
 			res[0][i+1] += 1
+			f[i+1] = 1
 		}
+	}
+
+	for i := 1; i <= numCarpets; i++ {
+		res[1] = make([]int, len(floor)+1)
+		for j := 0; j < len(floor); j++ {
+			if j+1 <= carpetLen {
+				res[1][j+1] = 0
+			} else {
+				res[1][j+1] = min(res[1][j]+f[j+1], res[0][j+1-carpetLen])
+			}
+		}
+		res[0] = res[1]
 	}
 
 	return res[0][len(floor)]
