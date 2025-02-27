@@ -80,8 +80,7 @@ package algorithm_2200
 
 // leetcode submit region begin(Prohibit modification and deletion)
 type TextEditor struct {
-	Val         byte
-	Left, Right *TextEditor
+	Left, Right []byte
 }
 
 func ConstructorV2() TextEditor {
@@ -89,9 +88,59 @@ func ConstructorV2() TextEditor {
 }
 
 func (this *TextEditor) AddText(text string) {
+	this.Left = append(this.Left, []byte(text)...)
+}
+
+func (this *TextEditor) DeleteText(k int) int {
+	var num = len(this.Left)
+	if num >= k {
+		this.Left = this.Left[:num-k]
+		return k
+	}
+
+	this.Left = this.Left[:0]
+	return num
+}
+
+func (this *TextEditor) CursorLeft(k int) string {
+	var i = len(this.Left) - 1
+	for ; i >= 0 && k > 0; i, k = i-1, k-1 {
+		this.Right = append(this.Right, this.Left[i])
+	}
+	this.Left = this.Left[:i+1]
+
+	if len(this.Left) >= 10 {
+		return string(this.Left[len(this.Left)-10:])
+	}
+	return string(this.Left)
+}
+
+func (this *TextEditor) CursorRight(k int) string {
+	var i = len(this.Right) - 1
+	for ; i >= 0 && k > 0; i, k = i-1, k-1 {
+		this.Left = append(this.Left, this.Right[i])
+	}
+	this.Right = this.Right[:i+1] 
+
+	if len(this.Left) >= 10 {
+		return string(this.Left[len(this.Left)-10:])
+	}
+	return string(this.Left)
+}
+
+type TextEditorV2 struct {
+	Val         rune
+	Left, Right *TextEditorV2
+}
+
+func ConstructorV3() TextEditorV2 {
+	return TextEditorV2{}
+}
+
+func (this *TextEditorV2) AddText(text string) {
 	for _, v := range text {
-		var te = &TextEditor{
-			Val:   byte(v),
+		var te = &TextEditorV2{
+			Val:   v,
 			Left:  this.Left,
 			Right: this,
 		}
@@ -102,7 +151,7 @@ func (this *TextEditor) AddText(text string) {
 	}
 }
 
-func (this *TextEditor) DeleteText(k int) int {
+func (this *TextEditorV2) DeleteText(k int) int {
 	var num int
 	for ; k > 0 && this.Left != nil; k-- {
 		if this.Left.Left != nil {
@@ -114,7 +163,7 @@ func (this *TextEditor) DeleteText(k int) int {
 	return num
 }
 
-func (this *TextEditor) CursorLeft(k int) string {
+func (this *TextEditorV2) CursorLeft(k int) string {
 	for ; k > 0 && this.Left != nil; k-- {
 		if this.Right != nil {
 			this.Right.Left = this.Left
@@ -129,7 +178,7 @@ func (this *TextEditor) CursorLeft(k int) string {
 	}
 
 	var tmp = this
-	var chars = make([]byte, 10)
+	var chars = make([]rune, 10)
 	var i = 9
 	for ; i >= 0 && tmp.Left != nil; i-- {
 		chars[i] = tmp.Left.Val
@@ -138,7 +187,7 @@ func (this *TextEditor) CursorLeft(k int) string {
 	return string(chars[i+1:])
 }
 
-func (this *TextEditor) CursorRight(k int) string {
+func (this *TextEditorV2) CursorRight(k int) string {
 	for ; k > 0 && this.Right != nil; k-- {
 		if this.Left != nil {
 			this.Left.Right = this.Right
@@ -154,7 +203,7 @@ func (this *TextEditor) CursorRight(k int) string {
 	}
 
 	var tmp = this
-	var chars = make([]byte, 10)
+	var chars = make([]rune, 10)
 	var i = 9
 	for ; i >= 0 && tmp.Left != nil; i-- {
 		chars[i] = tmp.Left.Val
