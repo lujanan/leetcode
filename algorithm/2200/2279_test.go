@@ -2,7 +2,9 @@
 
 package algorithm_2200
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_maximumBags(t *testing.T) {
 	type args struct {
