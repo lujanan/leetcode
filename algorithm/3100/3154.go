@@ -89,6 +89,7 @@ package algorithm_3100
 import "math"
 
 // leetcode submit region begin(Prohibit modification and deletion)
+// 记忆化搜索(深度优先递归搜索 + 剪枝)
 func waysToReachStair(k int) int {
 	var jumpMap = make(map[int]map[int][]int)
 	var jumpFn func(i, j, isBackOne int) int

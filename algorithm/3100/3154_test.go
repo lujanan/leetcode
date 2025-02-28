@@ -97,7 +97,7 @@ func Test_waysToReachStair(t *testing.T) {
 		args args
 		want int
 	}{
-		// {"t1", args{0}, 2},
+		{"t1", args{0}, 2},
 		{"t2", args{1}, 4},
 	}
 	for _, tt := range tests {
