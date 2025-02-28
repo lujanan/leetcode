@@ -86,36 +86,25 @@
 
 package algorithm_3100
 
-import "math"
+import "testing"
 
-// leetcode submit region begin(Prohibit modification and deletion)
-func waysToReachStair(k int) int {
-	var jumpMap = make(map[int]map[int]int)
-	var jumpFn func(i, j int, isBackOne bool) int
-	jumpFn = func(i, j int, isBackOne bool) int {
-		if _, ok := jumpMap[i]; !ok {
-			jumpMap[i] = make(map[int]int)
-		}
-		if _, ok := jumpMap[i][j]; ok {
-			return jumpMap[i][j]
-		}
-
-		if i == k {
-			jumpMap[i][j] += 1
-			if j == 0 {
-				jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, false)
-			}
-
-		} else if i < k {
-			jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, false)
-		}
-		if i != 0 && !isBackOne {
-			jumpMap[i][j] += jumpFn(i-1, j, true)
-		}
-
-		return jumpMap[i][j]
+func Test_waysToReachStair(t *testing.T) {
+	type args struct {
+		k int
 	}
-	return jumpFn(1, 0, false)
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		// {"t1", args{0}, 2},
+		{"t2", args{1}, 4},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := waysToReachStair(tt.args.k); got != tt.want {
+				t.Errorf("waysToReachStair() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
-
-//leetcode submit region end(Prohibit modification and deletion)
