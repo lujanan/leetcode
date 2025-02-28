@@ -90,35 +90,36 @@ import "math"
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func waysToReachStair(k int) int {
-	var jumpMap = make(map[int]map[int][4]int)
+	var jumpMap = make(map[int]map[int][]int)
 	var jumpFn func(i, j, isBackOne int) int
-	jumpFn = func(i, j,isBackOne int) int {
+	jumpFn = func(i, j, isBackOne int) int {
 		if _, ok := jumpMap[i]; !ok {
-			jumpMap[i] = make(map[int][4]int)
+			jumpMap[i] = make(map[int][]int)
 		}
-		idx := isBackOne*2
+		idx := isBackOne * 2
 		arr, ok := jumpMap[i][j]
-		if  ok && arr[idx] > 0 {
+		if ok && arr[idx] > 0 {
 			return arr[idx+1]
 		}
 		if !ok {
-			arr, ok := jumpMap[i][j];
+			jumpMap[i][j] = make([]int, 4)
 		}
+		jumpMap[i][j][idx] = 1
 
 		if i == k {
-			jumpMap[i][j] += 1
+			jumpMap[i][j][idx+1] += 1
 			if j <= 1 {
-				jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, 0)
+				jumpMap[i][j][idx+1] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, 0)
 			}
 
 		} else if i < k {
-			jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, 0)
+			jumpMap[i][j][idx+1] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, 0)
 		}
-		if i != 0 && !isBackOne {
-			jumpMap[i][j] += jumpFn(i-1, j, 1)
+		if i != 0 && isBackOne == 0 {
+			jumpMap[i][j][idx+1] += jumpFn(i-1, j, 1)
 		}
 
-		return jumpMap[i][j]
+		return jumpMap[i][j][idx+1]
 	}
 	return jumpFn(1, 0, 0)
 }
