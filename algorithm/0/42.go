@@ -35,7 +35,52 @@
 package algorithm_0
 
 // leetcode submit region begin(Prohibit modification and deletion)
+
+// 双指针，从两侧向中间靠拢，每次移动较矮的位置
 func trap(height []int) int {
+	var num int
+	var left, right = 0, len(height) - 1
+	var leftMax, rightMax = 0, 0
+	for left < right {
+		leftMax, rightMax = max(leftMax, height[left]), max(rightMax, height[right])
+		
+		if height[left] <= height[right] {
+			num += leftMax - height[left]
+			left++
+		} else {
+			num += rightMax - height[right]
+			right--
+		}
+	}
+	return num
+}
+
+// 单调栈
+func trapV2(height []int) int {
+	var stack = make([]int, len(height))
+	var num, top int
+	for i := 1; i < len(height); i++ {
+		for top > 0 && height[i] > height[stack[top]] {
+			var (
+				w = i - stack[top-1] - 1
+				h = min(height[i], height[stack[top-1]]) - height[stack[top]]
+			)
+			num += w * h
+			top--
+		}
+
+		for top >= 0 && height[stack[top]] <= height[i] {
+			top--
+		}
+		top++
+		stack[top] = i
+	}
+	return num
+}
+
+// 动态规划
+// 需要预处理每个点左右两边的最高的点，才能拿到当前点能装多少水
+func trapV3(height []int) int {
 	var hl = len(height)
 	var left, right = make([]int, hl), make([]int, hl)
 	left[0] = height[0]
