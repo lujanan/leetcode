@@ -90,32 +90,37 @@ import "math"
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func waysToReachStair(k int) int {
-	var jumpMap = make(map[int]map[int]int)
-	var jumpFn func(i, j int, isBackOne bool) int
-	jumpFn = func(i, j int, isBackOne bool) int {
+	var jumpMap = make(map[int]map[int][4]int)
+	var jumpFn func(i, j, isBackOne int) int
+	jumpFn = func(i, j,isBackOne int) int {
 		if _, ok := jumpMap[i]; !ok {
-			jumpMap[i] = make(map[int]int)
+			jumpMap[i] = make(map[int][4]int)
 		}
-		if _, ok := jumpMap[i][j]; ok {
-			return jumpMap[i][j]
+		idx := isBackOne*2
+		arr, ok := jumpMap[i][j]
+		if  ok && arr[idx] > 0 {
+			return arr[idx+1]
+		}
+		if !ok {
+			arr, ok := jumpMap[i][j];
 		}
 
 		if i == k {
 			jumpMap[i][j] += 1
-			if j == 0 {
-				jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, false)
+			if j <= 1 {
+				jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, 0)
 			}
 
 		} else if i < k {
-			jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, false)
+			jumpMap[i][j] += jumpFn(i+int(math.Pow(2, float64(j))), j+1, 0)
 		}
 		if i != 0 && !isBackOne {
-			jumpMap[i][j] += jumpFn(i-1, j, true)
+			jumpMap[i][j] += jumpFn(i-1, j, 1)
 		}
 
 		return jumpMap[i][j]
 	}
-	return jumpFn(1, 0, false)
+	return jumpFn(1, 0, 0)
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
