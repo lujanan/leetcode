@@ -37,6 +37,25 @@ package algorithm_1300
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func breakPalindrome(palindrome string) string {
+	if len(palindrome) <= 1 {
+		return ""
+	}
+
+	// 遍历前半字符，找到 != 'a' 替换即可
+	// 若前半部分都是a， 根据回文串特点，那后半也是a
+	var p = []byte(palindrome)
+	for i := 0; i < len(p)>>1; i++ {
+		if p[i] != 'a' {
+			p[i] = 'a'
+			return string(p)
+		}
+	}
+	// 直接将最后一个字符+1即可
+	p[len(p)-1]++
+	return string(p)
+}
+
+func breakPalindromeV2(palindrome string) string {
 	if len(palindrome) == 1 {
 		return ""
 	}
