@@ -116,6 +116,10 @@ func countOfSubstrings(word string, k int) int {
 		return num
 	}
 
+	// 滑动窗口求解
+	// 直接获取辅音字母 =k 个的子串不好滑
+	// 变相求解辅音字母 >=k 个的子串数量 num1=count(k) 和 >=k+1 个的子串数量 num2=count(k+1)
+	// 那辅音字母 =k 个的子串数量 num=num1-num2
 	return countk(k) - countk(k+1)
 }
 
