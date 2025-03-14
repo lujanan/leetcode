@@ -59,7 +59,41 @@
 package algorithm_600
 
 // leetcode submit region begin(Prohibit modification and deletion)
+// 贪心
 func isPossible(nums []int) bool {
+	// 记录每个数字可用次数
+	var numMap = make(map[int]int)
+	for _, v := range nums {
+		numMap[v]++
+	}
+
+	var cntMap = make(map[int]int)
+	for _, n := range nums {
+		if numMap[n] <= 0 {
+			continue
+		}
+
+		// 存在以 n-1 结尾的序列，记录以 n 结尾的序列， n-1 结尾序列减1，可用数字n减1
+		if cntMap[n-1] > 0 {
+			cntMap[n]++
+			cntMap[n-1]--
+			numMap[n]--
+		} else {
+			// 构建以 n 开始，n+2 结尾的序列，构建失败则直接返回
+			if numMap[n+1] <= 0 || numMap[n+2] <= 0 {
+				return false
+			}
+			cntMap[n+2]++
+			numMap[n]--
+			numMap[n+1]--
+			numMap[n+2]--
+		}
+	}
+
+	return true
+}
+
+func isPossibleV2(nums []int) bool {
 	var numMap = make(map[int][]int)
 	for _, n := range nums {
 		ns, ok := numMap[n-1]
