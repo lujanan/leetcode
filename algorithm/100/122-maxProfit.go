@@ -50,7 +50,7 @@ func maxProfit3(prices []int) int {
 	for i := 1; i < len(prices); i++ {
 		dp[0], dp[1] = max(dp[0], prices[i]+dp[1]), max(dp[0]-prices[i], dp[1])
 	}
-	return max(dp[0], dp[1])
+	return dp[0]
 }
 
 // 贪心
