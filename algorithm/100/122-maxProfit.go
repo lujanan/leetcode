@@ -44,13 +44,13 @@
 
 package algorithm_100
 
-// 动态规划
 func maxProfit3(prices []int) int {
-	var dp1, dp0 = -prices[0], 0
+	var dp = make([]int, 2)
+	dp[0], dp[1] = 0, -prices[0]
 	for i := 1; i < len(prices); i++ {
-		dp1, dp0 = max(dp1, dp0-prices[i]), max(dp0, dp1+prices[i])
+		dp[0], dp[1] = max(dp[0], prices[i]+dp[1]), max(dp[0]-prices[i], dp[1])
 	}
-	return max(dp1, dp0)
+	return max(dp[0], dp[1])
 }
 
 // 贪心
