@@ -65,32 +65,84 @@ func differenceOfDistinctValues(grid [][]int) [][]int {
 		return b - a
 	}
 
-	var gridLMap = make([][]map[int]struct{}, len(grid))
+	var (
+		gridLMap = make([][]int, len(grid))
+		gridRMap = make([][]int, len(grid))
+		numMap = make([]map[int]int, len(grid[0])) 
+	)
+
+	for i := 0; i < len(grid); i++ {
+		gridLMap[i] = make([]int, len(grid[i]))
+		gridRMap[i] = make([]int, len(grid[i]))
+	}
+
+	for i := 1; i < len(grid); i++ {
+		for j := len(grid[i]) - 1; j > 0; j-- {
+			if numMap[j-1] == nil {
+				numMap[j-1] = make(map[int]int)
+			}
+			numMap[j-1][grid[i-1][j-1]] = 0
+			numMap[j], numMap[j-1] = numMap[j-1], make(map[int]int)
+			gridLMap[i][j] = len(numMap[j])
+		}
+	}
+
+	numMap = make([]map[int]int, len(grid[0]))
+	for i := len(grid) - 2; i >= 0; i-- {
+		for j := 0; j < len(grid[i])-1; j++ {
+			if numMap[j+1] == nil {
+				numMap[j+1] = make(map[int]int)
+			}
+			numMap[j+1][grid[i+1][j+1]] = 0
+			numMap[j], numMap[j+1] = numMap[j+1], make(map[int]int)
+			gridRMap[i][j] = len(numMap[j])
+		}
+	}
+
+	var res = make([][]int, len(grid))
+	for i := 0; i < len(grid); i++ {
+		res[i] = make([]int, len(grid[i]))
+		for j := 0; j < len(grid[i]); j++ {
+			res[i][j] = diffFn(gridLMap[i][j], gridRMap[i][j])
+		}
+	}
+	return res
+}
+
+func differenceOfDistinctValuesV2(grid [][]int) [][]int {
+	var diffFn = func(a, b int) int {
+		if a > b {
+			return a - b
+		}
+		return b - a
+	}
+
+	var gridLMap = make([][]map[int]int, len(grid))
 	for i, row := range grid {
-		gridLMap[i] = make([]map[int]struct{}, len(row))
+		gridLMap[i] = make([]map[int]int, len(row))
 		for j := range row {
-			gridLMap[i][j] = make(map[int]struct{})
+			gridLMap[i][j] = make(map[int]int)
 			if i > 0 && j > 0 {
 				for k := range gridLMap[i-1][j-1] {
-					gridLMap[i][j][k] = struct{}{}
+					gridLMap[i][j][k] = 0
 				}
-				gridLMap[i][j][grid[i-1][j-1]] = struct{}{}
+				gridLMap[i][j][grid[i-1][j-1]] = 0
 			}
 		}
 	}
 
-	var gridRMap = make([][]map[int]struct{}, len(grid))
+	var gridRMap = make([][]map[int]int, len(grid))
 	for i := len(grid) - 1; i >= 0; i-- {
 		row := grid[i]
-		gridRMap[i] = make([]map[int]struct{}, len(row))
+		gridRMap[i] = make([]map[int]int, len(row))
 
 		for j := len(row) - 1; j >= 0; j-- {
-			gridRMap[i][j] = make(map[int]struct{})
+			gridRMap[i][j] = make(map[int]int)
 			if i+1 < len(grid) && j+1 < len(row) {
 				for k := range gridRMap[i+1][j+1] {
-					gridRMap[i][j][k] = struct{}{}
+					gridRMap[i][j][k] = 0
 				}
-				gridRMap[i][j][grid[i+1][j+1]] = struct{}{}
+				gridRMap[i][j][grid[i+1][j+1]] = 0
 			}
 		}
 	}
