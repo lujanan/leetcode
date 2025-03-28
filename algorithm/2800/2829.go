@@ -40,6 +40,14 @@ package algorithm_2800
 // leetcode submit region begin(Prohibit modification and deletion)
 
 func minimumSum(n int, k int) int {
+	if n <= k/2 {
+		return (1 + n) * n / 2
+	}
+	num := n - k/2 - 1
+	return (1+k/2)*k/2/2 + (k+k+num)*(num+1)/2
+}
+
+func minimumSumV2(n int, k int) int {
 	var res int
 
 	for i, j := 1, 0; j < n; i++ {
@@ -48,24 +56,6 @@ func minimumSum(n int, k int) int {
 		}
 
 		res += i
-		j++
-	}
-	return res
-}
-
-func minimumSumV2(n int, k int) int {
-	var res int
-	var outNum = make(map[int]bool)
-
-	for i, j := 1, 0; j < n; i++ {
-		if _, ok := outNum[i]; ok {
-			continue
-		}
-		res += i
-		if k > i {
-			outNum[k-i] = true
-		}
-
 		j++
 	}
 	return res
