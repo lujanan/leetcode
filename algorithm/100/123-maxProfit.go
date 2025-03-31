@@ -51,24 +51,58 @@
 package algorithm_100
 
 func maxProfit_123(prices []int) int {
-	// dp[k][i][0] = max(dp[k][i-1][1]+prices[i], dp[k-1][i-1][0])
-	// dp[k][i][1] = max(dp[k-1][i-1][1], dp[k-1][i-1][0]-prices[i])
+	// 状态机
+	var buy1, sell1, buy2, sell2 = -prices[0], 0, -prices[0], 0 // 第1天不管买卖多少次，手上无股票时收益=0，有股票是收益=-prices[0]
+	// 状态转移 -> buy1 -> sell1 -> buy2 -> sell2 -> 交易两次收益
+	for i := 1; i < len(prices); i++ {
+		sell2 = max(sell2, buy2+prices[i])
+		buy2 = max(buy2, sell1-prices[i])
+		sell1 = max(sell1, buy1+prices[i])
+		buy1 = max(buy1, -prices[i])
+	}
+	return max(0, buy1, sell1, buy2, sell2)
+}
 
-	var dp = make([][][2]int, 3)
-	for k := 0; k < 3; k++ {
-		dp[k] = make([][2]int, len(prices))
-		if k == 0 {
-			continue
-		}
+func maxProfit_1235(prices []int) int {
+	// dp[i][k][0] = dp[i-1][k][0] || dp[i-1][k-1][1] + p[i]
+	// dp[i][k][1] = dp[i-1][k][0] - p[i] || dp[i-1][k][1]
 
-		dp[k][0][0], dp[k][0][1] = 0, -prices[0]
-		for i := 1; i < len(prices); i++ {
-			dp[k][i][1] = max(dp[k-1][i-1][1], dp[k-1][i-1][0]-prices[i])
+	var k = 2
+	var dp = make([][][2]int, len(prices))
+	for i := 0; i < len(prices); i++ {
+		dp[i] = make([][2]int, k+1)
+	}
 
-			dp[k][i][0] = max(dp[k][i-1][1]+prices[i], dp[k][i-1][0])
+	for i := 0; i < len(prices); i++ {
+		for j := 0; j <= k; j++ {
+			if i < 1 {
+				dp[i][j][1] = -prices[i] // 第1天不管买卖多少次，手上无股票时收益=0，有股票是收益=-prices[0]
+
+			} else {
+				// 同一天同时进行买和卖操作收益=0，只有买1次或卖1次才会产生实际收益
+				// j表示交易次数，卖出时才+1
+				if j < 1 {
+					// j = 0 时，表示当天没有卖出行为，但可以今日买入 或 取前1日的股票
+					dp[i][j][1] = max(-prices[i], dp[i-1][j][1])
+
+				} else {
+					// 有交易次数(卖出)时
+					// 手上无股票: 取前1日j次交易的值 或 把前1日j-1次操作持有的股票卖出
+					// 手上有股票: 取前1日j次交易的值后再次买入后的值 或 把前1日j次卖出股票后的值+进入买股票
+					dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1]+prices[i])
+					dp[i][j][1] = max(dp[i-1][j][0]-prices[i], dp[i-1][j][1])
+				}
+			}
 		}
 	}
-	return dp[2][len(prices)-1][0]
+
+	var res = dp[len(prices)-1][0][0]
+	for i := 1; i <= k; i++ {
+		if res < dp[len(prices)-1][k][0] {
+			res = dp[len(prices)-1][k][0]
+		}
+	}
+	return res
 }
 
 func maxProfit_1234(prices []int) int {
