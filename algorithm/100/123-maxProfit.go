@@ -64,8 +64,8 @@ func maxProfit_123(prices []int) int {
 }
 
 func maxProfit_1235(prices []int) int {
-	// dp[i][k][0] = dp[i-1][k][0] || dp[i-1][k-1][1] + p[i]
-	// dp[i][k][1] = dp[i-1][k][0] - p[i] || dp[i-1][k][1]
+	// dp[i][k][0] = dp[i-1][k-1][0] || dp[i-1][k][1] + p[i]
+	// dp[i][k][1] = dp[i-1][k-1][0] - p[i] || dp[i-1][k-1][1]
 
 	var k = 2
 	var dp = make([][][2]int, len(prices))
@@ -74,24 +74,20 @@ func maxProfit_1235(prices []int) int {
 	}
 
 	for i := 0; i < len(prices); i++ {
-		for j := 0; j <= k; j++ {
+		for j := 1; j <= k; j++ {
 			if i < 1 {
 				dp[i][j][1] = -prices[i] // 第1天不管买卖多少次，手上无股票时收益=0，有股票是收益=-prices[0]
 
 			} else {
 				// 同一天同时进行买和卖操作收益=0，只有买1次或卖1次才会产生实际收益
-				// j表示交易次数，卖出时才+1
-				if j < 1 {
-					// j = 0 时，表示当天没有卖出行为，但可以今日买入 或 取前1日的股票
-					dp[i][j][1] = max(-prices[i], dp[i-1][j][1])
+				// j表示交易次数，买入时+1，包含1次买入再卖出
 
-				} else {
-					// 有交易次数(卖出)时
-					// 手上无股票: 取前1日j次交易的值 或 把前1日j-1次操作持有的股票卖出
-					// 手上有股票: 取前1日j次交易的值后再次买入后的值 或 把前1日j次卖出股票后的值+进入买股票
-					dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j-1][1]+prices[i])
-					dp[i][j][1] = max(dp[i-1][j][0]-prices[i], dp[i-1][j][1])
-				}
+				// 有交易次数(卖出)时
+				// 手上无股票: 取前1日j次交易的值 或 把前1日j-1次操作持有的股票卖出
+				// 手上有股票: 取前1日j次交易的值后再次买入后的值 或 把前1日j次卖出股票后的值+进入买股票
+				dp[i][j][0] = max(dp[i-1][j][0], dp[i-1][j][1]+prices[i])
+				dp[i][j][1] = max(dp[i-1][j][1], dp[i-1][j-1][0]-prices[i])
+
 			}
 		}
 	}
@@ -120,7 +116,7 @@ func maxProfit_1234(prices []int) int {
 
 	var k = 2
 	var dp = make([][2]int, k+1)
-	for i := 0; i <= k; i++ {
+	for i := 1; i <= k; i++ {
 		dp[i][1] = -prices[0]
 	}
 	for i := 1; i < len(prices); i++ {

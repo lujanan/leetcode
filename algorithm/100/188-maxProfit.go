@@ -37,7 +37,7 @@ package algorithm_100
 
 func maxProfit_188(k int, prices []int) int {
 	var dp = make([][2]int, k+1)
-	for i := 0; i <= k && len(prices) > 0; i++ {
+	for i := 1; i <= k && len(prices) > 0; i++ {
 		dp[i][1] = -prices[0]
 	}
 	for i := 1; i < len(prices); i++ {
