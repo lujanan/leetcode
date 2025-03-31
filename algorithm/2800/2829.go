@@ -43,8 +43,8 @@ func minimumSum(n int, k int) int {
 	if n <= k/2 {
 		return (1 + n) * n / 2
 	}
-	num := n - k/2 - 1
-	return (1+k/2)*k/2/2 + (k+k+num)*(num+1)/2
+	k2, num := k/2, n-k/2
+	return (1+k2)*k2/2 + (k+k+num-1)*num/2
 }
 
 func minimumSumV2(n int, k int) int {

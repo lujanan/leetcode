@@ -51,6 +51,7 @@ func Test_minimumSum(t *testing.T) {
 	}{
 		{"t1", args{5, 4}, 18},
 		{"t2", args{2, 6}, 3},
+		{"t3", args{35, 45}, 916},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
