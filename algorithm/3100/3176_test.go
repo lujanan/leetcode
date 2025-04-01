@@ -44,34 +44,29 @@
 
 package algorithm_3100
 
-// leetcode submit region begin(Prohibit modification and deletion)
-func maximumLength(nums []int, k int) int {
-	// nums[i] == nums[j]:   dp[k][i] = max(dp[k][j] + 1, dp[k][i])
-	// nums[i] != nums[j]:   dp[k][i] = max(dp[k-1][j] + 1, dp[k][i])
+import "testing"
 
-	var num = len(nums)
-	var dp = make([][]int, num)
-	for i := 0; i < num; i++ {
-		dp[i] = make([]int, k+2)
-		for j := 1; j < k+2; j++ {
-			dp[i][j] = 1
-		}
+func Test_maximumLength(t *testing.T) {
+	type args struct {
+		nums []int
+		k    int
 	}
-
-	var res int
-	for n := 1; n <= k+1; n++ {
-		for i := 0; i < num; i++ {
-			for j := i + 1; j < num; j++ {
-				if nums[i] == nums[j] {
-					dp[j][n] = max(dp[i][n]+1, dp[j][n])
-				} else {
-					dp[j][n] = max(dp[i][n-1]+1, dp[j][n])
-				}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"t1", args{[]int{1, 2, 1, 1, 3}, 2}, 4},
+		{"t2", args{[]int{1, 2, 3, 4, 5, 1}, 0}, 2},
+		{"t3", args{[]int{1, 2, 1, 1, 3, 1, 2, 3, 4, 5, 6, 7, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5}, 6}, 19},
+		{"t4", args{[]int{2}, 1}, 1},
+		{"t5", args{[]int{30, 30, 29}, 0}, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maximumLength(tt.args.nums, tt.args.k); got != tt.want {
+				t.Errorf("maximumLength() = %v, want %v", got, tt.want)
 			}
-			res = max(res, dp[i][n])
-		}
+		})
 	}
-	return res
 }
-
-//leetcode submit region end(Prohibit modification and deletion)
