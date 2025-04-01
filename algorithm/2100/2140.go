@@ -63,6 +63,18 @@ func mostPoints(questions [][]int) int64 {
 	// dp[i][1] = max(dp[next][0], dp[next][1]) + p
 
 	var l = len(questions)
+	var dp = make([]int64, l+1)
+	for i := l - 1; i >= 0; i-- {
+		dp[i] = max(dp[i+1], int64(questions[i][0])+dp[min(l, questions[i][1]+i+1)])
+	}
+	return dp[0]
+}
+
+func mostPointsV2(questions [][]int) int64 {
+	// dp[i][0] = max(dp[i+1][0], dp[i+1][1])
+	// dp[i][1] = max(dp[next][0], dp[next][1]) + p
+
+	var l = len(questions)
 	var dp = make([][2]int64, l)
 	dp[l-1][1] = int64(questions[l-1][0])
 	for i := l - 2; i >= 0; i-- {
