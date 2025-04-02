@@ -1,4 +1,4 @@
-// 2873.有序三元组中的最大值I
+// 2874.有序三元组中的最大值II
 //给你一个下标从 0 开始的整数数组 nums 。
 //
 // 请你从所有满足 i < j < k 的下标三元组 (i, j, k) 中，找出并返回下标三元组的最大值。如果所有满足条件的三元组的值都是负数，则返回 0
@@ -39,7 +39,7 @@
 // 提示：
 //
 //
-// 3 <= nums.length <= 100
+// 3 <= nums.length <= 10⁵
 // 1 <= nums[i] <= 10⁶
 //
 //
@@ -48,21 +48,33 @@
 package algorithm_2800
 
 // leetcode submit region begin(Prohibit modification and deletion)
-// 优化解法看 2874
-func maximumTripletValueV1(nums []int) int64 {
-	var res int64
+
+func maximumTripletValue(nums []int) int64 {
+	n := len(nums)
+	var res, imax, dmax int64 = 0, 0, 0
+	for k := 0; k < n; k++ {
+		res = max(res, dmax*int64(nums[k]))
+		dmax = max(dmax, imax-int64(nums[k]))
+		imax = max(imax, int64(nums[k]))
+	}
+	return res
+}
+
+func maximumTripletValueV2(nums []int) int64 {
+
+	var leftArr = make([]int, len(nums))
 	for i := 0; i < len(nums)-2; i++ {
-		for j := i + 1; j < len(nums)-1; j++ {
-			for k := j + 1; k < len(nums); k++ {
-				if res < int64(nums[i]-nums[j])*int64(nums[k]) {
-					res = int64(nums[i]-nums[j]) * int64(nums[k])
-				}
-			}
-		}
+		leftArr[i+1] = max(leftArr[i], nums[i])
 	}
 
-	if res < 0 {
-		res = 0
+	var rightArr = make([]int, len(nums))
+	for i := len(nums) - 1; i > 1; i-- {
+		rightArr[i-1] = max(rightArr[i], nums[i])
+	}
+
+	var res int64
+	for i := 1; i < len(nums)-1; i++ {
+		res = max(res, int64(leftArr[i]-nums[i])*int64(rightArr[i]))
 	}
 	return res
 }

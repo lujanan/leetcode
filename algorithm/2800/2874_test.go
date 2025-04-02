@@ -1,4 +1,4 @@
-// 2873.有序三元组中的最大值I
+// 2874.有序三元组中的最大值II
 //给你一个下标从 0 开始的整数数组 nums 。
 //
 // 请你从所有满足 i < j < k 的下标三元组 (i, j, k) 中，找出并返回下标三元组的最大值。如果所有满足条件的三元组的值都是负数，则返回 0
@@ -39,7 +39,7 @@
 // 提示：
 //
 //
-// 3 <= nums.length <= 100
+// 3 <= nums.length <= 10⁵
 // 1 <= nums[i] <= 10⁶
 //
 //
@@ -47,24 +47,26 @@
 
 package algorithm_2800
 
-// leetcode submit region begin(Prohibit modification and deletion)
-// 优化解法看 2874
-func maximumTripletValueV1(nums []int) int64 {
-	var res int64
-	for i := 0; i < len(nums)-2; i++ {
-		for j := i + 1; j < len(nums)-1; j++ {
-			for k := j + 1; k < len(nums); k++ {
-				if res < int64(nums[i]-nums[j])*int64(nums[k]) {
-					res = int64(nums[i]-nums[j]) * int64(nums[k])
-				}
+import "testing"
+
+func Test_maximumTripletValue(t *testing.T) {
+	type args struct {
+		nums []int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int64
+	}{
+		{"t1", args{[]int{12, 6, 1, 2, 7}}, 77},
+		{"t2", args{[]int{1, 10, 3, 4, 19}}, 133},
+		{"t3", args{[]int{1, 2, 3}}, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := maximumTripletValue(tt.args.nums); got != tt.want {
+				t.Errorf("maximumTripletValue() = %v, want %v", got, tt.want)
 			}
-		}
+		})
 	}
-
-	if res < 0 {
-		res = 0
-	}
-	return res
 }
-
-//leetcode submit region end(Prohibit modification and deletion)
