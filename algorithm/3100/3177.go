@@ -66,9 +66,6 @@ func maximumLengthV2(nums []int, k int) int {
 
 		for j := 0; j <= k; j++ {
 			zd[j] = max(zd[j], tmp[j])
-			if j > 0 {
-				zd[j] = max(zd[j], zd[j-1])
-			}
 		}
 	}
 	return zd[k]

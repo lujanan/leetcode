@@ -45,31 +45,28 @@
 package algorithm_3100
 
 // leetcode submit region begin(Prohibit modification and deletion)
+// 时间复杂度 O(k*n^2)
 func maximumLength(nums []int, k int) int {
 	// nums[i] == nums[j]:   dp[k][i] = max(dp[k][j] + 1, dp[k][i])
 	// nums[i] != nums[j]:   dp[k][i] = max(dp[k-1][j] + 1, dp[k][i])
 
 	var num = len(nums)
 	var dp = make([][]int, num)
-	for i := 0; i < num; i++ {
-		dp[i] = make([]int, k+2)
-		for j := 1; j < k+2; j++ {
-			dp[i][j] = 1
-		}
-	}
 
 	var res int
-	for n := 1; n <= k+1; n++ {
-		for i := 0; i < num; i++ {
-			for j := i + 1; j < num; j++ {
+	for i := 0; i < num; i++ {
+		dp[i] = make([]int, k+2)
+		for l := 1; l < k+2; l++ {
+			dp[i][l] = 1
+			for j := 0; j < i; j++ {
 				if nums[i] == nums[j] {
-					dp[j][n] = max(dp[i][n]+1, dp[j][n])
+					dp[i][l] = max(dp[j][l]+1, dp[i][l])
 				} else {
-					dp[j][n] = max(dp[i][n-1]+1, dp[j][n])
+					dp[i][l] = max(dp[j][l-1]+1, dp[i][l])
 				}
 			}
-			res = max(res, dp[i][n])
 		}
+		res = max(res, dp[i][k+1])
 	}
 	return res
 }
