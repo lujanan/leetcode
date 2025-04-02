@@ -46,6 +46,32 @@ package algorithm_3100
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func maximumLengthV2(nums []int, k int) int {
+	ll := len(nums)
+	dp := make(map[int][]int) // 存储已数字nums[i]结尾的各个维度[0,k]的最长子序列长度
+	zd := make([]int, k+2) // 存储nums[i]之前的各个维度[0,k]的最长子序列长度
+
+	for i := 0; i < ll; i++ {
+		var num = nums[i]
+		if _, ok := dp[num]; !ok {
+			dp[num] = make([]int, k+2)
+		}
+
+		// nums[i] 结尾的子序列长度
+		// dp[i][l] = dp[i][l] + 1, nums[i] == nums[j]
+		// dp[i][l] = zd[l-1] + 1, nums[i] != nums[j]
+		// 状态转移时，zd[l-1] <= dp[i][l]，因为在l相等的情况下，nums[i] == nums[j]时的长度肯定大于等于nums[i] != nums[j]的子序列长度
+		for j := 1; j < k+2; j++ {
+			dp[num][j] = max(dp[num][j]+1, zd[j-1]+1) 
+		}
+
+		for j := 1; j < k+2; j++ {
+			zd[j] = max(zd[j], dp[num][j]) // 维护zd的状态为各维度下的最大值
+		}
+	}
+	return zd[k+1]
+}
+
+func maximumLengthV3(nums []int, k int) int {
 	lenNums := len(nums)
 	dp := make(map[int][]int)
 	zd := make([]int, k+1)
