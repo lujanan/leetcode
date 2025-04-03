@@ -55,7 +55,7 @@ func Test_predictTheWinner(t *testing.T) {
 	}{
 		{"t1", args{[]int{1, 5, 2}}, false},
 		{"t2", args{[]int{1, 5, 233, 7}}, true},
-		{"t3", args{[]int{0}}, false},
+		{"t3", args{[]int{0}}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

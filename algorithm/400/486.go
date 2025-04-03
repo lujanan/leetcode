@@ -44,7 +44,26 @@ package algorithm_400
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func predictTheWinner(nums []int) bool {
-	// dp[0][n-1] = max( p[0] + dp[1][n-2], p[n-1] + dp[0][n-2])
+	// dp[i][j] = max( p[i] - dp[i+1][j], p[j] - dp[i][j-1])
+
+	var ll = len(nums)
+	var dp = make([][]int, ll)
+	for i := 0; i < ll; i++ {
+		dp[i] = make([]int, ll)
+		dp[i][i] = nums[i]
+	}
+
+	for i := ll - 2; i >= 0; i-- {
+		for j := i + 1; j < ll; j++ {
+			dp[i][j] = max(nums[i]-dp[i+1][j], nums[j]-dp[i][j-1])
+		}
+	}
+
+	return dp[0][ll-1] >= 0
+}
+
+func predictTheWinnerV2(nums []int) bool {
+	// dp[i][j] = max( p[i] - dp[i+1][j], p[j] - dp[i][j-1])
 
 	var predict func(s, e, turn int) int
 	predict = func(s, e, turn int) int {
