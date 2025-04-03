@@ -47,6 +47,23 @@ func predictTheWinner(nums []int) bool {
 	// dp[i][j] = max( p[i] - dp[i+1][j], p[j] - dp[i][j-1])
 
 	var ll = len(nums)
+	var dp = make([]int, ll)
+	for i := 0; i < ll; i++ {
+		dp[i] = nums[i]
+	}
+
+	for i := ll - 2; i >= 0; i-- {
+		for j := i + 1; j < ll; j++ {
+			dp[j] = max(nums[i]-dp[j], nums[j]-dp[j-1])
+		}
+	}
+	return dp[ll-1] >= 0
+}
+
+func predictTheWinnerV1(nums []int) bool {
+	// dp[i][j] = max( p[i] - dp[i+1][j], p[j] - dp[i][j-1])
+
+	var ll = len(nums)
 	var dp = make([][]int, ll)
 	for i := 0; i < ll; i++ {
 		dp[i] = make([]int, ll)
