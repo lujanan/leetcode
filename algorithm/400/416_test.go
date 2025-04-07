@@ -42,8 +42,8 @@ func Test_canPartition(t *testing.T) {
 		args args
 		want bool
 	}{
-		// {"t1", args{[]int{1, 5, 11, 5}}, true},
-		// {"t2", args{[]int{1, 2, 3, 5}}, false},
+		{"t1", args{[]int{1, 5, 11, 5}}, true},
+		{"t2", args{[]int{1, 2, 3, 5}}, false},
 		{"t3", args{[]int{1, 2, 5}}, false},
 	}
 	for _, tt := range tests {

@@ -33,19 +33,30 @@ package algorithm_400
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func canPartition(nums []int) bool {
-	var total int
+	var total, max int
 	for i := 0; i < len(nums); i++ {
 		total += nums[i]
+		if max < nums[i] {
+			max = nums[i]
+		}
 	}
-	if total&1 != 0 {
+	var half = total >> 1
+	if total&1 != 0 || max > half {
 		return false
+	}
+	if max == half {
+		return true
 	}
 
 	// 转换成(0,1)背包问题，total/2为背包容量，求是否存在1~n-1个数字能恰好填满背包容量
-	// dp[i] = dp[i-nums[i]] + nums[i]
-	var dp = make([]int, total>>1+1)
+	// dp[j] = dp[j-nums[i]] + nums[i]
+	var dp = make([]int, half+1)
 	dp[0] = 1
 	for i := 0; i < len(nums); i++ {
+		if nums[i] == half {
+			return true
+		}
+
 		for j := len(dp) - 1; j >= 0; j-- {
 			if dp[j] != 1 && j-nums[i] >= 0 && dp[j-nums[i]] == 1 {
 				dp[j] = 1
