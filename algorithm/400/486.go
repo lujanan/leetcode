@@ -82,17 +82,17 @@ func predictTheWinnerV1(nums []int) bool {
 func predictTheWinnerV2(nums []int) bool {
 	// dp[i][j] = max( p[i] - dp[i+1][j], p[j] - dp[i][j-1])
 
-	var predict func(s, e, turn int) int
-	predict = func(s, e, turn int) int {
+	var predict func(s, e int) int
+	predict = func(s, e int) int {
 		if s == e {
-			return nums[s] * turn
+			return nums[s]
 		}
 
-		sp := nums[s]*turn + predict(s+1, e, -turn)
-		ep := nums[e]*turn + predict(s, e-1, -turn)
-		return max(sp*turn, ep*turn) * turn
+		sp := nums[s] - predict(s+1, e)
+		ep := nums[e] - predict(s, e-1)
+		return max(sp, ep)
 	}
-	return predict(0, len(nums)-1, 1) >= 0
+	return predict(0, len(nums)-1) >= 0
 }
 
 //leetcode submit region end(Prohibit modification and deletion)

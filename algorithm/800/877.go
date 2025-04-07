@@ -47,23 +47,42 @@ package algorithm_800
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func stoneGame(piles []int) bool {
-	// dp[0][0] = p[0] - p[1] || p[0] - p[n]
-	// dp[0][1] = p[n] - p[0] || p[n] - p[n-1]
+	// 数学解法，先手必胜...，
+	// 长度是偶数，可以分别直接计算偶数下标和奇数下标的数的和，先手的的玩家直接取大的那组下标就能赢
+	// 直接 return true
 
-	
+	// dp[i][j] = max(piles[i] - dp[i+1][j], piles[j] - dp[i][j-1])
 
-	var stone func(s, e int) int
-	stone = func(s, e int) int {
-		if s == e {
-			return 0
-		}
-
-		a1 := piles[s] - stone(s+1, e)
-		a2 := piles[e] - stone(s, e-1)
-		return max(a1, a2)
+	var ll = len(piles)
+	var dp = make([]int, ll)
+	for i := 0; i < ll; i++ {
+		dp[i] = piles[i]
 	}
 
-	return stone(0, len(piles)-1) > 0
+	for i := ll - 2; i >= 0; i-- {
+		for j := i + 1; j < ll; j++ {
+			dp[j] = max(piles[i]-dp[j], piles[j]-dp[j-1])
+		}
+	}
+	return dp[ll-1] > 0
+}
+
+func stoneGameV0(piles []int) bool {
+	// dp[i][j] = max(piles[i] - dp[i+1][j], piles[j] - dp[i][j-1])
+
+	var ll = len(piles)
+	var dp = make([][]int, ll)
+	for i := 0; i < ll; i++ {
+		dp[i] = make([]int, ll)
+		dp[i][i] = piles[i]
+	}
+
+	for i := ll - 2; i >= 0; i-- {
+		for j := i + 1; j < ll; j++ {
+			dp[i][j] = max(piles[i]-dp[i+1][j], piles[j]-dp[i][j-1])
+		}
+	}
+	return dp[0][ll-1] > 0
 }
 
 //leetcode submit region end(Prohibit modification and deletion)

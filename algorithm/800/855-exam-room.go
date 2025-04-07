@@ -48,23 +48,23 @@
 package algorithm_800
 
 // leetcode submit region begin(Prohibit modification and deletion)
-type ExamRoom struct {
-	MaxIdx   int
-	Nums     []int
-	SeatNums []int
-}
+// type ExamRoom struct {
+// 	MaxIdx   int
+// 	Nums     []int
+// 	SeatNums []int
+// }
 
-func Constructor(n int) ExamRoom {
+// func Constructor(n int) ExamRoom {
 
-}
+// }
 
-func (this *ExamRoom) Seat() int {
+// func (this *ExamRoom) Seat() int {
 
-}
+// }
 
-func (this *ExamRoom) Leave(p int) {
+// func (this *ExamRoom) Leave(p int) {
 
-}
+// }
 
 
 
