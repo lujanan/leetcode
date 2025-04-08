@@ -72,11 +72,11 @@ func stoneGameIII(stoneValue []int) string {
 		dp[i][2] = stoneValue[i]
 		dp[i][3] = stoneValue[i]
 		if i+1 < ll {
-			dp[i][2] = stoneValue[i] + stoneValue[i+1] - max(dp[i+2][1], dp[i+2][2], dp[i+2][3])
+			dp[i][2] += stoneValue[i+1] - max(dp[i+2][1], dp[i+2][2], dp[i+2][3])
 			dp[i][3] += stoneValue[i+1]
 		}
 		if i+2 < ll {
-			dp[i][3] = stoneValue[i] + stoneValue[i+1] + stoneValue[i+2] - max(dp[i+3][1], dp[i+3][2], dp[i+3][3])
+			dp[i][3] += stoneValue[i+2] - max(dp[i+3][1], dp[i+3][2], dp[i+3][3])
 		}
 	}
 
