@@ -76,10 +76,8 @@ func minimumOperations(nums []int) int {
 	var numMap, mutiMap = make(map[int]int), make(map[int]int)
 	for i := 0; i < len(nums); i++ {
 		numMap[nums[i]]++
-	}
-	for k, v := range mutiMap {
-		if v < 2 {
-			delete(mutiMap, k)
+		if numMap[nums[i]] > 1 {
+			mutiMap[nums[i]] = numMap[nums[i]]
 		}
 	}
 
