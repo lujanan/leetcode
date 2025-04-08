@@ -50,6 +50,42 @@ func stoneGameII(piles []int) int {
 
 	// dp[i][m][x] = sum(p[i]...p[i+x-1]) - max(dp[i+x][max(m,x)][1 ~ 2*max(m,x)])
 
+	var ll = len(piles)
+	var dp = make([][]int, ll)
+	dp[0] = make([]int, ll)
+	for i := 1; i < len(piles); i++ {
+		piles[i] += piles[i-1]
+		dp[i] = make([]int, ll)
+	}
+	dp[ll-1][0] = piles[0]
+	if ll > 1 {
+		dp[ll-1][0] = piles[ll-1] - piles[ll-2]
+	}
+
+	for i := ll - 2; i >= 0; i-- {
+		var pre = 0
+		if i > 0 {
+			pre = piles[i] - piles[i-1]
+		}
+
+		for m := 0; m < ll/2; m++ {
+			for j := 0; j < 2*(m+1) && i+j+1 < ll; j++ {
+				dp[i][m] = max(dp[i][m], piles[i+j]-pre-dp[i+j+1][max(m, j+1)])
+			}
+		}
+	}
+
+	
+	return 0
+}
+
+func stoneGameIIV1(piles []int) int {
+	// dp[0][1][1] = p[0] - (dp[1][1][1], dp[1][1][2])
+	// dp[0][1][2] = p[0] + p[1] - (dp[2][2][1], dp[2][2][2], dp[2][2][3], dp[2][2][4])
+
+	// dp[i][m][x] = sum(p[i]...p[i+x-1]) - max(dp[i+x][max(m,x)][1 ~ 2*max(m,x)])
+
+	// 记忆化搜索
 	var sMap = make([]map[int]int, len(piles))
 	sMap[0] = make(map[int]int)
 	for i := 1; i < len(piles); i++ {
@@ -71,7 +107,6 @@ func stoneGameII(piles []int) int {
 		if _, ok := sMap[idx][m]; ok {
 			return sMap[idx][m]
 		}
-
 
 		var num = math.MinInt64
 		var pre int
