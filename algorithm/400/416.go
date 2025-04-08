@@ -57,8 +57,8 @@ func canPartition(nums []int) bool {
 			return true
 		}
 
-		for j := len(dp) - 1; j >= 0; j-- {
-			if dp[j] != 1 && j-nums[i] >= 0 && dp[j-nums[i]] == 1 {
+		for j := len(dp) - 1; j >= nums[i]; j-- {
+			if dp[j] != 1 && dp[j-nums[i]] == 1 {
 				dp[j] = 1
 			}
 		}
