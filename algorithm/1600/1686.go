@@ -69,13 +69,13 @@ import "container/heap"
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func stoneGameVI(aliceValues []int, bobValues []int) int {
-	var aliceHeap = make(StoneHeap, len(aliceValues))
+	var aliceHeap = make(StoneHeap, 0, len(aliceValues))
 	for i := 0; i < len(aliceValues); i++ {
 		aliceHeap = append(aliceHeap, &StoneVal{Point: aliceValues[i], Idx: i})
 	}
 	heap.Init(&aliceHeap)
 
-	var bobHeap = make(StoneHeap, len(bobValues))
+	var bobHeap = make(StoneHeap, 0, len(bobValues))
 	for i := 0; i < len(bobValues); i++ {
 		bobHeap = append(bobHeap, &StoneVal{Point: bobValues[i], Idx: i})
 	}
@@ -129,7 +129,7 @@ func (h StoneHeap) Len() int {
 	return len(h)
 }
 func (h StoneHeap) Less(i, j int) bool {
-	return h[i].Point < h[j].Point
+	return h[i].Point > h[j].Point
 }
 func (h StoneHeap) Swap(i, j int) {
 	h[i], h[j] = h[j], h[i]
