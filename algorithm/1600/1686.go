@@ -65,86 +65,35 @@
 
 package algorithm_1600
 
-import "container/heap"
+import "sort"
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func stoneGameVI(aliceValues []int, bobValues []int) int {
-	var aliceHeap = make(StoneHeap, 0, len(aliceValues))
+	// 取最大分值，取自己的或对方的，
+	// 把对方的最大分值取走，虽然自己获得的分值减小，但对方获得的分值也减小了
+	var abArr = make([][2]int, len(aliceValues))
 	for i := 0; i < len(aliceValues); i++ {
-		aliceHeap = append(aliceHeap, &StoneVal{Point: aliceValues[i], Idx: i})
+		abArr[i] = [2]int{aliceValues[i] + bobValues[i], i}
 	}
-	heap.Init(&aliceHeap)
+	sort.Slice(abArr, func(i, j int) bool { return abArr[i][0] > abArr[j][0] })
 
-	var bobHeap = make(StoneHeap, 0, len(bobValues))
-	for i := 0; i < len(bobValues); i++ {
-		bobHeap = append(bobHeap, &StoneVal{Point: bobValues[i], Idx: i})
-	}
-	heap.Init(&bobHeap)
-
-	var alice, bob int
-	var idxMap = make(map[int]int)
+	var res int
 	var isAlice = true
-	for len(idxMap) < len(aliceValues) {
+	for i := 0; i < len(aliceValues); i++ {
 		if isAlice {
-			for aliceHeap.Len() > 0 {
-				p := heap.Pop(&aliceHeap).(*StoneVal)
-				if _, ok := idxMap[p.Idx]; ok {
-					continue
-				}
-
-				alice += p.Point
-				idxMap[p.Idx] = 1
-			}
+			res += aliceValues[abArr[i][1]]
 		} else {
-			for bobHeap.Len() > 0 {
-				p := heap.Pop(&bobHeap).(*StoneVal)
-				if _, ok := idxMap[p.Idx]; ok {
-					continue
-				}
-
-				bob += p.Point
-				idxMap[p.Idx] = 1
-			}
+			res -= bobValues[abArr[i][1]]
 		}
-
 		isAlice = !isAlice
 	}
 
-	if alice > bob {
+	if res > 0 {
 		return 1
-	} else if alice < bob {
+	} else if res < 0 {
 		return -1
 	}
 	return 0
-}
-
-type StoneVal struct {
-	Point int
-	Idx   int
-}
-
-type StoneHeap []*StoneVal
-
-func (h StoneHeap) Len() int {
-	return len(h)
-}
-func (h StoneHeap) Less(i, j int) bool {
-	return h[i].Point > h[j].Point
-}
-func (h StoneHeap) Swap(i, j int) {
-	h[i], h[j] = h[j], h[i]
-}
-
-func (h *StoneHeap) Push(x any) {
-	*h = append(*h, x.(*StoneVal))
-}
-func (h *StoneHeap) Pop() any {
-	old := *h
-	n := len(old)
-	item := old[n-1]
-	old[n-1] = nil
-	*h = old[0 : n-1]
-	return item
 }
 
 //leetcode submit region end(Prohibit modification and deletion)

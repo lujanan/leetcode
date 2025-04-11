@@ -77,9 +77,9 @@ func Test_stoneGameVI(t *testing.T) {
 		args args
 		want int
 	}{
-		// {"t1", args{[]int{1, 3}, []int{2, 1}}, 1},
+		{"t1", args{[]int{1, 3}, []int{2, 1}}, 1},
 		{"t2", args{[]int{1, 2}, []int{3, 1}}, 0},
-		// {"t3", args{[]int{2, 4, 3}, []int{1, 6, 7}}, -1},
+		{"t3", args{[]int{2, 4, 3}, []int{1, 6, 7}}, -1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
