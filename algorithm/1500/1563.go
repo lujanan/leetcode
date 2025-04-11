@@ -54,9 +54,6 @@ func stoneGameV(stoneValue []int) int {
 	for i := 0; i < sl; i++ {
 		pre[i+1] = pre[i] + stoneValue[i]
 	}
-	var getPoint = func(i, j int) int {
-		return pre[j+1] - pre[i]
-	}
 
 	var dp = make([][]int, sl+1)
 	for i := 0; i <= sl; i++ {
@@ -66,24 +63,14 @@ func stoneGameV(stoneValue []int) int {
 	for i := sl - 2; i >= 0; i-- {
 		for j := i + 1; j < sl; j++ {
 			for k := i; k < j; k++ {
-				// if pre[k+1]-pre[i] < pre[j+1]-pre[k] {
-				// 	dp[i][j] = max(dp[i][j], pre[k+1]-pre[i]+dp[i][k])
+				if pre[k+1]-pre[i] < pre[j+1]-pre[k+1] {
+					dp[i][j] = max(dp[i][j], pre[k+1]-pre[i]+dp[i][k])
 
-				// } else if pre[k+1]-pre[i] > pre[j+1]-pre[k] {
-				// 	dp[i][j] = max(dp[i][j], pre[j+1]-pre[k]+dp[k+1][j])
-
-				// } else {
-				// 	dp[i][j] = max(dp[i][j], pre[k+1]-pre[i]+dp[i][k], pre[j+1]-pre[k]+dp[k+1][j])
-				// }
-
-				if getPoint(i, k) < getPoint(k+1, j) {
-					dp[i][j] = max(dp[i][j], getPoint(i, k)+dp[i][k])
-
-				} else if getPoint(i, k) > getPoint(k+1, j) {
-					dp[i][j] = max(dp[i][j], getPoint(k+1, j)+dp[k+1][j])
+				} else if pre[k+1]-pre[i] > pre[j+1]-pre[k+1] {
+					dp[i][j] = max(dp[i][j], pre[j+1]-pre[k+1]+dp[k+1][j])
 
 				} else {
-					dp[i][j] = max(dp[i][j], getPoint(i, k)+dp[i][k], getPoint(k+1, j)+dp[k+1][j])
+					dp[i][j] = max(dp[i][j], pre[k+1]-pre[i]+dp[i][k], pre[j+1]-pre[k+1]+dp[k+1][j])
 				}
 			}
 		}
