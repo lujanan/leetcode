@@ -47,6 +47,27 @@ package algorithm_1600
 
 // leetcode submit region begin(Prohibit modification and deletion)
 func stoneGameVII(stones []int) int {
+	// alice尽量的高分，
+	// bob尽量得高分的同时让alice尽量得少分则能实现分差尽量少
+
+	// dp[i][j] = max(s[j-1]-s[i-1] - dp[i][j-1], s[j]-s[i] - dp[i+1][j])
+	var ll = len(stones)
+	var pre = make([]int, ll+1)
+	for i := 0; i < ll; i++ {
+		pre[i+1] = pre[i] + stones[i]
+	}
+
+	// i == j 时，即剩下最后一堆石子，得分 dp[i][j] = 0
+	var dp = make([]int, ll+1)
+	for i := ll - 1; i >= 0; i-- {
+		for j := i + 1; j < ll; j++ {
+			dp[j] = max(pre[j]-pre[i]-dp[j-1], pre[j+1]-pre[i+1]-dp[j])
+		}
+	}
+	return dp[ll-1]
+}
+
+func stoneGameVIIV0(stones []int) int {
 	var ll = len(stones)
 	for i := 1; i < ll; i++ {
 		stones[i] += stones[i-1]
@@ -59,6 +80,7 @@ func stoneGameVII(stones []int) int {
 	}
 
 	// dp[i][j] = max(s[j-1]-s[i-1] - dp[i][j-1], s[j]-s[i] - dp[i+1][j])
+	// i == j 时，即剩下最后一堆石子，得分 dp[i][j] = 0
 	var dp = make([][]int, ll+1)
 	for i := 0; i <= ll; i++ {
 		dp[i] = make([]int, ll+1)
