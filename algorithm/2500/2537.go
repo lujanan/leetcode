@@ -45,6 +45,29 @@ func countGood(nums []int, k int) int64 {
 	var ll = len(nums)
 	var res int64
 
+	for i, j := 0, -1; i < ll; i++ {
+		for goodNum < k && j < ll-1 {
+			j++
+			goodNum += numMap[nums[j]]
+			numMap[nums[j]]++
+		}
+
+		if goodNum >= k {
+			res += int64(ll - j)
+		}
+		numMap[nums[i]]--
+		goodNum -= numMap[nums[i]]
+	}
+
+	return res
+}
+
+func countGoodV0(nums []int, k int) int64 {
+	var numMap = make(map[int]int)
+	var goodNum int
+	var ll = len(nums)
+	var res int64
+
 	var updateNum = func(idx int, add bool) {
 		if add {
 			numMap[nums[idx]]++
