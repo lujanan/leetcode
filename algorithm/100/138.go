@@ -85,31 +85,31 @@ func copyRandomList(head *Node138) *Node138 {
 		return nil
 	}
 
-	var nodeList []*Node138
-	var cpNode = &Node138{
-		Val:    head.Val,
-		Random: head.Random,
-	}
-	nodeList = append(nodeList, cpNode)
-
-	var ori = head.Next
-	var tar = cpNode
+	var cpNode, pre *Node138
 	var nodeMap = make(map[*Node138]*Node138)
 
-	for ori != nil {
+	for head != nil {
 		var tmp = &Node138{
-			Val:    ori.Val,
-			Random: ori.Random,
+			Val:    head.Val,
+			Random: head.Random,
 		}
-		tar.Next = tmp
-		nodeList = append(nodeList, tmp)
 
-		ori = ori.Next
-		tar = tar.Next
+		if cpNode == nil {
+			cpNode = tmp
+			pre = tmp
+		} else {
+			pre.Next = tmp
+			pre = pre.Next
+		}
+
+		nodeMap[head] = tmp
+		head = head.Next
 	}
 
-	for i := 0; i < count; i++ {
-		
+	for cur := cpNode; cur != nil; cur = cur.Next {
+		if cur.Random != nil {
+			cur.Random = nodeMap[cur.Random]
+		}
 	}
 
 	return cpNode
