@@ -50,7 +50,7 @@
 
 package algorithm_2000
 
-func countMaxOrSubsets(nums []int) int {
+func countMaxOrSubsets1(nums []int) int {
 	var maxNum, res int
 	var n = len(nums)
 	var fn func(idx, num int)
@@ -68,6 +68,29 @@ func countMaxOrSubsets(nums []int) int {
 		fn(idx+1, num)
 		fn(idx+1, num|nums[idx])
 	}
+	fn(0, 0)
+	return res
+}
+
+func countMaxOrSubsets(nums []int) int {
+	var maxNum, res int
+	var n = len(nums)
+	var fn func(idx, num int)
+	fn = func(idx, num int) {
+		if idx == n {
+			if maxNum < num {
+				maxNum = num
+				res = 1
+			} else if maxNum == num {
+				res++
+			}
+			return
+		}
+
+		fn(idx+1, num)
+		fn(idx+1, num|nums[idx])
+	}
+
 	fn(0, 0)
 	return res
 }
