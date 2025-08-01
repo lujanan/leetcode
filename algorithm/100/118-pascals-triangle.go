@@ -2,7 +2,7 @@ package algorithm_100
 
 // 杨辉三角
 // https://leetcode-cn.com/problems/pascals-triangle/
-func generate(numRows int) [][]int {
+func generate1(numRows int) [][]int {
 	var (
 		result      = make([][]int, numRows)
 		left, right int
@@ -22,4 +22,19 @@ func generate(numRows int) [][]int {
 		}
 	}
 	return result
+}
+
+func generate(numRows int) [][]int {
+	var ans [][]int
+	for i := 0; i < numRows; i++ {
+		var row = make([]int, i+1)
+		row[0] = 1
+		row[i] = 1
+		for j := 1; j < i; j++ {
+			row[j] = ans[i-1][j-1] + ans[i-1][j]
+		}
+		ans = append(ans, row)
+	}
+
+	return ans
 }
