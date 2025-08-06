@@ -5,11 +5,18 @@ package algorith_3400
 func numOfUnplacedFruitsIII(fruits []int, baskets []int) int {
 	// 构建线段树，节点为每个区间的最大值
 	var ll = len(baskets)
-	var tree = make([]int, ll<<1+1)
-	for i := ll; i < ll<<1; i++ {
-		tree[i] = baskets[i-ll]
+	for i := 2; ; i <<= 1 { // 寻找构造完全二叉树的最小长度，可能会浪费空间
+		if ll <= i {
+			ll = i
+			break
+		}
 	}
-	for i := ll; i > 0; i-- {
+
+	var tree = make([]int, ll<<1-1)
+	for i := 0; i < len(baskets); i++ {
+		tree[i+ll-1] = baskets[i]
+	}
+	for i := ll - 1; i > 0; i-- {
 		tree[i-1] = max(tree[i<<1-1], tree[i<<1])
 	}
 
@@ -18,7 +25,7 @@ func numOfUnplacedFruitsIII(fruits []int, baskets []int) int {
 			return false
 		}
 		var hit = 1
-		for i := 1; i <= ll; {
+		for i := 1; i < ll; {
 			// 优先查左节点
 			hit = i << 1
 			i <<= 1

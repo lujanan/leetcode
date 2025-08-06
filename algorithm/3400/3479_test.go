@@ -14,8 +14,8 @@ func Test_numOfUnplacedFruitsIII(t *testing.T) {
 		args args
 		want int
 	}{
-		// {"t1", args{[]int{4, 2, 5}, []int{3, 5, 4}}, 1},
-		// {"t2", args{[]int{3, 6, 1}, []int{6, 4, 7}}, 0},
+		{"t1", args{[]int{4, 2, 5}, []int{3, 5, 4}}, 1},
+		{"t2", args{[]int{3, 6, 1}, []int{6, 4, 7}}, 0},
 		{"t3", args{[]int{4, 2, 5, 1, 3}, []int{3, 5, 4, 1, 5}}, 1},
 	}
 	for _, tt := range tests {
