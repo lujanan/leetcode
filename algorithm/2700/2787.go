@@ -2,8 +2,26 @@
 
 package algorithm_2700
 
+import "math"
+
+// 动态规划
+// 0-1背包问题，针对1~n的数字取或不取进行遍历
 func numberOfWays(n int, x int) int {
-	
+	var dp = make([]int, n+1)
+	dp[0] = 1
+	var numPowX int
+	for i := 1; i <= n; i++ {
+		numPowX = int(math.Pow(float64(i), float64(x)))
+		if numPowX > n {
+			break
+		}
+		for j := n; j >= 0; j-- {
+			if j >= numPowX {
+				dp[j] = (dp[j] + dp[j-numPowX]) % 1000000007
+			}
+		}
+	}
+	return dp[n]
 }
 
 // 回溯+剪枝
