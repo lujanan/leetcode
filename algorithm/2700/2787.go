@@ -3,6 +3,11 @@
 package algorithm_2700
 
 func numberOfWays(n int, x int) int {
+	
+}
+
+// 回溯+剪枝
+func numberOfWays1(n int, x int) int {
 	var ansMap = make(map[int]int)
 	var searchFn func(num, idx int) int
 	searchFn = func(num, idx int) int {
