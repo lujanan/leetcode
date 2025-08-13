@@ -3,10 +3,7 @@
 package algorithm_300
 
 func isPowerOfThree(n int) bool {
-	for n >= 3 {
-		if n%3 != 0 {
-			return false
-		}
+	for n > 0 && n%3 == 0 {
 		n /= 3
 	}
 	return n == 1
