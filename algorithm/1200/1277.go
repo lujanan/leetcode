@@ -4,6 +4,33 @@ package algorithm_1200
 
 func countSquares(matrix [][]int) int {
 	var m, n = len(matrix), len(matrix[0])
+	var ans int
+	var dp [2][]int
+	for i := 0; i < 2; i++ {
+		dp[i] = make([]int, n)
+	}
+	
+	for i := 0; i < m; i++ {
+		dp[1][0] = matrix[i][0]
+		ans += dp[1][0]
+
+		for j := 1; j < n; j++ {
+			if matrix[i][j] == 0 {
+				dp[1][j] = 0
+				continue
+			}
+			dp[1][j] = 1 + min(dp[0][j-1], dp[0][j], dp[1][j-1])
+			ans += dp[1][j]
+		}
+
+		dp[0], dp[1] = dp[1], dp[0]
+	}
+
+	return ans
+}
+
+func countSquaresV0(matrix [][]int) int {
+	var m, n = len(matrix), len(matrix[0])
 	var minL = min(m, n) + 1
 	var ans int
 	var dp [2][][]int
