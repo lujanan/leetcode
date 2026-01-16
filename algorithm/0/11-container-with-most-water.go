@@ -56,3 +56,16 @@ func maxAreaV2(height []int) int {
 	}
 	return water
 }
+
+func maxAreaV3(height []int) int {
+	var res int
+	for i, j := 0, len(height)-1; i < j; {
+		res = max(res, min(height[i], height[j])*(j-i))
+		if height[i] < height[j] {
+			i++
+		} else {
+			j--
+		}
+	}
+	return res
+}

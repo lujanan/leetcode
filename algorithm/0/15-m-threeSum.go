@@ -40,6 +40,42 @@ package algorithm_0
 
 import "sort"
 
+func threeSumV2(nums []int) [][]int {
+	var n = len(nums)
+	sort.Ints(nums)
+	var res [][]int
+	for k := 0; k < n-2; k++ {
+		if nums[k] > 0 {
+			break
+		}
+		if k > 0 && nums[k] == nums[k-1] {
+			continue
+		}
+
+		for i, j := k+1, n-1; i < j; {
+			var sum = nums[k] + nums[i] + nums[j]
+			if sum == 0 {
+				res = append(res, []int{nums[k], nums[i], nums[j]})
+			}
+
+			if sum <= 0 {
+				i++
+				for i < n && nums[i] == nums[i-1] {
+					i++
+				}
+
+			} else {
+				j--
+				for j < n && nums[j] == nums[j+1] {
+					j--
+				}
+			}
+		}
+	}
+
+	return res
+}
+
 func threeSum(nums []int) [][]int {
 	var n = len(nums)
 	sort.Ints(nums)
@@ -59,7 +95,7 @@ func threeSum(nums []int) [][]int {
 				res = append(res, []int{nums[k], nums[i], nums[j]})
 			}
 
-			if sum <= 0 {
+			if sum < 0 {
 				i++
 				for i < n && nums[i] == nums[i-1] {
 					i++
