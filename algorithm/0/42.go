@@ -43,7 +43,7 @@ func trap(height []int) int {
 	var leftMax, rightMax = 0, 0
 	for left < right {
 		leftMax, rightMax = max(leftMax, height[left]), max(rightMax, height[right])
-		
+
 		if height[left] <= height[right] {
 			num += leftMax - height[left]
 			left++
@@ -95,6 +95,23 @@ func trapV3(height []int) int {
 	for i := 0; i < hl; i++ {
 		num += min(left[i], right[i]) - height[i]
 	}
+	return num
+}
+
+func trapV4(height []int) int {
+	var n = len(height)
+	var ln, rn = make([]int, n), make([]int, n)
+	ln[0], rn[n-1] = height[0], height[n-1]
+	for i := 1; i < n; i++ {
+		ln[i] = max(ln[i-1], height[i])
+		rn[n-1-i] = max(rn[n-i], height[n-1-i])
+	}
+
+	var num int
+	for i := 0; i < n; i++ {
+		num += min(ln[i], rn[i]) - height[i]
+	}
+
 	return num
 }
 

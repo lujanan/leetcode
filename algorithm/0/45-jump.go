@@ -61,9 +61,6 @@ func jump1(nums []int) int {
 
 // 贪心
 func jump(nums []int) int {
-	if len(nums) < 1 {
-		return 0
-	}
 	var idx, step, maxPos int
 	for i := 0; i < len(nums)-1; i++ {
 		maxPos = max(maxPos, i+nums[i])

@@ -37,6 +37,15 @@
 
 package algorithm_100
 
+func maxProfitV1(prices []int) int {
+	var b, p = prices[0], 0
+	for i := 1; i < len(prices); i++ {
+		p = max(p, prices[i] - b)
+		b = min(b, prices[i])
+	}
+	return p
+}
+
 func maxProfit(prices []int) int {
 	var buy, sell = prices[0], 0
 	for i := 1; i < len(prices); i++ {

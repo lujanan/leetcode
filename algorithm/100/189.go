@@ -48,6 +48,28 @@ package algorithm_100
 
 // leetcode submit region begin(Prohibit modification and deletion)
 
+func rotateV4(nums []int, k int) []int {
+	var ln = len(nums)
+	k %= ln
+	if k < 1 || k == ln || ln <= 1 {
+		return nums
+	}
+
+	for i, j := 0, ln - 1; i < j; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]
+	}
+
+	for i, j := 0, k - 1; i < j; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]
+	}
+
+	for i, j := k, ln - 1; i < j; i, j = i+1, j-1 {
+		nums[i], nums[j] = nums[j], nums[i]
+	}
+
+	return nums
+}
+
 // 翻转数组
 // []int{1, 2, 3, 4, 5, 6, 7} k=3
 // 1. 先整体翻转数组 []int{7, 6, 5, 4, 3, 2, 1}

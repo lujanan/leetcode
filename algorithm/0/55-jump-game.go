@@ -1,5 +1,18 @@
 package algorithm_0
 
+func canJumpV1(nums []int) bool {
+	var  maxIdx, ln = 0, len(nums)
+	for i := 0; i < ln; i++ {
+		if i <= maxIdx {
+			maxIdx = max(maxIdx, i+nums[i])
+			if maxIdx >= ln - 1 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // 跳跃游戏
 // https://leetcode-cn.com/problems/jump-game/
 func canJump(nums []int) bool {

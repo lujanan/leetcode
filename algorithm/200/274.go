@@ -39,6 +39,27 @@ import (
 	"sort"
 )
 
+func hIndexV1(citations []int) int {
+	var n = len(citations)
+	var countn = make([]int, n+1)
+	for _, v := range citations {
+		if v >= n {
+			countn[n]++
+		} else {
+			countn[v]++
+		}
+	}
+
+	for i, cnt := n, 0; i >= 0; i-- {
+		cnt += countn[i]
+		if cnt >= i {
+			return i
+		}
+	}
+
+	return 0
+}
+
 // leetcode submit region begin(Prohibit modification and deletion)
 func hIndex(citations []int) int {
 	sort.Slice(citations, func(i, j int) bool { return citations[i] > citations[j] })

@@ -37,19 +37,17 @@ package algorithm_0
 func strStr(haystack string, needle string) int {
 	var l1, l2 = len(haystack), len(needle)
 	for i := 0; i < l1; i++ {
-		if i+l2-1 >= l1 {
+		if l1-i < l2 {
 			return -1
 		}
 
 		if haystack[i] == needle[0] {
-			j, k := 0, l2-1
-			for ; j < k; j, k = j+1, k-1 {
-				if needle[j] != haystack[j+i] || needle[k] != haystack[i+k] {
+			for j := 1; j < l2; j++ {
+				if needle[j] != haystack[j+i] {
 					break
 				}
-
 			}
-			if j >= k {
+			if j >= l2 {
 				return i
 			}
 		}
