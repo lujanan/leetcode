@@ -42,7 +42,8 @@ func strStr(haystack string, needle string) int {
 		}
 
 		if haystack[i] == needle[0] {
-			for j := 1; j < l2; j++ {
+			var j = 1
+			for ; j < l2; j++ {
 				if needle[j] != haystack[j+i] {
 					break
 				}
